@@ -18,8 +18,8 @@ export default function App() {
       style={styles.container}
     >
       <ImageBackground source={image} style={styles.imageBg}>      
-          {/* <RegisterForm isShowKeyboard={isShowKeyboard} setIsShowKeyboard={setIsShowKeyboard} hideKeyboard={hideKeyboard}/>        */}
-            <LoginForm isShowKeyboard={isShowKeyboard} setIsShowKeyboard={setIsShowKeyboard} hideKeyboard={hideKeyboard}/>       
+          <RegisterForm isShowKeyboard={isShowKeyboard} setIsShowKeyboard={setIsShowKeyboard} hideKeyboard={hideKeyboard}/>       
+            {/* <LoginForm isShowKeyboard={isShowKeyboard} setIsShowKeyboard={setIsShowKeyboard} hideKeyboard={hideKeyboard}/>        */}
       </ImageBackground>
     </TouchableWithoutFeedback>
   );

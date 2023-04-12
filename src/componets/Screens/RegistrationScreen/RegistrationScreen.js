@@ -17,6 +17,20 @@ export const RegisterForm = ({isShowKeyboard, setIsShowKeyboard, hideKeyboard})=
         hideKeyboard()
     }
 
+    // border
+    const [isActiveInput, setIsActiveInput] = useState({login: false, email: false, password: false})
+
+    const handleInputFocus = (textinput) => {
+        setIsActiveInput({
+          [textinput]: true
+        })
+    }
+    const handleInputBlur = (textinput) => {
+        setIsActiveInput({
+            [textinput]: false
+        })
+    }
+
     return (
         <TouchableWithoutFeedback onPress={()=>hideKeyboard()}>
             <KeyboardAvoidingView 
@@ -34,33 +48,37 @@ export const RegisterForm = ({isShowKeyboard, setIsShowKeyboard, hideKeyboard})=
 
                     <TextInput 
                         inputMode="text"
-                        style={styles.input} 
-                        onFocus={()=>setIsShowKeyboard(true)}
-                        onSubmitEditing={submit}
-                        onChangeText={(value)=>setState((prev)=>({...prev, login: value}))}
-                        value={state.login}
                         placeholder="Логін"
+                        value={state.login}
+                        style={{...styles.input, borderColor: isActiveInput.login ? '#FF6C00' : '#E8E8E8'}} 
+                        onFocus={()=>{setIsShowKeyboard(true); handleInputFocus('login')}}
+                        onBlur={()=>handleInputBlur('login')}
+                        onSubmitEditing={submit}
+                        onChangeText={(value)=>setState((prev)=>({...prev, login: value}))}                 
                     />
 
                     <TextInput 
                         inputMode="email"
-                        style={styles.input} 
-                        onFocus={()=>setIsShowKeyboard(true)}
+                        placeholder="Адреса електронної пошти"
+                        value={state.email}
+                        style={{...styles.input, borderColor: isActiveInput.email ? '#FF6C00' : '#E8E8E8'}} 
+                        onFocus={()=>{setIsShowKeyboard(true); handleInputFocus('email')}}
+                        onBlur={()=>handleInputBlur('email')}
                         onSubmitEditing={submit}
                         onChangeText={(value)=>setState((prev)=>({...prev, email: value}))}
-                        value={state.email}
-                        placeholder="Адреса електронної пошти"
+                       
                     />
 
                     <TextInput 
                         inputMode="text"
-                        style={styles.input} 
-                        onFocus={()=>setIsShowKeyboard(true)}
-                        onSubmitEditing={submit}
-                        onChangeText={(value)=>setState((prev)=>({...prev, password: value}))}
-                        value={state.password}
                         placeholder="Пароль"
                         secureTextEntry={true}
+                        value={state.password}
+                        style={{...styles.input, borderColor: isActiveInput.password ? '#FF6C00' : '#E8E8E8'}} 
+                        onFocus={()=>{setIsShowKeyboard(true); handleInputFocus('password')}}
+                        onBlur={()=>handleInputBlur('password')}
+                        onSubmitEditing={submit}
+                        onChangeText={(value)=>setState((prev)=>({...prev, password: value}))}
                     />
                     
                     <View  style={{display: isShowKeyboard ? 'none' : 'flex'}}>

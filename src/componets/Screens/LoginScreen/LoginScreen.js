@@ -14,9 +14,7 @@ export const LoginForm = ({isShowKeyboard, setIsShowKeyboard, hideKeyboard})=> {
         console.log(state)
         setState(INITIAL_STATE)
         hideKeyboard()
-        // setIsActiveInput(false)
     }
-
 
     // border
     const [isActiveInput, setIsActiveInput] = useState({email: false, password: false})
@@ -25,13 +23,12 @@ export const LoginForm = ({isShowKeyboard, setIsShowKeyboard, hideKeyboard})=> {
         setIsActiveInput({
           [textinput]: true
         })
-      }
-      const handleInputBlur = (textinput) => {
+    }
+    const handleInputBlur = (textinput) => {
         setIsActiveInput({
-          [textinput]: false
+            [textinput]: false
         })
-      }
-
+    }
 
     return (
         <TouchableWithoutFeedback onPress={()=>hideKeyboard()}>
