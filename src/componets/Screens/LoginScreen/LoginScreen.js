@@ -30,6 +30,13 @@ export const LoginForm = ({isShowKeyboard, setIsShowKeyboard, hideKeyboard})=> {
         })
     }
 
+     // password
+    const [isShowPassword, setIsShowPassword] = useState(true)
+
+    const toggleShowPassword =()=> {
+         setIsShowPassword(prevState => !prevState)
+    }
+
     return (
         <TouchableWithoutFeedback onPress={()=>hideKeyboard()}>
             <KeyboardAvoidingView 
@@ -56,17 +63,26 @@ export const LoginForm = ({isShowKeyboard, setIsShowKeyboard, hideKeyboard})=> {
                         onChangeText={(value)=>setState((prev)=>({...prev, email: value}))}
                     />
 
-                    <TextInput 
+                    <View>
+                        <TouchableOpacity 
+                            style={styles.buttonPassword} 
+                            onPress={()=>toggleShowPassword()}
+                        >
+                            <Text style={styles.buttonPasswordText}>{isShowPassword ? "Показати" : "Сховати"}</Text>
+                        </TouchableOpacity>
+
+                        <TextInput 
                         inputMode="text"
                         placeholder="Пароль"
-                        secureTextEntry={true}
+                        secureTextEntry={isShowPassword}
                         value={state.password}
-                        style={{...styles.input, borderColor: isActiveInput.password ? '#FF6C00' : '#E8E8E8'}} 
+                        style={{...styles.input, borderColor: isActiveInput.password ? '#FF6C00' : '#E8E8E8', paddingRight: 100}} 
                         onFocus={()=>{setIsShowKeyboard(true); handleInputFocus('password')}}
                         onBlur={()=>handleInputBlur('password')}
                         onSubmitEditing={submit}
                         onChangeText={(value)=>setState((prev)=>({...prev, password: value}))}
                     />
+                    </View>
                     
                     <View  style={{display: isShowKeyboard ? 'none' : 'flex'}}>
                         <TouchableOpacity 

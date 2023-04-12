@@ -56,6 +56,19 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: "#F6F6F6",
     },
+    buttonPassword: {
+        position: 'absolute',
+        top: 21,
+        right: 6,
+        zIndex: 1000,
+        padding: 10,
+        alignSelf: 'flex-end',
+    },
+    buttonPasswordText: {
+        fontSize: 16,
+        lineHeight: 19,
+        color: '#1B4371'
+    },
     buttonForm: {
         height: 51,
         marginTop: 43,
