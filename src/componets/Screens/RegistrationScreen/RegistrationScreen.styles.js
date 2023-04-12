@@ -2,9 +2,13 @@
 import { StyleSheet } from "react-native"
 
 export const styles = StyleSheet.create({
-    container: {
+    wrapper: {
+        flex: 1,
+        justifyContent: "flex-end",
+      },
+    form: {
         paddingTop: 92,
-        justifyContent: 'flex-end',
+        paddingHorizontal: 16,
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         backgroundColor: "#fff"
@@ -18,8 +22,7 @@ export const styles = StyleSheet.create({
         alignItems: 'flex-end',
         justifyContent: "flex-end",
         borderRadius: 16,
-        // backgroundColor: "#F6F6F6",
-        backgroundColor: 'red',
+        backgroundColor: "#F6F6F6",
     },
     buttonAvatar: {
         top: -14,
@@ -42,11 +45,6 @@ export const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 500,
         lineHeight: 35,
-    },
-    form: {
-        paddingHorizontal: 16,
-        alignSelf: 'stretch',
-
     },
     input: {
         height: 50,

@@ -19,57 +19,58 @@ export const RegisterForm = ({isShowKeyboard, setIsShowKeyboard, hideKeyboard})=
 
     return (
         <TouchableWithoutFeedback onPress={()=>hideKeyboard()}>
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                <View style={{...styles.container, paddingBottom: isShowKeyboard ? 32 : 92}}>
+            <KeyboardAvoidingView 
+                style={styles.wrapper}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+                <View style={{...styles.form, paddingBottom: isShowKeyboard ? 32 : 92}}>
                     <View style={styles.avatar}>
                         <TouchableOpacity style={styles.buttonAvatar} onPress={() => {}}>
                             <Text style={styles.buttonAvatarText}>{"+"}</Text>
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.form}>
-                        <Text style={styles.title}>Реєстрація</Text>
+                    <Text style={styles.title}>Реєстрація</Text>
 
-                        <TextInput 
-                            inputMode="text"
-                            style={styles.input} 
-                            onFocus={()=>setIsShowKeyboard(true)}
-                            onSubmitEditing={submit}
-                            onChangeText={(value)=>setState((prev)=>({...prev, login: value}))}
-                            value={state.login}
-                            placeholder="Логін"
-                        />
+                    <TextInput 
+                        inputMode="text"
+                        style={styles.input} 
+                        onFocus={()=>setIsShowKeyboard(true)}
+                        onSubmitEditing={submit}
+                        onChangeText={(value)=>setState((prev)=>({...prev, login: value}))}
+                        value={state.login}
+                        placeholder="Логін"
+                    />
 
-                        <TextInput 
-                            inputMode="email"
-                            style={styles.input} 
-                            onFocus={()=>setIsShowKeyboard(true)}
-                            onSubmitEditing={submit}
-                            onChangeText={(value)=>setState((prev)=>({...prev, email: value}))}
-                            value={state.email}
-                            placeholder="Адреса електронної пошти"
-                        />
+                    <TextInput 
+                        inputMode="email"
+                        style={styles.input} 
+                        onFocus={()=>setIsShowKeyboard(true)}
+                        onSubmitEditing={submit}
+                        onChangeText={(value)=>setState((prev)=>({...prev, email: value}))}
+                        value={state.email}
+                        placeholder="Адреса електронної пошти"
+                    />
 
-                        <TextInput 
-                            inputMode="text"
-                            style={styles.input} 
-                            onFocus={()=>setIsShowKeyboard(true)}
-                            onSubmitEditing={submit}
-                            onChangeText={(value)=>setState((prev)=>({...prev, password: value}))}
-                            value={state.password}
-                            placeholder="Пароль"
-                            secureTextEntry={true}
-                        />
-                        
-                        <View  style={{display: isShowKeyboard ? 'none' : 'flex'}}>
-                            <TouchableOpacity 
-                                style={styles.buttonForm} 
-                            >
-                                <Text style={styles.buttonFormText}>{"Зареєструватись"}</Text>
-                            </TouchableOpacity>
+                    <TextInput 
+                        inputMode="text"
+                        style={styles.input} 
+                        onFocus={()=>setIsShowKeyboard(true)}
+                        onSubmitEditing={submit}
+                        onChangeText={(value)=>setState((prev)=>({...prev, password: value}))}
+                        value={state.password}
+                        placeholder="Пароль"
+                        secureTextEntry={true}
+                    />
                     
-                            <Text style={styles.link}>Вже є аккаунт? Увіти</Text>
-                        </View>
+                    <View  style={{display: isShowKeyboard ? 'none' : 'flex'}}>
+                        <TouchableOpacity 
+                            style={styles.buttonForm} 
+                        >
+                            <Text style={styles.buttonFormText}>{"Зареєструватись"}</Text>
+                        </TouchableOpacity>
+                
+                        <Text style={styles.link}>Вже є аккаунт? Увіти</Text>
                     </View>
                 </View>
             </KeyboardAvoidingView>
