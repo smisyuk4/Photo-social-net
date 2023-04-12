@@ -6,3 +6,9 @@
 
 - `Icons` - [github.com](https://github.com/oblador/react-native-vector-icons)
 ``` npm install --save react-native-vector-icons```
+
+![App screenshot](https://i.ibb.co/j3T6Kpb/2023-04-12-20-44-00.png)
+
+![App screenshot](https://i.ibb.co/xqNVgS3/2023-04-12-20-52-39.png)
+
+![App screenshot](https://i.ibb.co/bLDzNrR/2023-04-12-22-26-37.png)

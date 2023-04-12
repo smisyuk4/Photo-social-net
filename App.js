@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { ImageBackground, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import image from "./src/images/photoBg.jpeg"
-import { RegisterForm } from './src/componets';
+import { RegisterForm, LoginForm } from './src/componets';
 
 export default function App() {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false)
@@ -18,7 +18,8 @@ export default function App() {
       style={styles.container}
     >
       <ImageBackground source={image} style={styles.imageBg}>      
-          <RegisterForm isShowKeyboard={isShowKeyboard} setIsShowKeyboard={setIsShowKeyboard} hideKeyboard={hideKeyboard}/>       
+          {/* <RegisterForm isShowKeyboard={isShowKeyboard} setIsShowKeyboard={setIsShowKeyboard} hideKeyboard={hideKeyboard}/>        */}
+            <LoginForm isShowKeyboard={isShowKeyboard} setIsShowKeyboard={setIsShowKeyboard} hideKeyboard={hideKeyboard}/>       
       </ImageBackground>
     </TouchableWithoutFeedback>
   );
