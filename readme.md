@@ -7,6 +7,12 @@
 - `Icons` - [github.com](https://github.com/oblador/react-native-vector-icons)
 ``` npm install --save react-native-vector-icons```
 
+- `Fonts` - [docs.expo.dev](https://docs.expo.dev/versions/latest/sdk/font/)
+```npx expo install expo-font```
+
+- `Splash screen` - [npmjs.com](https://www.npmjs.com/package/expo-splash-screen)
+```npm i expo-splash-screen```
+
 ![App screenshot](https://i.ibb.co/j3T6Kpb/2023-04-12-20-44-00.png)
 
 ![App screenshot](https://i.ibb.co/xqNVgS3/2023-04-12-20-52-39.png)

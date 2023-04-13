@@ -41,6 +41,7 @@ export const styles = StyleSheet.create({
   title: {
     marginBottom: 16,
     alignSelf: 'center',
+    fontFamily: 'Roboto-Regular',
     fontSize: 30,
     fontWeight: 500,
     lineHeight: 35,
@@ -49,6 +50,7 @@ export const styles = StyleSheet.create({
     height: 50,
     marginTop: 16,
     padding: 16,
+    fontFamily: 'Roboto-Regular',
     fontSize: 16,
     lineHeight: 19,
     borderRadius: 8,
@@ -64,6 +66,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   buttonPasswordText: {
+    fontFamily: 'Roboto-Regular',
     fontSize: 16,
     lineHeight: 19,
     color: '#1B4371',
@@ -78,6 +81,7 @@ export const styles = StyleSheet.create({
   },
   buttonFormText: {
     alignItems: 'center',
+    fontFamily: 'Roboto-Regular',
     fontSize: 16,
     lineHeight: 19,
     color: '#fff',
@@ -85,6 +89,7 @@ export const styles = StyleSheet.create({
   link: {
     marginTop: 16,
     alignSelf: 'center',
+    fontFamily: 'Roboto-Regular',
     fontSize: 16,
     lineHeight: 19,
     color: '#1B4371',
