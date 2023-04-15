@@ -21,4 +21,7 @@
 
 ![App screenshot](https://i.ibb.co/C1YJs29/2023-04-12-23-10-56.png)
 
-## Module 3
+## Module 3 - debugger
+встановив додатково двигун
+[expo.dev](https://docs.expo.dev/guides/using-hermes/)
+![App screenshot](https://i.ibb.co/wwMvtrD/2023-04-15-13-09-32.png)
