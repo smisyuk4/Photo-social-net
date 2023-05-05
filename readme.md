@@ -10,6 +10,9 @@
 - `Icons` - [github.com](https://github.com/oblador/react-native-vector-icons)
 ``` npm install --save react-native-vector-icons```
 
+- `icons` - []()
+``` npm i @expo/vector-icons```
+
 - `Fonts` - [docs.expo.dev](https://docs.expo.dev/versions/latest/sdk/font/)
 ```npx expo install expo-font```
 

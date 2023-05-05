@@ -1,7 +1,4 @@
-// import { 
-  // useState, 
-//   useCallback } from 'react';
-// import { useFonts } from 'expo-font';
+import { useFonts } from 'expo-font';
 // import * as SplashScreen from 'expo-splash-screen';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,10 +10,10 @@ import { RegistrationScreen, LoginScreen, Home } from './src/componets';
 const MainStack = createStackNavigator();
 
 export default function App() {
-  // const [fontsLoaded] = useFonts({
-  //   'Roboto-Italic': require('./src/fonts/Roboto/Roboto-Italic.ttf'),
-  //   'Roboto-Regular': require('./src/fonts/Roboto/Roboto-Regular.ttf'),
-  // });
+  const [fontsLoaded] = useFonts({
+    'Roboto-Italic': require('./src/fonts/Roboto/Roboto-Italic.ttf'),
+    'Roboto-Regular': require('./src/fonts/Roboto/Roboto-Regular.ttf'),
+  });
 
   // const onLayoutRootView = useCallback(async () => {
   //   if (fontsLoaded) {
@@ -24,13 +21,13 @@ export default function App() {
   //   }
   // }, [fontsLoaded]);
 
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Home">
+      <MainStack.Navigator initialRouteName="Login">
         <MainStack.Screen name="Registration" component={RegistrationScreen} />
         <MainStack.Screen name="Login" component={LoginScreen} />
         <MainStack.Screen name="Home" component={Home} />

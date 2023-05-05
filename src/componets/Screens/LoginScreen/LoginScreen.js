@@ -3,13 +3,12 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
   Keyboard,
-  View,
-  Text
 } from 'react-native';
+import { LoginForm } from '../../LoginForm';
 import { styles } from './LoginScreen.styles';
 import image from '../../../images/photoBg.jpeg';
 
-export const LoginScreen = () => {
+export const LoginScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const hideKeyboard = () => {
@@ -18,21 +17,19 @@ export const LoginScreen = () => {
   };
 
   return (
-    <View>
-    <Text>log</Text>
-  </View>
-    // <TouchableWithoutFeedback
-    //   onPress={hideKeyboard}
-    //   style={styles.container}
-    //   // onLayout={onLayoutRootView}
-    // >
-    //   <ImageBackground source={image} style={styles.imageBg}>
-    //     <LoginForm
-    //       isShowKeyboard={isShowKeyboard}
-    //       setIsShowKeyboard={setIsShowKeyboard}
-    //       hideKeyboard={hideKeyboard}
-    //     />
-    //   </ImageBackground>
-    // </TouchableWithoutFeedback>
+    <TouchableWithoutFeedback
+      onPress={hideKeyboard}
+      style={styles.container}
+      // onLayout={onLayoutRootView}
+    >
+      <ImageBackground source={image} style={styles.imageBg}>
+        <LoginForm
+          isShowKeyboard={isShowKeyboard}
+          setIsShowKeyboard={setIsShowKeyboard}
+          hideKeyboard={hideKeyboard}
+          navigation={navigation}
+        />
+      </ImageBackground>
+    </TouchableWithoutFeedback>
   );
 };

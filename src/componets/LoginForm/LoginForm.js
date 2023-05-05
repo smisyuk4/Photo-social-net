@@ -123,7 +123,10 @@ export const LoginForm = ({
           </View>
 
           <View style={{ display: isShowKeyboard ? 'none' : 'flex' }}>
-            <TouchableOpacity style={styles.buttonForm}>
+            <TouchableOpacity
+              style={styles.buttonForm}
+              onPress={() => navigation.navigate('Home', {})}
+            >
               <Text style={styles.buttonFormText}>{'Вхід'}</Text>
             </TouchableOpacity>
 
