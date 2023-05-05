@@ -1,2 +1,8 @@
 export { RegisterForm } from "./Screens/RegistrationScreen"
 export { LoginForm } from "./Screens/LoginScreen"
+export { PostsScreen } from "./Screens/PostsScreen"
+export { CreatePostsScreen } from "./Screens/CreatePostsScreen"
+export { CommentsScreen } from "./Screens/CommentsScreen"
+export { ProfileScreen } from "./Screens/ProfileScreen"
+export { MapScreen } from "./Screens/MapScreen"
+export { Home } from "./Screens/Home"
