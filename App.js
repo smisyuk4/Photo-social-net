@@ -1,70 +1,40 @@
-import { useState, useCallback } from 'react';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import {
-  ImageBackground,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
-import image from './src/images/photoBg.jpeg';
-import { RegisterForm, LoginForm } from './src/componets';
+// import { 
+  // useState, 
+//   useCallback } from 'react';
+// import { useFonts } from 'expo-font';
+// import * as SplashScreen from 'expo-splash-screen';
 
-SplashScreen.preventAutoHideAsync();
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { RegistrationScreen, LoginScreen, Home } from './src/componets';
+
+// SplashScreen.preventAutoHideAsync();
+
+const MainStack = createStackNavigator();
 
 export default function App() {
-  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  // const [fontsLoaded] = useFonts({
+  //   'Roboto-Italic': require('./src/fonts/Roboto/Roboto-Italic.ttf'),
+  //   'Roboto-Regular': require('./src/fonts/Roboto/Roboto-Regular.ttf'),
+  // });
 
-  const hideKeyboard = () => {
-    setIsShowKeyboard(false);
-    Keyboard.dismiss();
-  };
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (fontsLoaded) {
+  //     await SplashScreen.hideAsync();
+  //   }
+  // }, [fontsLoaded]);
 
-  const [fontsLoaded] = useFonts({
-    'Roboto-Italic': require('./src/fonts/Roboto/Roboto-Italic.ttf'),
-    'Roboto-Regular': require('./src/fonts/Roboto/Roboto-Regular.ttf'),
-  });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
 
   return (
-    <TouchableWithoutFeedback
-      onPress={hideKeyboard}
-      style={styles.container}
-      onLayout={onLayoutRootView}
-    >
-      <ImageBackground source={image} style={styles.imageBg}>
-        <RegisterForm
-          isShowKeyboard={isShowKeyboard}
-          setIsShowKeyboard={setIsShowKeyboard}
-          hideKeyboard={hideKeyboard}
-        />
-        {/* <LoginForm
-          isShowKeyboard={isShowKeyboard}
-          setIsShowKeyboard={setIsShowKeyboard}
-          hideKeyboard={hideKeyboard}
-        /> */}
-      </ImageBackground>
-    </TouchableWithoutFeedback>
+    <NavigationContainer>
+      <MainStack.Navigator initialRouteName="Home">
+        <MainStack.Screen name="Registration" component={RegistrationScreen} />
+        <MainStack.Screen name="Login" component={LoginScreen} />
+        <MainStack.Screen name="Home" component={Home} />
+      </MainStack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  imageBg: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'flex-end',
-  },
-});

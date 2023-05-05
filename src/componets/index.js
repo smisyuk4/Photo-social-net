@@ -1,5 +1,5 @@
-export { RegisterForm } from "./Screens/RegistrationScreen"
-export { LoginForm } from "./Screens/LoginScreen"
+export { RegistrationScreen } from "./Screens/RegistrationScreen"
+export { LoginScreen } from "./Screens/LoginScreen"
 export { PostsScreen } from "./Screens/PostsScreen"
 export { CreatePostsScreen } from "./Screens/CreatePostsScreen"
 export { CommentsScreen } from "./Screens/CommentsScreen"
