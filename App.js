@@ -1,4 +1,5 @@
 import { useFonts } from 'expo-font';
+import { TouchableOpacity, View, Text, Button } from 'react-native';
 // import * as SplashScreen from 'expo-splash-screen';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,6 +9,10 @@ import { RegistrationScreen, LoginScreen, Home } from './src/componets';
 // SplashScreen.preventAutoHideAsync();
 
 const MainStack = createStackNavigator();
+
+const screenOptions = {
+  headerShown: false,
+};
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -27,10 +32,22 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Login">
-        <MainStack.Screen name="Registration" component={RegistrationScreen} />
-        <MainStack.Screen name="Login" component={LoginScreen} />
-        <MainStack.Screen name="Home" component={Home} />
+      <MainStack.Navigator
+        initialRouteName="Login"
+        screenOptions={screenOptions}
+      >
+        <MainStack.Screen
+          name="Registration"
+          component={RegistrationScreen}
+        />
+        <MainStack.Screen
+          name="Login"
+          component={LoginScreen}
+        />
+        <MainStack.Screen
+          name="Home"
+          component={Home}
+        />
       </MainStack.Navigator>
     </NavigationContainer>
   );
