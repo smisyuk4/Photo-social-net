@@ -10,17 +10,12 @@ import { styles } from './Home.styles';
 const Tabs = createBottomTabNavigator();
 
 const screenOptions = ({ route }) => ({
-  headerStyle: {
-    // backgroundColor: "#f4511e",
-    // 'padding-bottom': 30,
-  },
   headerTintColor: styles.header.color,
-  headerTitleAlign: 'center',
-  headerTitleStyle: {
-    fontWeight: 500,
-    fontSize: 17,
-  },
-
+  headerTitleAlign: styles.headerTitle.alignItems,
+  headerTitleStyle: styles.headerTitle,
+  headerTitleContainerStyle: styles.headerContainer,
+  headerRightContainerStyle: styles.headerContainer,
+  headerLeftContainerStyle: styles.headerContainer,
   tabBarIcon: ({ focused, color, size }) => {
     let tabBarItem;
 
@@ -63,10 +58,18 @@ const screenOptions = ({ route }) => ({
     if (route.name === 'Profile') {
       tabBarItem = focused ? (
         <View style={styles.tabItemActive}>
-          <Feather name="user" size={size} color={styles.tabItemActive.activeFill} />
+          <Feather
+            name="user"
+            size={size}
+            color={styles.tabItemActive.activeFill}
+          />
         </View>
       ) : (
-        <Feather name="user" size={size} color={styles.tabItemActive.inActiveFill} />
+        <Feather
+          name="user"
+          size={size}
+          color={styles.tabItemActive.inActiveFill}
+        />
       );
     }
 
@@ -89,7 +92,7 @@ export const Home = ({ navigation, route, options, back }) => {
             <Feather
               name="log-out"
               size={24}
-              color={styles.header.secColor}
+              color={styles.headerExitBtn.color}
               onPress={navigation.goBack}
             />
           ),

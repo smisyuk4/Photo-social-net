@@ -7,7 +7,18 @@ export const styles = StyleSheet.create({
   },
   header: {
     color: '#212121',
-    secColor: '#BDBDBD',
+  },
+  headerTitle: {
+    alignItems: 'center',
+    fontWeight: 500,
+    fontSize: 17,
+  },
+  headerContainer: {
+    justifyContent: 'flex-end',
+    paddingBottom: 11,
+  },
+  headerExitBtn: {
+    color: '#BDBDBD',
   },
   tabBarItem: {
     paddingTop: 9,
