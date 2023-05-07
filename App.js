@@ -14,9 +14,30 @@ import {
 // SplashScreen.preventAutoHideAsync();
 
 const MainStack = createStackNavigator();
+// const AuthStack = createStackNavigator();
 
 const screenOptions = {
   headerShown: false,
+};
+
+const useRoute = isAuth => {
+  if (!isAuth) {
+    return (
+      <MainStack.Navigator
+        initialRouteName="Login"
+        screenOptions={screenOptions}
+      >
+        <MainStack.Screen name="Registration" component={RegistrationScreen} />
+        <MainStack.Screen name="Login" component={LoginScreen} />
+      </MainStack.Navigator>
+    );
+  }
+
+  return (
+    <MainStack.Navigator initialRouteName="Login" screenOptions={screenOptions}>
+      <MainStack.Screen name="Home" component={Home} />
+    </MainStack.Navigator>
+  );
 };
 
 export default function App() {
@@ -24,6 +45,8 @@ export default function App() {
     'Roboto-Italic': require('./src/fonts/Roboto/Roboto-Italic.ttf'),
     'Roboto-Regular': require('./src/fonts/Roboto/Roboto-Regular.ttf'),
   });
+
+  const routing = useRoute({}); // null
 
   // const onLayoutRootView = useCallback(async () => {
   //   if (fontsLoaded) {
@@ -35,16 +58,5 @@ export default function App() {
     return <LoaderScreen />;
   }
 
-  return (
-    <NavigationContainer>
-      <MainStack.Navigator
-        initialRouteName="Login"
-        screenOptions={screenOptions}
-      >
-        <MainStack.Screen name="Registration" component={RegistrationScreen} />
-        <MainStack.Screen name="Login" component={LoginScreen} />
-        <MainStack.Screen name="Home" component={Home} />
-      </MainStack.Navigator>
-    </NavigationContainer>
-  );
+  return <NavigationContainer>{routing}</NavigationContainer>;
 }
