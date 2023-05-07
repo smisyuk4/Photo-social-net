@@ -13,9 +13,9 @@ const screenOptions = ({ route }) => ({
   headerTintColor: styles.header.color,
   headerTitleAlign: styles.headerTitle.alignItems,
   headerTitleStyle: styles.headerTitle,
-  headerTitleContainerStyle: styles.headerContainer,
-  headerRightContainerStyle: styles.headerContainer,
-  headerLeftContainerStyle: styles.headerContainer,
+  headerTitleContainerStyle: styles.headerContainerItem,
+  headerRightContainerStyle: styles.headerContainerItem,
+  headerLeftContainerStyle: styles.headerContainerItem,
   tabBarIcon: ({ focused, color, size }) => {
     let tabBarItem;
 

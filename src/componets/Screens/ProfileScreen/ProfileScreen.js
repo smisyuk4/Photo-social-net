@@ -3,7 +3,7 @@ import { styles } from './ProfileScreen.styles';
 
 export const ProfileScreen = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>ProfileScreen component</Text>
     </View>
   );

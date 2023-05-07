@@ -3,7 +3,7 @@ import { styles } from './CreatePostsScreen.styles';
 
 export const CreatePostsScreen = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>CreatePostsScreen component</Text>
     </View>
   );

@@ -1,10 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
   header: {
     color: '#212121',
   },
@@ -13,9 +9,10 @@ export const styles = StyleSheet.create({
     fontWeight: 500,
     fontSize: 17,
   },
-  headerContainer: {
+  headerContainerItem: {
     justifyContent: 'flex-end',
     paddingBottom: 11,
+    paddingHorizontal: 16,
   },
   headerExitBtn: {
     color: '#BDBDBD',
