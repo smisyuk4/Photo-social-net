@@ -4,7 +4,12 @@ import { TouchableOpacity, View, Text, Button } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { RegistrationScreen, LoginScreen, Home } from './src/componets';
+import {
+  LoaderScreen,
+  RegistrationScreen,
+  LoginScreen,
+  Home,
+} from './src/componets';
 
 // SplashScreen.preventAutoHideAsync();
 
@@ -27,7 +32,7 @@ export default function App() {
   // }, [fontsLoaded]);
 
   if (!fontsLoaded) {
-    return null;
+    return <LoaderScreen />;
   }
 
   return (
@@ -36,18 +41,9 @@ export default function App() {
         initialRouteName="Login"
         screenOptions={screenOptions}
       >
-        <MainStack.Screen
-          name="Registration"
-          component={RegistrationScreen}
-        />
-        <MainStack.Screen
-          name="Login"
-          component={LoginScreen}
-        />
-        <MainStack.Screen
-          name="Home"
-          component={Home}
-        />
+        <MainStack.Screen name="Registration" component={RegistrationScreen} />
+        <MainStack.Screen name="Login" component={LoginScreen} />
+        <MainStack.Screen name="Home" component={Home} />
       </MainStack.Navigator>
     </NavigationContainer>
   );
