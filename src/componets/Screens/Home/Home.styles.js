@@ -9,12 +9,12 @@ export const styles = StyleSheet.create({
     color: '#212121',
     secColor: '#BDBDBD',
   },
-  tabBar: {
-    height: 83,
+  tabBarItem: {
     paddingTop: 9,
-    justifyContent: 'top',
+    paddingBottom: 35,
+    height: 85,
   },
-  tabItem: {
+  tabItemActive: {
     height: 40,
     width: 70,
     alignItems: 'center',

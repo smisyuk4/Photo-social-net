@@ -26,54 +26,54 @@ const screenOptions = ({ route }) => ({
 
     if (route.name === 'Post') {
       tabBarItem = focused ? (
-        <View style={styles.tabItem}>
+        <View style={styles.tabItemActive}>
           <AntDesign
             name="appstore-o"
             size={size}
-            color={styles.tabItem.activeFill}
+            color={styles.tabItemActive.activeFill}
           />
         </View>
       ) : (
         <AntDesign
           name="appstore-o"
           size={size}
-          color={styles.tabItem.inActiveFill}
+          color={styles.tabItemActive.inActiveFill}
         />
       );
     }
 
     if (route.name === 'Create') {
       tabBarItem = focused ? (
-        <View style={styles.tabItem}>
+        <View style={styles.tabItemActive}>
           <AntDesign
             name="plus"
             size={size}
-            color={styles.tabItem.activeFill}
+            color={styles.tabItemActive.activeFill}
           />
         </View>
       ) : (
         <AntDesign
           name="plus"
           size={size}
-          color={styles.tabItem.inActiveFill}
+          color={styles.tabItemActive.inActiveFill}
         />
       );
     }
 
     if (route.name === 'Profile') {
       tabBarItem = focused ? (
-        <View style={styles.tabItem}>
-          <Feather name="user" size={size} color={styles.tabItem.activeFill} />
+        <View style={styles.tabItemActive}>
+          <Feather name="user" size={size} color={styles.tabItemActive.activeFill} />
         </View>
       ) : (
-        <Feather name="user" size={size} color={styles.tabItem.inActiveFill} />
+        <Feather name="user" size={size} color={styles.tabItemActive.inActiveFill} />
       );
     }
 
     return tabBarItem;
   },
   tabBarShowLabel: false,
-  tabBarStyle: styles.tabBar,
+  tabBarItemStyle: styles.tabBarItem,
 });
 
 export const Home = ({ navigation, route, options, back }) => {

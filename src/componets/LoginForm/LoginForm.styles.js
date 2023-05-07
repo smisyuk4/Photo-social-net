@@ -77,8 +77,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,
-    // backgroundColor: '#FF6C00',
-    backgroundColor: 'red'
+    backgroundColor: '#FF6C00',
+    // backgroundColor: 'red'
   },
   buttonFormText: {
     alignItems: 'center',
