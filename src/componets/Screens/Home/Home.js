@@ -76,9 +76,7 @@ const screenOptions = ({ route }) => ({
     return tabBarItem;
   },
   tabBarShowLabel: false,
-  tabBarStyle: {
-    paddingHorizontal: 73,
-  },
+  tabBarStyle: styles.tabBar,
   tabBarItemStyle: styles.tabBarItem,
 });
 

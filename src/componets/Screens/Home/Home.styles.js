@@ -17,6 +17,9 @@ export const styles = StyleSheet.create({
   headerExitBtn: {
     color: '#BDBDBD',
   },
+  tabBar: {
+    paddingHorizontal: 73,
+  },
   tabBarItem: {
     paddingTop: 9,
     paddingBottom: 35,
