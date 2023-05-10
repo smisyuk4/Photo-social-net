@@ -4,4 +4,8 @@ export const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
   },
+  camera:{},
+  buttonContainer:{},
+  button:{},
+  text:{},
 });
