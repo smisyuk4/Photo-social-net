@@ -2,26 +2,36 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   camera: {
-    flex: 1,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
     backgroundColor: 'transparent',
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
+    height: 240,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#E8E8E8',
+  },
+  buttonCapture: {
+    height: 60,
+    width: 60,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    borderRadius: 50,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+  },
+  buttonToggle: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    alignSelf: 'flex-end',
   },
   text: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
+    // color: 'white',
   },
 });

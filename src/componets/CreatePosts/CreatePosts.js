@@ -1,6 +1,7 @@
-import { Camera, CameraType } from 'expo-camera';
 import { useState } from 'react';
-import { View, Text, Button, TouchableOpacity } from 'react-native';
+import { View, Text, Button, TouchableOpacity, TextInput } from 'react-native';
+import { Camera, CameraType } from 'expo-camera';
+import { MaterialIcons, Feather } from '@expo/vector-icons';
 import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
 import { styles } from './CreatePosts.styled';
 
@@ -27,18 +28,23 @@ export const CreatePosts = () => {
     setType(current =>
       current === CameraType.back ? CameraType.front : CameraType.back
     );
-  }
+  };
 
   return (
     <View style={styles.container}>
       <Camera style={styles.camera} type={type}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.buttonCapture} onPress={() => {}}>
+          <MaterialIcons name="photo-camera" size={24} color="white" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.buttonToggle}
+          onPress={toggleCameraType}
+        >
+          <Feather name="repeat" size={24} color="white" />
+        </TouchableOpacity>
       </Camera>
-      {/* <Text style={styles.text}>Завантажити фото</Text>
+      <Text style={styles.text}>Завантажити фото</Text>
 
       <TextInput inputMode="text" placeholder="Назва" />
 
@@ -46,7 +52,7 @@ export const CreatePosts = () => {
 
       <TouchableOpacity onPress={() => {}}>
         <Text style={styles.text}>Опублікувати</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   );
 };
