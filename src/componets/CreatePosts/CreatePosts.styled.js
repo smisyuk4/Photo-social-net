@@ -13,6 +13,12 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: '#E8E8E8',
   },
+  takePhotoContainer: {
+    position: 'absolute',
+    top: 0,
+    borderWidth: 1,
+    borderColor: 'red'
+  },
   buttonCapture: {
     height: 60,
     width: 60,

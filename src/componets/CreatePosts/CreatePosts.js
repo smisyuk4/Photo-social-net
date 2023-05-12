@@ -1,13 +1,31 @@
-import { useState } from 'react';
-import { View, Text, Button, TouchableOpacity, TextInput } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import {
+  View,
+  Image,
+  Text,
+  Button,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
 import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
 import { styles } from './CreatePosts.styled';
+import { set } from 'react-native-reanimated';
 
 export const CreatePosts = () => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [cameraRef, setCameraRef] = useState(null);
+  const [uri, setUri] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+    })();
+  }, []);
 
   if (!permission) {
     return <LoaderScreen />;
@@ -30,10 +48,29 @@ export const CreatePosts = () => {
     );
   };
 
+  const takePhoto = async () => {
+    if (cameraRef) {
+      const { uri } = await cameraRef.takePictureAsync();
+      setUri(uri);
+      await MediaLibrary.createAssetAsync(uri);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
-        <TouchableOpacity style={styles.buttonCapture} onPress={() => {}}>
+      <Camera
+        style={styles.camera}
+        type={type}
+        ref={ref => {
+          setCameraRef(ref);
+        }}
+      >
+        {/* {uri !== null && (
+          <View style={styles.takePhotoContainer}>
+            <Image source={{ uri }} />
+          </View>
+        )} */}
+        <TouchableOpacity style={styles.buttonCapture} onPress={takePhoto}>
           <MaterialIcons name="photo-camera" size={24} color="white" />
         </TouchableOpacity>
 
