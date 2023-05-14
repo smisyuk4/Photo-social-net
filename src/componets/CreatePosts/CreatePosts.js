@@ -43,6 +43,7 @@ export const CreatePosts = () => {
   }
 
   const toggleCameraType = () => {
+    console.log('flip camera')
     setType(current =>
       current === CameraType.back ? CameraType.front : CameraType.back
     );
@@ -51,6 +52,7 @@ export const CreatePosts = () => {
   const takePhoto = async () => {
     if (cameraRef) {
       const { uri } = await cameraRef.takePictureAsync();
+      console.log('uri ', uri)
       setUri(uri);
       await MediaLibrary.createAssetAsync(uri);
     }
