@@ -16,6 +16,8 @@ export const styles = StyleSheet.create({
   takePhotoContainer: {
     position: 'absolute',
     top: 0,
+    // height: 200,
+    // width: 200,
     borderWidth: 1,
     borderColor: 'red'
   },

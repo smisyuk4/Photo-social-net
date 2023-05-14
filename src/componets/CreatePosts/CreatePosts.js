@@ -18,7 +18,8 @@ export const CreatePosts = () => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [cameraRef, setCameraRef] = useState(null);
-  const [uri, setUri] = useState(null);
+  // const [uri, setUri] = useState(null);
+  const [photo, setPhoto] = useState(null)
 
   useEffect(() => {
     (async () => {
@@ -51,10 +52,12 @@ export const CreatePosts = () => {
 
   const takePhoto = async () => {
     if (cameraRef) {
-      const { uri } = await cameraRef.takePictureAsync();
-      console.log('uri ', uri)
-      setUri(uri);
-      await MediaLibrary.createAssetAsync(uri);
+      // const { uri } = await cameraRef.takePictureAsync();
+      const photo= await cameraRef.takePictureAsync();
+      console.log('uri ', photo.uri)
+      // setUri(uri);
+      setPhoto(photo);
+      await MediaLibrary.createAssetAsync(photo.uri);
     }
   };
 
@@ -67,11 +70,11 @@ export const CreatePosts = () => {
           setCameraRef(ref);
         }}
       >
-        {/* {uri !== null && (
+        {photo !== null && (
           <View style={styles.takePhotoContainer}>
-            <Image source={{ uri }} />
+            <Image source={{ uri: photo.uri }} style={{height: 200, width: 200}}/>
           </View>
-        )} */}
+        )}
         <TouchableOpacity style={styles.buttonCapture} onPress={takePhoto}>
           <MaterialIcons name="photo-camera" size={24} color="white" />
         </TouchableOpacity>
