@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   },
   headerTitle: {
     alignItems: 'center',
-    fontWeight: 500,
+    fontWeight: '500',
     fontSize: 17,
   },
   headerContainerItem: {

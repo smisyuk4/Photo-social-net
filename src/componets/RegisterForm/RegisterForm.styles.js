@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     fontFamily: 'Roboto-Regular',
     fontSize: 30,
-    fontWeight: 500,
+    fontWeight: '500',
     lineHeight: 35,
   },
   input: {

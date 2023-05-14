@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
   View,
   Image,
@@ -12,7 +12,7 @@ import * as MediaLibrary from 'expo-media-library';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
 import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
 import { styles } from './CreatePosts.styled';
-import { set } from 'react-native-reanimated';
+// import { set } from 'react-native-reanimated';
 
 export const CreatePosts = () => {
   const [type, setType] = useState(CameraType.back);
