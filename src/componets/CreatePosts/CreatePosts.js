@@ -66,27 +66,30 @@ export const CreatePosts = () => {
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type} ref={cameraRef}>
-        {photoUri !== '' && (
-          <View style={styles.takePhotoContainer}>
-            <Image
-              source={{ uri: photoUri }}
-              style={{ width: width, ...styles.photo }}
-              resizeMode="contain"
-            />
-          </View>
-        )}
-        <TouchableOpacity style={styles.buttonCapture} onPress={takePhoto}>
-          <MaterialIcons name="photo-camera" size={24} color="white" />
-        </TouchableOpacity>
+      <View style={styles.cameraWrp}>
+        <Camera style={styles.camera} type={type} ref={cameraRef}>
+          {photoUri !== '' && (
+            <View style={styles.takePhotoContainer}>
+              <Image
+                source={{ uri: photoUri }}
+                style={{ width: width, ...styles.photo }}
+                resizeMode="contain"
+              />
+            </View>
+          )}
+          <TouchableOpacity style={styles.buttonCapture} onPress={takePhoto}>
+            <MaterialIcons name="photo-camera" size={24} color="white" />
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.buttonToggle}
-          onPress={toggleCameraType}
-        >
-          <Feather name="repeat" size={24} color="white" />
-        </TouchableOpacity>
-      </Camera>
+          <TouchableOpacity
+            style={styles.buttonToggle}
+            onPress={toggleCameraType}
+          >
+            <Feather name="repeat" size={24} color="white" />
+          </TouchableOpacity>
+        </Camera>
+      </View>
+
       <Text style={styles.text}>Завантажити фото</Text>
 
       <TextInput inputMode="text" placeholder="Назва" />
@@ -106,7 +109,13 @@ export const CreatePosts = () => {
         onPress={removePost}
         disabled={!photoUri}
       >
-        <AntDesign name="delete" size={24} color={styles.removeBtn.fill} />
+        <AntDesign
+          name="delete"
+          size={24}
+          color={
+            !photoUri ? styles.removeBtn.fill : styles.activeRemoveBtn.fill
+          }
+        />
       </TouchableOpacity>
     </View>
   );

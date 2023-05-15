@@ -2,17 +2,19 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    // justifyContent: 'center',
+    marginTop: 32,
+  },
+  cameraWrp: {
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#E8E8E8',
+    overflow: 'hidden',
   },
   camera: {
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
     height: 240,
-    borderWidth: 1,
-    borderRadius: 8,
-    borderColor: '#E8E8E8',
-    overflow: 'hidden',
   },
   takePhotoContainer: {
     position: 'absolute',
