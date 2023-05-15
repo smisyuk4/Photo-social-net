@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   View,
   Image,
@@ -6,10 +6,11 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
+  Dimensions,
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
-import { MaterialIcons, Feather } from '@expo/vector-icons';
+import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
 import { styles } from './CreatePosts.styled';
 // import { set } from 'react-native-reanimated';
@@ -17,9 +18,9 @@ import { styles } from './CreatePosts.styled';
 export const CreatePosts = () => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
-  const [cameraRef, setCameraRef] = useState(null);
-  // const [uri, setUri] = useState(null);
-  const [photo, setPhoto] = useState(null)
+  const cameraRef = useRef();
+  const [photoUri, setPhotoUri] = useState('');
+  const width = Dimensions.get('window').width;
 
   useEffect(() => {
     (async () => {
@@ -44,7 +45,7 @@ export const CreatePosts = () => {
   }
 
   const toggleCameraType = () => {
-    console.log('flip camera')
+    console.log('flip camera');
     setType(current =>
       current === CameraType.back ? CameraType.front : CameraType.back
     );
@@ -52,27 +53,27 @@ export const CreatePosts = () => {
 
   const takePhoto = async () => {
     if (cameraRef) {
-      // const { uri } = await cameraRef.takePictureAsync();
-      const photo= await cameraRef.takePictureAsync();
-      console.log('uri ', photo.uri)
-      // setUri(uri);
-      setPhoto(photo);
-      await MediaLibrary.createAssetAsync(photo.uri);
+      const { uri } = await cameraRef.current.takePictureAsync();
+      console.log('uri ', uri);
+      setPhotoUri(uri);
+      await MediaLibrary.createAssetAsync(uri);
     }
+  };
+
+  const removePost = () => {
+    setPhotoUri('');
   };
 
   return (
     <View style={styles.container}>
-      <Camera
-        style={styles.camera}
-        type={type}
-        ref={ref => {
-          setCameraRef(ref);
-        }}
-      >
-        {photo !== null && (
+      <Camera style={styles.camera} type={type} ref={cameraRef}>
+        {photoUri !== '' && (
           <View style={styles.takePhotoContainer}>
-            <Image source={{ uri: photo.uri }} style={{height: 200, width: 200}}/>
+            <Image
+              source={{ uri: photoUri }}
+              style={{ width: width, ...styles.photo }}
+              resizeMode="contain"
+            />
           </View>
         )}
         <TouchableOpacity style={styles.buttonCapture} onPress={takePhoto}>
@@ -94,6 +95,18 @@ export const CreatePosts = () => {
 
       <TouchableOpacity onPress={() => {}}>
         <Text style={styles.text}>Опублікувати</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={
+          !photoUri
+            ? styles.removeBtn
+            : { ...styles.removeBtn, ...styles.activeRemoveBtn }
+        }
+        onPress={removePost}
+        disabled={!photoUri}
+      >
+        <AntDesign name="delete" size={24} color={styles.removeBtn.fill} />
       </TouchableOpacity>
     </View>
   );
