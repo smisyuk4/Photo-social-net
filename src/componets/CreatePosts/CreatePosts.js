@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
+
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
 import { styles } from './CreatePosts.styled';
@@ -21,6 +23,8 @@ export const CreatePosts = () => {
   const cameraRef = useRef();
   const [photoUri, setPhotoUri] = useState('');
   const width = Dimensions.get('window').width;
+
+  // const [image, setImage] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -60,6 +64,19 @@ export const CreatePosts = () => {
     }
   };
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setPhotoUri(result.assets[0].uri);
+    }
+  };
+
   const removePost = () => {
     setPhotoUri('');
   };
@@ -90,26 +107,51 @@ export const CreatePosts = () => {
         </Camera>
       </View>
 
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity onPress={pickImage}>
         <Text style={styles.buttonGallaryText}>Завантажити фото</Text>
       </TouchableOpacity>
 
-      <View   style={styles.inputsWrp}>
+      <View style={styles.inputsWrp}>
         <TextInput
           style={styles.input}
           inputMode="text"
           placeholder="Назва..."
         />
 
-        <TextInput
-          style={styles.input}
-          inputMode="text"
-          placeholder="Місцевість..."
-        />
+        <View>
+          <TouchableOpacity style={styles.buttonLocation} onPress={() => {}}>
+            <Feather
+              name="map-pin"
+              size={24}
+              color={styles.locationIcon.fill}
+            />
+          </TouchableOpacity>
+          <TextInput
+            style={{ ...styles.input, ...styles.inputLocation }}
+            inputMode="text"
+            placeholder="Місцевість..."
+          />
+        </View>
       </View>
 
-      <TouchableOpacity style={styles.buttonForm} onPress={() => {}}>
-        <Text style={styles.buttonFormText}>Опублікувати</Text>
+      <TouchableOpacity
+        style={
+          !photoUri
+            ? styles.buttonForm
+            : { ...styles.buttonForm, ...styles.activeButtonForm }
+        }
+        onPress={() => {}}
+        disabled={!photoUri}
+      >
+        <Text
+          style={
+            !photoUri
+              ? styles.buttonFormText
+              : { ...styles.buttonFormText, ...styles.activeButtonFormText }
+          }
+        >
+          Опублікувати
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity

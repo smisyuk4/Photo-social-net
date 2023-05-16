@@ -62,12 +62,24 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#E8E8E8',
   },
+  inputLocation: {
+    paddingLeft: 28,
+  },
+  buttonLocation: {
+    position: 'absolute',
+    top: 12,
+  },
+  locationIcon: {
+    fill: '#BDBDBD',
+  },
   buttonForm: {
     height: 51,
-    // marginTop: 32,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,
+    backgroundColor: '#F6F6F6',
+  },
+  activeButtonForm: {
     backgroundColor: '#FF6C00',
   },
   buttonFormText: {
@@ -75,6 +87,9 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     lineHeight: 19,
+    color: '#BDBDBD',
+  },
+  activeButtonFormText: {
     color: '#fff',
   },
   removeBtn: {
