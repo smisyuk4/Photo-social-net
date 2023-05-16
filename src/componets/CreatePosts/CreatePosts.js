@@ -56,7 +56,7 @@ export const CreatePosts = () => {
       const { uri } = await cameraRef.current.takePictureAsync();
       console.log('uri ', uri);
       setPhotoUri(uri);
-      await MediaLibrary.createAssetAsync(uri);
+      // await MediaLibrary.createAssetAsync(uri);
     }
   };
 
@@ -90,14 +90,26 @@ export const CreatePosts = () => {
         </Camera>
       </View>
 
-      <Text style={styles.text}>Завантажити фото</Text>
-
-      <TextInput inputMode="text" placeholder="Назва" />
-
-      <Text style={styles.text}>Місцевість</Text>
-
       <TouchableOpacity onPress={() => {}}>
-        <Text style={styles.text}>Опублікувати</Text>
+        <Text style={styles.buttonGallaryText}>Завантажити фото</Text>
+      </TouchableOpacity>
+
+      <View   style={styles.inputsWrp}>
+        <TextInput
+          style={styles.input}
+          inputMode="text"
+          placeholder="Назва..."
+        />
+
+        <TextInput
+          style={styles.input}
+          inputMode="text"
+          placeholder="Місцевість..."
+        />
+      </View>
+
+      <TouchableOpacity style={styles.buttonForm} onPress={() => {}}>
+        <Text style={styles.buttonFormText}>Опублікувати</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
