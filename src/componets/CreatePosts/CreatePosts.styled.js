@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     // zIndex: 1,
     alignSelf: 'flex-end',
   },
-  buttonGallaryText: {
+  buttonGalleryText: {
     marginTop: 8,
     fontSize: 16,
     lineHeight: 19,

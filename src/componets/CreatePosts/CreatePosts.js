@@ -9,22 +9,25 @@ import {
   Dimensions,
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
+// import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
 import { styles } from './CreatePosts.styled';
-// import { set } from 'react-native-reanimated';
+
+const INITIAL_POST = {
+  photoUri: '',
+  title: '',
+  location: {},
+};
 
 export const CreatePosts = () => {
+  const width = Dimensions.get('window').width;
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const cameraRef = useRef();
-  const [photoUri, setPhotoUri] = useState('');
-  const width = Dimensions.get('window').width;
-
-  // const [image, setImage] = useState(null);
+  const [state, setState] = useState(INITIAL_POST);
 
   useEffect(() => {
     (async () => {
@@ -58,8 +61,7 @@ export const CreatePosts = () => {
   const takePhoto = async () => {
     if (cameraRef) {
       const { uri } = await cameraRef.current.takePictureAsync();
-      console.log('uri ', uri);
-      setPhotoUri(uri);
+      setState(prev => ({ ...prev, photoUri: uri }));
       // await MediaLibrary.createAssetAsync(uri);
     }
   };
@@ -73,22 +75,23 @@ export const CreatePosts = () => {
     });
 
     if (!result.canceled) {
-      setPhotoUri(result.assets[0].uri);
+      setState(prev => ({ ...prev, photoUri: result.assets[0].uri }));
     }
   };
 
-  const removePost = () => {
-    setPhotoUri('');
+  const publishPost = () => {
+    console.log(state);
+    setState(INITIAL_POST);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.cameraWrp}>
         <Camera style={styles.camera} type={type} ref={cameraRef}>
-          {photoUri !== '' && (
+          {state.photoUri !== '' && (
             <View style={styles.takePhotoContainer}>
               <Image
-                source={{ uri: photoUri }}
+                source={{ uri: state.photoUri }}
                 style={{ width: width, ...styles.photo }}
                 resizeMode="contain"
               />
@@ -107,13 +110,23 @@ export const CreatePosts = () => {
         </Camera>
       </View>
 
-      <TouchableOpacity onPress={pickImage}>
-        <Text style={styles.buttonGallaryText}>Завантажити фото</Text>
-      </TouchableOpacity>
+      {state.photoUri !== '' ? (
+        <TouchableOpacity
+          onPress={() => setState(prev => ({ ...prev, photoUri: '' }))}
+        >
+          <Text style={styles.buttonGalleryText}>Редагувати фото</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity onPress={pickImage}>
+          <Text style={styles.buttonGalleryText}>Завантажити фото</Text>
+        </TouchableOpacity>
+      )}
 
       <View style={styles.inputsWrp}>
         <TextInput
           style={styles.input}
+          value={state.title}
+          onChangeText={value => setState(prev => ({ ...prev, title: value }))}
           inputMode="text"
           placeholder="Назва..."
         />
@@ -136,16 +149,16 @@ export const CreatePosts = () => {
 
       <TouchableOpacity
         style={
-          !photoUri
+          !state.photoUri
             ? styles.buttonForm
             : { ...styles.buttonForm, ...styles.activeButtonForm }
         }
-        onPress={() => {}}
-        disabled={!photoUri}
+        onPress={publishPost}
+        disabled={!state.photoUri}
       >
         <Text
           style={
-            !photoUri
+            !state.photoUri
               ? styles.buttonFormText
               : { ...styles.buttonFormText, ...styles.activeButtonFormText }
           }
@@ -156,18 +169,20 @@ export const CreatePosts = () => {
 
       <TouchableOpacity
         style={
-          !photoUri
+          !state.photoUri
             ? styles.removeBtn
             : { ...styles.removeBtn, ...styles.activeRemoveBtn }
         }
-        onPress={removePost}
-        disabled={!photoUri}
+        onPress={() => setState(INITIAL_POST)}
+        disabled={!state.photoUri}
       >
         <AntDesign
           name="delete"
           size={24}
           color={
-            !photoUri ? styles.removeBtn.fill : styles.activeRemoveBtn.fill
+            !state.photoUri
+              ? styles.removeBtn.fill
+              : styles.activeRemoveBtn.fill
           }
         />
       </TouchableOpacity>
