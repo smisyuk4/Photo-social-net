@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     // zIndex: 2,
+    backgroundColor: '#E8E8E8',
   },
   photo: {
     height: 240,
