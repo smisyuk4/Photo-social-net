@@ -6,7 +6,6 @@ import {
   TextInput,
   Platform,
   KeyboardAvoidingView,
-  Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
 import { styles } from './RegisterForm.styles';
@@ -38,14 +37,14 @@ export const RegisterForm = ({
     password: false,
   });
 
-  const handleInputFocus = textinput => {
+  const handleInputFocus = textInput => {
     setIsActiveInput({
-      [textinput]: true,
+      [textInput]: true,
     });
   };
-  const handleInputBlur = textinput => {
+  const handleInputBlur = textInput => {
     setIsActiveInput({
-      [textinput]: false,
+      [textInput]: false,
     });
   };
 

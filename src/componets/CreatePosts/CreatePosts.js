@@ -27,35 +27,17 @@ const INITIAL_POST = {
 
 export const CreatePosts = () => {
   const width = Dimensions.get('window').width;
-  // const height = Dimensions.get('window').height;
-  // console.log(height, width);
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const cameraRef = useRef();
   const [state, setState] = useState(INITIAL_POST);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-
-  const hideKeyboard = () => {
-    setIsShowKeyboard(false);
-    Keyboard.dismiss();
-  };
-
-  // border
   const [isActiveInput, setIsActiveInput] = useState({
     title: false,
     location: false,
   });
 
-  const handleInputFocus = textinput => {
-    setIsActiveInput({
-      [textinput]: true,
-    });
-  };
-  const handleInputBlur = textinput => {
-    setIsActiveInput({
-      [textinput]: false,
-    });
-  };
+  const [styleSendBtn, setStyleSendBtn] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -68,6 +50,32 @@ export const CreatePosts = () => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (state.photoUri && !isShowKeyboard) {
+      return setStyleSendBtn({
+        ...styles.buttonForm,
+        ...styles.activeButtonForm,
+      });
+    }
+
+    if (state.photoUri && isShowKeyboard) {
+      return setStyleSendBtn({
+        ...styles.buttonForm,
+        ...styles.activeButtonForm,
+        ...styles.changedButtonForm,
+      });
+    }
+
+    if (
+      (!state.photoUri && !isShowKeyboard) ||
+      (!state.photoUri && isShowKeyboard)
+    ) {
+      return setStyleSendBtn({
+        ...styles.buttonForm,
+      });
+    }
+  }, [state, isShowKeyboard]);
 
   if (!permission) {
     return <LoaderScreen />;
@@ -140,8 +148,26 @@ export const CreatePosts = () => {
   };
 
   const publishPost = async () => {
-    console.log('state ', state);
     setState(INITIAL_POST);
+    hideKeyboard();
+    console.log('state ', state);
+  };
+
+  const hideKeyboard = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+  };
+
+  const handleInputFocus = textInput => {
+    setIsActiveInput({
+      [textInput]: true,
+    });
+  };
+
+  const handleInputBlur = textInput => {
+    setIsActiveInput({
+      [textInput]: false,
+    });
   };
 
   return (
@@ -150,6 +176,7 @@ export const CreatePosts = () => {
         style={styles.wrapper}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
+        {/* main content */}
         <View style={{ ...styles.container }}>
           <View style={styles.cameraWrp}>
             <Camera style={styles.camera} type={type} ref={cameraRef}>
@@ -190,7 +217,13 @@ export const CreatePosts = () => {
             </TouchableOpacity>
           )}
 
-          <View style={styles.inputsWrp}>
+          <View
+            style={{
+              ...styles.inputsWrp,
+              paddingVertical: isShowKeyboard ? 8 : 32,
+              gap: isShowKeyboard ? 4 : 16,
+            }}
+          >
             <TextInput
               style={{
                 ...styles.input,
@@ -247,11 +280,7 @@ export const CreatePosts = () => {
           </View>
 
           <TouchableOpacity
-            style={
-              !state.photoUri
-                ? styles.buttonForm
-                : { ...styles.buttonForm, ...styles.activeButtonForm }
-            }
+            style={styleSendBtn}
             onPress={publishPost}
             disabled={!state.photoUri}
           >
@@ -266,7 +295,9 @@ export const CreatePosts = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View>
+
+        {/* bottom bar */}
+        <View style={isShowKeyboard ? styles.changedRemoveBtn : {}}>
           <TouchableOpacity
             style={
               !state.photoUri

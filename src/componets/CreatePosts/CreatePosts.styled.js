@@ -54,8 +54,8 @@ export const styles = StyleSheet.create({
     color: '#BDBDBD',
   },
   inputsWrp: {
-    gap: 16,
-    paddingVertical: 32,
+    // gap: 16,
+    // paddingVertical: 32,
   },
   input: {
     height: 50,
@@ -87,6 +87,11 @@ export const styles = StyleSheet.create({
   activeButtonForm: {
     backgroundColor: '#FF6C00',
   },
+  changedButtonForm: {
+    height: 40,
+    width: 300,
+    alignSelf: 'flex-end',
+  },
   buttonFormText: {
     alignItems: 'center',
     fontFamily: 'Roboto-Regular',
@@ -112,5 +117,9 @@ export const styles = StyleSheet.create({
   activeRemoveBtn: {
     backgroundColor: '#FF6C00',
     fill: '#FFFFFF',
+  },
+  changedRemoveBtn: {
+      position: 'absolute', 
+      bottom: 344,
   },
 });
