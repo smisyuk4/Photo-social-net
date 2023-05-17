@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    // justifyContent: 'flex-end',
     justifyContent: 'space-between',
   },
   container: {
@@ -52,10 +51,6 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: '#BDBDBD',
-  },
-  inputsWrp: {
-    // gap: 16,
-    // paddingVertical: 32,
   },
   input: {
     height: 50,
@@ -119,7 +114,11 @@ export const styles = StyleSheet.create({
     fill: '#FFFFFF',
   },
   changedRemoveBtn: {
-      position: 'absolute', 
-      bottom: 344,
+    position: 'absolute',
+    bottom: 344,
+  },
+  changedRemoveBtnAndroid: {
+    position: 'absolute',
+    bottom: 65,
   },
 });

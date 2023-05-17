@@ -8,6 +8,7 @@ import {
   TextInput,
   Dimensions,
   Keyboard,
+  Platform,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -27,17 +28,18 @@ const INITIAL_POST = {
 
 export const CreatePosts = () => {
   const width = Dimensions.get('window').width;
+  const platform = useRef(Platform.OS);
+  const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
-  const cameraRef = useRef();
   const [state, setState] = useState(INITIAL_POST);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isActiveInput, setIsActiveInput] = useState({
     title: false,
     location: false,
   });
-
-  const [styleSendBtn, setStyleSendBtn] = useState(false);
+  const [styleSendBtn, setStyleSendBtn] = useState({});
+  const [styleRemoveBtn, setStyleRemoveBtn] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -75,7 +77,28 @@ export const CreatePosts = () => {
         ...styles.buttonForm,
       });
     }
-  }, [state, isShowKeyboard]);
+  }, [isShowKeyboard, state]);
+
+  useEffect(() => {
+    if (isShowKeyboard && platform.current === 'ios') {
+      return setStyleRemoveBtn({
+        ...styles.changedRemoveBtn,
+      });
+    }
+
+    if (
+      (!isShowKeyboard && platform.current === 'ios') ||
+      (!isShowKeyboard && platform.current === 'android')
+    ) {
+      return setStyleRemoveBtn({});
+    }
+
+    if (isShowKeyboard && platform.current === 'android') {
+      return setStyleRemoveBtn({
+        ...styles.changedRemoveBtnAndroid,
+      });
+    }
+  }, [isShowKeyboard, platform.current]);
 
   if (!permission) {
     return <LoaderScreen />;
@@ -147,12 +170,6 @@ export const CreatePosts = () => {
     }
   };
 
-  const publishPost = async () => {
-    setState(INITIAL_POST);
-    hideKeyboard();
-    console.log('state ', state);
-  };
-
   const hideKeyboard = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
@@ -168,6 +185,12 @@ export const CreatePosts = () => {
     setIsActiveInput({
       [textInput]: false,
     });
+  };
+
+  const publishPost = async () => {
+    setState(INITIAL_POST);
+    hideKeyboard();
+    console.log('state ', state);
   };
 
   return (
@@ -219,7 +242,6 @@ export const CreatePosts = () => {
 
           <View
             style={{
-              ...styles.inputsWrp,
               paddingVertical: isShowKeyboard ? 8 : 32,
               gap: isShowKeyboard ? 4 : 16,
             }}
@@ -297,7 +319,7 @@ export const CreatePosts = () => {
         </View>
 
         {/* bottom bar */}
-        <View style={isShowKeyboard ? styles.changedRemoveBtn : {}}>
+        <View style={styleRemoveBtn}>
           <TouchableOpacity
             style={
               !state.photoUri
