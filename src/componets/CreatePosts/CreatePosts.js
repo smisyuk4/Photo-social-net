@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
-// import * as MediaLibrary from 'expo-media-library';
+import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
@@ -31,9 +31,13 @@ export const CreatePosts = () => {
 
   useEffect(() => {
     (async () => {
-      await Camera.requestCameraPermissionsAsync();
-      await Location.requestForegroundPermissionsAsync();
-      await MediaLibrary.requestPermissionsAsync();
+      try {
+        await Camera.requestCameraPermissionsAsync();
+        await Location.requestForegroundPermissionsAsync();
+        await MediaLibrary.requestPermissionsAsync();
+      } catch (error) {
+        console.log(error.message);
+      }
     })();
   }, []);
 
@@ -61,42 +65,55 @@ export const CreatePosts = () => {
 
   const takePhoto = async () => {
     if (cameraRef) {
-      const { uri } = await cameraRef.current.takePictureAsync();
-      setState(prev => ({ ...prev, photoUri: uri }));
-      // await MediaLibrary.createAssetAsync(uri);
-      getLocation();
+      try {
+        const { uri } = await cameraRef.current.takePictureAsync();
+        setState(prev => ({ ...prev, photoUri: uri }));
+        // await MediaLibrary.createAssetAsync(uri);
+        getLocation();
+      } catch (error) {
+        console.log(error.message);
+      }
     }
   };
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
 
-    if (!result.canceled) {
-      setState(prev => ({ ...prev, photoUri: result.assets[0].uri }));
+      if (!result.canceled) {
+        setState(prev => ({ ...prev, photoUri: result.assets[0].uri }));
+        getLocation();
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const getLocation = async () => {
+    try {
+      const location = await Location.getCurrentPositionAsync({});
+
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+
+      const [postAddress] = await Location.reverseGeocodeAsync(coords);
+
+      setState(prev => ({ ...prev, location: { ...coords, postAddress } }));
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
   const publishPost = async () => {
     console.log('state ', state);
     setState(INITIAL_POST);
-  };
-
-  const getLocation = async () => {
-    let location = await Location.getCurrentPositionAsync({});
-
-    const coords = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    };
-
-    const [postAddress] = await Location.reverseGeocodeAsync(coords);
-
-    setState(prev => ({ ...prev, location: { ...coords, postAddress } }));
   };
 
   return (
