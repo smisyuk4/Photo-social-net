@@ -102,6 +102,7 @@ export const Home = ({ navigation, route, options, back }) => {
       <Tabs.Screen
         name="Create"
         component={CreatePostsScreen}
+        // tabBarVisible={false}
         options={{
           title: 'Створити публікацію',
           headerLeft: () => (
@@ -112,6 +113,7 @@ export const Home = ({ navigation, route, options, back }) => {
               onPress={navigation.goBack}
             />
           ),
+          tabBarStyle: { display: 'none' },
         }}
       />
       <Tabs.Screen

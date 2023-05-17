@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     marginTop: 32,
+    borderWidth: 1,
+    borderColor: 'red',
   },
   cameraWrp: {
     borderWidth: 1,
@@ -93,7 +95,19 @@ export const styles = StyleSheet.create({
   activeButtonFormText: {
     color: '#fff',
   },
+  removeBtnWrp:{
+    borderWidth: 1,
+    borderColor: 'green',
+    // position: 'absolute',
+    // bottom: -50,
+    // flexDirection: 'row',
+    justifyContent: 'flex-end',
+    // alignItems: 'center',
+    // alignSelf: 'center'
+    // marginBottom: 150,
+  },
   removeBtn: {
+    marginBottom: 70,
     height: 40,
     width: 70,
     alignItems: 'center',

@@ -24,6 +24,8 @@ const INITIAL_POST = {
 
 export const CreatePosts = () => {
   const width = Dimensions.get('window').width;
+  const height = Dimensions.get('window').height;
+  console.log(height, width);
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const cameraRef = useRef();
@@ -117,14 +119,14 @@ export const CreatePosts = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, height }}>
       <View style={styles.cameraWrp}>
         <Camera style={styles.camera} type={type} ref={cameraRef}>
           {state.photoUri !== '' && (
             <View style={styles.takePhotoContainer}>
               <Image
                 source={{ uri: state.photoUri }}
-                style={{ width: width, ...styles.photo }}
+                style={{ width, ...styles.photo }}
                 resizeMode="contain"
               />
             </View>
@@ -210,25 +212,27 @@ export const CreatePosts = () => {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={
-          !state.photoUri
-            ? styles.removeBtn
-            : { ...styles.removeBtn, ...styles.activeRemoveBtn }
-        }
-        onPress={() => setState(INITIAL_POST)}
-        disabled={!state.photoUri}
-      >
-        <AntDesign
-          name="delete"
-          size={24}
-          color={
+      <View style={styles.removeBtnWrp}>
+        <TouchableOpacity
+          style={
             !state.photoUri
-              ? styles.removeBtn.fill
-              : styles.activeRemoveBtn.fill
+              ? styles.removeBtn
+              : { ...styles.removeBtn, ...styles.activeRemoveBtn }
           }
-        />
-      </TouchableOpacity>
+          onPress={() => setState(INITIAL_POST)}
+          disabled={!state.photoUri}
+        >
+          <AntDesign
+            name="delete"
+            size={24}
+            color={
+              !state.photoUri
+                ? styles.removeBtn.fill
+                : styles.activeRemoveBtn.fill
+            }
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
