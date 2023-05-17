@@ -14,9 +14,6 @@
 
 [Template](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=0-1&t=Fhmd4YFiWTLuUvCl-0>)
 
-- `Icons` - [github.com](https://github.com/oblador/react-native-vector-icons)
-  ` npm install --save react-native-vector-icons`
-
 - `icons` - []() ` npm i @expo/vector-icons`
 
 - `Fonts` - [docs.expo.dev](https://docs.expo.dev/versions/latest/sdk/font/)
@@ -48,3 +45,7 @@
 ![App screenshot](https://i.ibb.co/gVwQPb7/2023-05-07-01-01-27.png)
 
 ## Module 5 - camera, map, location, render list content
+- [npx expo install expo-camera](https://docs.expo.dev/versions/latest/sdk/camera/)
+- [npx expo install expo-image-picker](https://docs.expo.dev/versions/latest/sdk/imagepicker/)
+- [npx expo install expo-location](https://docs.expo.dev/versions/latest/sdk/location/)
+![App screenshot](https://i.ibb.co/6wGwJDH/2023-05-18-00-45-47.png)
