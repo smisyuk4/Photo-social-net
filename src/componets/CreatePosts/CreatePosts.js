@@ -11,7 +11,7 @@ import {
 import { Camera, CameraType } from 'expo-camera';
 // import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
-import * as Location from "expo-location";
+import * as Location from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
 import { styles } from './CreatePosts.styled';
@@ -31,7 +31,8 @@ export const CreatePosts = () => {
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
+      await Camera.requestCameraPermissionsAsync();
+      await Location.requestForegroundPermissionsAsync();
       await MediaLibrary.requestPermissionsAsync();
     })();
   }, []);
@@ -65,12 +66,12 @@ export const CreatePosts = () => {
       // await MediaLibrary.createAssetAsync(uri);
 
       let location = await Location.getCurrentPositionAsync({});
+      console.log(location);
       const coords = {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       };
       setState(prev => ({ ...prev, location: coords }));
-
     }
   };
 
@@ -149,6 +150,8 @@ export const CreatePosts = () => {
           </TouchableOpacity>
           <TextInput
             style={{ ...styles.input, ...styles.inputLocation }}
+            value={state.location.title}
+            onChangeText={value => setState(prev => ({ ...prev, location: {...prev.location, title: value} }))}
             inputMode="text"
             placeholder="Місцевість..."
           />
