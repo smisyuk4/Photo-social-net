@@ -93,14 +93,10 @@ export const CreatePosts = () => {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
     };
-    setState(prev => ({ ...prev, location: coords }));
 
-    const postAddress = await Location.reverseGeocodeAsync(state.location);
-    console.log('cityName ', postAddress);
-    setState(prev => ({
-      ...prev,
-      location: { ...prev.location, postAddress },
-    }));
+    const [postAddress] = await Location.reverseGeocodeAsync(coords);
+
+    setState(prev => ({ ...prev, location: { ...coords, postAddress } }));
   };
 
   return (
@@ -145,7 +141,9 @@ export const CreatePosts = () => {
         <TextInput
           style={styles.input}
           value={state.titlePost}
-          onChangeText={value => setState(prev => ({ ...prev, titlePost: value }))}
+          onChangeText={value =>
+            setState(prev => ({ ...prev, titlePost: value }))
+          }
           inputMode="text"
           placeholder="Назва..."
         />
