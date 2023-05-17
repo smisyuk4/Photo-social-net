@@ -18,7 +18,7 @@ import { styles } from './CreatePosts.styled';
 
 const INITIAL_POST = {
   photoUri: '',
-  title: '',
+  titlePost: '',
   location: {},
 };
 
@@ -64,14 +64,7 @@ export const CreatePosts = () => {
       const { uri } = await cameraRef.current.takePictureAsync();
       setState(prev => ({ ...prev, photoUri: uri }));
       // await MediaLibrary.createAssetAsync(uri);
-
-      let location = await Location.getCurrentPositionAsync({});
-      console.log(location);
-      const coords = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      };
-      setState(prev => ({ ...prev, location: coords }));
+      getLocation();
     }
   };
 
@@ -88,9 +81,26 @@ export const CreatePosts = () => {
     }
   };
 
-  const publishPost = () => {
-    console.log(state);
+  const publishPost = async () => {
+    console.log('state ', state);
     setState(INITIAL_POST);
+  };
+
+  const getLocation = async () => {
+    let location = await Location.getCurrentPositionAsync({});
+
+    const coords = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+    setState(prev => ({ ...prev, location: coords }));
+
+    const postAddress = await Location.reverseGeocodeAsync(state.location);
+    console.log('cityName ', postAddress);
+    setState(prev => ({
+      ...prev,
+      location: { ...prev.location, postAddress },
+    }));
   };
 
   return (
@@ -134,8 +144,8 @@ export const CreatePosts = () => {
       <View style={styles.inputsWrp}>
         <TextInput
           style={styles.input}
-          value={state.title}
-          onChangeText={value => setState(prev => ({ ...prev, title: value }))}
+          value={state.titlePost}
+          onChangeText={value => setState(prev => ({ ...prev, titlePost: value }))}
           inputMode="text"
           placeholder="Назва..."
         />
@@ -151,7 +161,12 @@ export const CreatePosts = () => {
           <TextInput
             style={{ ...styles.input, ...styles.inputLocation }}
             value={state.location.title}
-            onChangeText={value => setState(prev => ({ ...prev, location: {...prev.location, title: value} }))}
+            onChangeText={value =>
+              setState(prev => ({
+                ...prev,
+                location: { ...prev.location, title: value },
+              }))
+            }
             inputMode="text"
             placeholder="Місцевість..."
           />
