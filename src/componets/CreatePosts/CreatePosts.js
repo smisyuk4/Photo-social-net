@@ -11,7 +11,7 @@ import {
 import { Camera, CameraType } from 'expo-camera';
 // import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
-
+import * as Location from "expo-location";
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
 import { styles } from './CreatePosts.styled';
@@ -63,6 +63,14 @@ export const CreatePosts = () => {
       const { uri } = await cameraRef.current.takePictureAsync();
       setState(prev => ({ ...prev, photoUri: uri }));
       // await MediaLibrary.createAssetAsync(uri);
+
+      let location = await Location.getCurrentPositionAsync({});
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      setState(prev => ({ ...prev, location: coords }));
+
     }
   };
 
@@ -145,6 +153,8 @@ export const CreatePosts = () => {
             placeholder="Місцевість..."
           />
         </View>
+        <Text>latitude: {state.location.latitude}</Text>
+        <Text>longitude: {state.location.longitude}</Text>
       </View>
 
       <TouchableOpacity
