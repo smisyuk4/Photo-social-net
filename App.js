@@ -46,7 +46,7 @@ export default function App() {
     'Roboto-Regular': require('./src/fonts/Roboto/Roboto-Regular.ttf'),
   });
 
-  const routing = useRoute({}); // null
+  const routing = useRoute(true); // null
 
   // const onLayoutRootView = useCallback(async () => {
   //   if (fontsLoaded) {

@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
+  Keyboard,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
@@ -24,12 +27,35 @@ const INITIAL_POST = {
 
 export const CreatePosts = () => {
   const width = Dimensions.get('window').width;
-  const height = Dimensions.get('window').height;
-  console.log(height, width);
+  // const height = Dimensions.get('window').height;
+  // console.log(height, width);
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const cameraRef = useRef();
   const [state, setState] = useState(INITIAL_POST);
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+
+  const hideKeyboard = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+  };
+
+  // border
+  const [isActiveInput, setIsActiveInput] = useState({
+    title: false,
+    location: false,
+  });
+
+  const handleInputFocus = textinput => {
+    setIsActiveInput({
+      [textinput]: true,
+    });
+  };
+  const handleInputBlur = textinput => {
+    setIsActiveInput({
+      [textinput]: false,
+    });
+  };
 
   useEffect(() => {
     (async () => {
@@ -119,120 +145,149 @@ export const CreatePosts = () => {
   };
 
   return (
-    <View style={{ ...styles.container, height }}>
-      <View style={styles.cameraWrp}>
-        <Camera style={styles.camera} type={type} ref={cameraRef}>
-          {state.photoUri !== '' && (
-            <View style={styles.takePhotoContainer}>
-              <Image
-                source={{ uri: state.photoUri }}
-                style={{ width, ...styles.photo }}
-                resizeMode="contain"
+    <TouchableWithoutFeedback onPress={() => hideKeyboard()}>
+      <KeyboardAvoidingView
+        style={styles.wrapper}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <View style={{ ...styles.container }}>
+          <View style={styles.cameraWrp}>
+            <Camera style={styles.camera} type={type} ref={cameraRef}>
+              {state.photoUri !== '' && (
+                <View style={styles.takePhotoContainer}>
+                  <Image
+                    source={{ uri: state.photoUri }}
+                    style={{ width, ...styles.photo }}
+                    resizeMode="contain"
+                  />
+                </View>
+              )}
+              <TouchableOpacity
+                style={styles.buttonCapture}
+                onPress={takePhoto}
+              >
+                <MaterialIcons name="photo-camera" size={24} color="white" />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.buttonToggle}
+                onPress={toggleCameraType}
+              >
+                <Feather name="repeat" size={24} color="white" />
+              </TouchableOpacity>
+            </Camera>
+          </View>
+
+          {state.photoUri !== '' ? (
+            <TouchableOpacity
+              onPress={() => setState(prev => ({ ...prev, photoUri: '' }))}
+            >
+              <Text style={styles.buttonGalleryText}>Редагувати фото</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={pickImage}>
+              <Text style={styles.buttonGalleryText}>Завантажити фото</Text>
+            </TouchableOpacity>
+          )}
+
+          <View style={styles.inputsWrp}>
+            <TextInput
+              style={{
+                ...styles.input,
+                borderBottomColor: isActiveInput.title ? '#FF6C00' : '#E8E8E8',
+              }}
+              value={state.titlePost}
+              onChangeText={value =>
+                setState(prev => ({ ...prev, titlePost: value }))
+              }
+              onFocus={() => {
+                setIsShowKeyboard(true);
+                handleInputFocus('title');
+              }}
+              onBlur={() => handleInputBlur('title')}
+              inputMode="text"
+              placeholder="Назва..."
+            />
+
+            <View>
+              <TouchableOpacity
+                style={styles.buttonLocation}
+                onPress={() => {}}
+              >
+                <Feather
+                  name="map-pin"
+                  size={24}
+                  color={styles.locationIcon.fill}
+                />
+              </TouchableOpacity>
+              <TextInput
+                style={{
+                  ...styles.input,
+                  ...styles.inputLocation,
+                  borderBottomColor: isActiveInput.location
+                    ? '#FF6C00'
+                    : '#E8E8E8',
+                }}
+                value={state.location.title}
+                onChangeText={value =>
+                  setState(prev => ({
+                    ...prev,
+                    location: { ...prev.location, title: value },
+                  }))
+                }
+                onFocus={() => {
+                  setIsShowKeyboard(true);
+                  handleInputFocus('location');
+                }}
+                onBlur={() => handleInputBlur('location')}
+                inputMode="text"
+                placeholder="Місцевість..."
               />
             </View>
-          )}
-          <TouchableOpacity style={styles.buttonCapture} onPress={takePhoto}>
-            <MaterialIcons name="photo-camera" size={24} color="white" />
-          </TouchableOpacity>
+          </View>
 
           <TouchableOpacity
-            style={styles.buttonToggle}
-            onPress={toggleCameraType}
+            style={
+              !state.photoUri
+                ? styles.buttonForm
+                : { ...styles.buttonForm, ...styles.activeButtonForm }
+            }
+            onPress={publishPost}
+            disabled={!state.photoUri}
           >
-            <Feather name="repeat" size={24} color="white" />
+            <Text
+              style={
+                !state.photoUri
+                  ? styles.buttonFormText
+                  : { ...styles.buttonFormText, ...styles.activeButtonFormText }
+              }
+            >
+              Опублікувати
+            </Text>
           </TouchableOpacity>
-        </Camera>
-      </View>
-
-      {state.photoUri !== '' ? (
-        <TouchableOpacity
-          onPress={() => setState(prev => ({ ...prev, photoUri: '' }))}
-        >
-          <Text style={styles.buttonGalleryText}>Редагувати фото</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity onPress={pickImage}>
-          <Text style={styles.buttonGalleryText}>Завантажити фото</Text>
-        </TouchableOpacity>
-      )}
-
-      <View style={styles.inputsWrp}>
-        <TextInput
-          style={styles.input}
-          value={state.titlePost}
-          onChangeText={value =>
-            setState(prev => ({ ...prev, titlePost: value }))
-          }
-          inputMode="text"
-          placeholder="Назва..."
-        />
-
+        </View>
         <View>
-          <TouchableOpacity style={styles.buttonLocation} onPress={() => {}}>
-            <Feather
-              name="map-pin"
+          <TouchableOpacity
+            style={
+              !state.photoUri
+                ? styles.removeBtn
+                : { ...styles.removeBtn, ...styles.activeRemoveBtn }
+            }
+            onPress={() => setState(INITIAL_POST)}
+            disabled={!state.photoUri}
+          >
+            <AntDesign
+              name="delete"
               size={24}
-              color={styles.locationIcon.fill}
+              color={
+                !state.photoUri
+                  ? styles.removeBtn.fill
+                  : styles.activeRemoveBtn.fill
+              }
             />
           </TouchableOpacity>
-          <TextInput
-            style={{ ...styles.input, ...styles.inputLocation }}
-            value={state.location.title}
-            onChangeText={value =>
-              setState(prev => ({
-                ...prev,
-                location: { ...prev.location, title: value },
-              }))
-            }
-            inputMode="text"
-            placeholder="Місцевість..."
-          />
         </View>
-        <Text>latitude: {state.location.latitude}</Text>
-        <Text>longitude: {state.location.longitude}</Text>
-      </View>
-
-      <TouchableOpacity
-        style={
-          !state.photoUri
-            ? styles.buttonForm
-            : { ...styles.buttonForm, ...styles.activeButtonForm }
-        }
-        onPress={publishPost}
-        disabled={!state.photoUri}
-      >
-        <Text
-          style={
-            !state.photoUri
-              ? styles.buttonFormText
-              : { ...styles.buttonFormText, ...styles.activeButtonFormText }
-          }
-        >
-          Опублікувати
-        </Text>
-      </TouchableOpacity>
-
-      <View style={styles.removeBtnWrp}>
-        <TouchableOpacity
-          style={
-            !state.photoUri
-              ? styles.removeBtn
-              : { ...styles.removeBtn, ...styles.activeRemoveBtn }
-          }
-          onPress={() => setState(INITIAL_POST)}
-          disabled={!state.photoUri}
-        >
-          <AntDesign
-            name="delete"
-            size={24}
-            color={
-              !state.photoUri
-                ? styles.removeBtn.fill
-                : styles.activeRemoveBtn.fill
-            }
-          />
-        </TouchableOpacity>
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };

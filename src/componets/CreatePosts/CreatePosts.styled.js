@@ -1,10 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    // justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+  },
   container: {
     marginTop: 32,
-    borderWidth: 1,
-    borderColor: 'red',
   },
   cameraWrp: {
     borderWidth: 1,
@@ -63,7 +66,6 @@ export const styles = StyleSheet.create({
     lineHeight: 19,
     color: '#212121',
     borderBottomWidth: 1,
-    borderBottomColor: '#E8E8E8',
   },
   inputLocation: {
     paddingLeft: 28,
@@ -95,23 +97,14 @@ export const styles = StyleSheet.create({
   activeButtonFormText: {
     color: '#fff',
   },
-  removeBtnWrp:{
-    borderWidth: 1,
-    borderColor: 'green',
-    // position: 'absolute',
-    // bottom: -50,
-    // flexDirection: 'row',
-    justifyContent: 'flex-end',
-    // alignItems: 'center',
-    // alignSelf: 'center'
-    // marginBottom: 150,
-  },
   removeBtn: {
-    marginBottom: 70,
+    marginBottom: 30,
+    marginTop: 120,
     height: 40,
     width: 70,
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
     borderRadius: 20,
     backgroundColor: '#F6F6F6',
     fill: '#DADADA',
