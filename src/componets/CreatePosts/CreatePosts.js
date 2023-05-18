@@ -6,7 +6,6 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
-  Dimensions,
   Keyboard,
   Platform,
   TouchableWithoutFeedback,
@@ -17,6 +16,10 @@ import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
 import { styles } from './CreatePosts.styled';
 
@@ -27,7 +30,6 @@ const INITIAL_POST = {
 };
 
 export const CreatePosts = () => {
-  const width = Dimensions.get('window').width;
   const platform = useRef(Platform.OS);
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
@@ -106,7 +108,7 @@ export const CreatePosts = () => {
 
   if (!permission.granted) {
     return (
-      <View style={styles.container}>
+      <View style={styles.permission}>
         <Text style={{ textAlign: 'center' }}>
           We need your permission to show the camera
         </Text>
@@ -202,12 +204,24 @@ export const CreatePosts = () => {
         {/* main content */}
         <View style={{ ...styles.container }}>
           <View style={styles.cameraWrp}>
-            <Camera style={styles.camera} type={type} ref={cameraRef}>
+            <Camera
+              style={
+                isShowKeyboard
+                  ? { ...styles.camera, height: hp('22%') }
+                  : { ...styles.camera }
+              }
+              type={type}
+              ref={cameraRef}
+            >
               {state.photoUri !== '' && (
                 <View style={styles.takePhotoContainer}>
                   <Image
                     source={{ uri: state.photoUri }}
-                    style={{ width, ...styles.photo }}
+                    style={
+                      isShowKeyboard
+                        ? { ...styles.photo, height: hp('22%') }
+                        : { ...styles.photo }
+                    }
                     resizeMode="contain"
                   />
                 </View>
@@ -242,8 +256,10 @@ export const CreatePosts = () => {
 
           <View
             style={{
-              paddingVertical: isShowKeyboard ? 8 : 32,
-              gap: isShowKeyboard ? 4 : 16,
+              // paddingVertical: isShowKeyboard ? 8 : 32,
+              // gap: isShowKeyboard ? 4 : 16,
+              paddingVertical: isShowKeyboard ? hp('0.96%') : hp('3.8%'),
+              gap: isShowKeyboard ? hp('0.48%') : hp('1.92%'),
             }}
           >
             <TextInput

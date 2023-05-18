@@ -1,12 +1,18 @@
 import { StyleSheet } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     justifyContent: 'space-between',
   },
+  permission: {},
   container: {
-    marginTop: 32,
+    // marginTop: 32,
+    marginTop: hp('3.8%'), // *0.12 from px
   },
   cameraWrp: {
     borderWidth: 1,
@@ -18,7 +24,8 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 240,
+    // height: 240,
+    height: hp('28.8%'), // *0.12 from px
   },
   takePhotoContainer: {
     position: 'absolute',
@@ -27,7 +34,10 @@ export const styles = StyleSheet.create({
     backgroundColor: '#E8E8E8',
   },
   photo: {
-    height: 240,
+    // height: 240,
+    height: hp('28.8%'), // *0.12 from px
+    // height: hp('100%'),
+    width: wp('100%'),
   },
   buttonCapture: {
     height: 60,
@@ -35,7 +45,6 @@ export const styles = StyleSheet.create({
     // zIndex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-
     borderRadius: 50,
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
   },
@@ -47,14 +56,16 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   buttonGalleryText: {
-    marginTop: 8,
+    // marginTop: 8,
+    marginTop: hp('0.96%'), // *0.12 from px
     fontSize: 16,
     lineHeight: 19,
     color: '#BDBDBD',
   },
   input: {
     height: 50,
-    paddingVertical: 16,
+    // paddingVertical: 16,
+    paddingVertical: hp('1.92%'), // *0.12 from px
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     fontWeight: '500',
@@ -63,7 +74,8 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   inputLocation: {
-    paddingLeft: 28,
+    // paddingLeft: 28,
+    paddingLeft: wp('8.4%'), //*0.3 from px
   },
   buttonLocation: {
     position: 'absolute',
@@ -73,7 +85,8 @@ export const styles = StyleSheet.create({
     fill: '#BDBDBD',
   },
   buttonForm: {
-    height: 51,
+    // height: 51,
+    height: hp('6.12%'), // *0.12 from px
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,
@@ -83,8 +96,10 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FF6C00',
   },
   changedButtonForm: {
-    height: 40,
-    width: 300,
+    // height: 40,
+    height: hp('4.8%'), // *0.12 from px
+    // width: 300,
+    width: wp('50%'), //*0.5 from px
     alignSelf: 'flex-end',
   },
   buttonFormText: {
@@ -98,10 +113,12 @@ export const styles = StyleSheet.create({
     color: '#fff',
   },
   removeBtn: {
-    marginBottom: 30,
-    marginTop: 120,
-    height: 40,
-    width: 70,
+    // marginBottom: 30,
+    marginBottom: hp('3.6%'),
+    // height: 40,
+    height: hp('4.8%'), // *0.12 from px
+    // width: 70,
+    width: wp('16.8%'), //*0.23 from px
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -115,10 +132,12 @@ export const styles = StyleSheet.create({
   },
   changedRemoveBtn: {
     position: 'absolute',
-    bottom: 344,
+    // bottom: 344,
+    bottom: hp('37.5%'), //*0.1 from px
   },
   changedRemoveBtnAndroid: {
     position: 'absolute',
-    bottom: 65,
+    // bottom: 65,
+    bottom: hp('14.8%'), //*0.1 from px
   },
 });
