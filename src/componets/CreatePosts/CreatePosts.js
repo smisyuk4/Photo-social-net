@@ -16,10 +16,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
 import { styles } from './CreatePosts.styled';
 
@@ -30,7 +27,6 @@ const INITIAL_POST = {
 };
 
 export const CreatePosts = () => {
-  const platform = useRef(Platform.OS);
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -71,36 +67,49 @@ export const CreatePosts = () => {
       });
     }
 
-    if (
-      (!state.photoUri && !isShowKeyboard) ||
-      (!state.photoUri && isShowKeyboard)
-    ) {
+    if (!state.photoUri && !isShowKeyboard) {
       return setStyleSendBtn({
         ...styles.buttonForm,
       });
     }
-  }, [isShowKeyboard, state]);
+
+    if (!state.photoUri && isShowKeyboard) {
+      return setStyleSendBtn({
+        ...styles.buttonForm,
+        ...styles.changedButtonForm,
+      });
+    }
+  }, [state, isShowKeyboard]);
 
   useEffect(() => {
-    if (isShowKeyboard && platform.current === 'ios') {
+    if (!state.photoUri && !isShowKeyboard) {
       return setStyleRemoveBtn({
+        ...styles.removeBtn,
+      });
+    }
+
+    if (state.photoUri && !isShowKeyboard) {
+      return setStyleRemoveBtn({
+        ...styles.removeBtn,
+        ...styles.activeRemoveBtn,
+      });
+    }
+
+    if (state.photoUri && isShowKeyboard) {
+      return setStyleRemoveBtn({
+        ...styles.removeBtn,
+        ...styles.activeRemoveBtn,
         ...styles.changedRemoveBtn,
       });
     }
 
-    if (
-      (!isShowKeyboard && platform.current === 'ios') ||
-      (!isShowKeyboard && platform.current === 'android')
-    ) {
-      return setStyleRemoveBtn({});
-    }
-
-    if (isShowKeyboard && platform.current === 'android') {
+    if (!state.photoUri && isShowKeyboard) {
       return setStyleRemoveBtn({
-        ...styles.changedRemoveBtnAndroid,
+        ...styles.removeBtn,
+        ...styles.changedRemoveBtn,
       });
     }
-  }, [isShowKeyboard, platform.current]);
+  }, [state, isShowKeyboard]);
 
   if (!permission) {
     return <LoaderScreen />;
@@ -202,7 +211,7 @@ export const CreatePosts = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         {/* main content */}
-        <View style={{ ...styles.container }}>
+        <View style={styles.container}>
           <View style={styles.cameraWrp}>
             <Camera
               style={
@@ -213,19 +222,7 @@ export const CreatePosts = () => {
               type={type}
               ref={cameraRef}
             >
-              {state.photoUri !== '' && (
-                <View style={styles.takePhotoContainer}>
-                  <Image
-                    source={{ uri: state.photoUri }}
-                    style={
-                      isShowKeyboard
-                        ? { ...styles.photo, height: hp('22%') }
-                        : { ...styles.photo }
-                    }
-                    resizeMode="contain"
-                  />
-                </View>
-              )}
+          
               <TouchableOpacity
                 style={styles.buttonCapture}
                 onPress={takePhoto}
@@ -239,6 +236,20 @@ export const CreatePosts = () => {
               >
                 <Feather name="repeat" size={24} color="white" />
               </TouchableOpacity>
+
+              {state.photoUri !== '' && (
+                <View style={styles.takePhotoContainer}>
+                  <Image
+                    source={{ uri: state.photoUri }}
+                    style={
+                      isShowKeyboard
+                        ? { ...styles.photo, height: hp('22%') }
+                        : { ...styles.photo }
+                    }
+                    resizeMode="contain"
+                  />
+                </View>
+              )}
             </Camera>
           </View>
 
@@ -256,8 +267,6 @@ export const CreatePosts = () => {
 
           <View
             style={{
-              // paddingVertical: isShowKeyboard ? 8 : 32,
-              // gap: isShowKeyboard ? 4 : 16,
               paddingVertical: isShowKeyboard ? hp('0.96%') : hp('3.8%'),
               gap: isShowKeyboard ? hp('0.48%') : hp('1.92%'),
             }}
@@ -316,7 +325,20 @@ export const CreatePosts = () => {
               />
             </View>
           </View>
+        </View>
 
+        {/* buttons */}
+        <View
+          style={
+            !isShowKeyboard
+              ? { ...styles.buttonsWrp }
+              : {
+                  ...styles.buttonsWrp,
+                  flexDirection: 'row-reverse',
+                  marginTop: hp('5%'),
+                }
+          }
+        >
           <TouchableOpacity
             style={styleSendBtn}
             onPress={publishPost}
@@ -332,17 +354,13 @@ export const CreatePosts = () => {
               Опублікувати
             </Text>
           </TouchableOpacity>
-        </View>
 
-        {/* bottom bar */}
-        <View style={styleRemoveBtn}>
           <TouchableOpacity
-            style={
-              !state.photoUri
-                ? styles.removeBtn
-                : { ...styles.removeBtn, ...styles.activeRemoveBtn }
-            }
-            onPress={() => setState(INITIAL_POST)}
+            style={styleRemoveBtn}
+            onPress={() => {
+              setState(INITIAL_POST);
+              hideKeyboard();
+            }}
             disabled={!state.photoUri}
           >
             <AntDesign
