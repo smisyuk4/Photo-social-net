@@ -19,7 +19,7 @@ const screenOptions = ({ route }) => ({
   tabBarIcon: ({ focused, color, size }) => {
     let tabBarItem;
 
-    if (route.name === 'Post') {
+    if (route.name === 'Posts') {
       tabBarItem = focused ? (
         <View style={styles.tabItemActive}>
           <AntDesign
@@ -82,9 +82,9 @@ const screenOptions = ({ route }) => ({
 
 export const Home = ({ navigation, route, options, back }) => {
   return (
-    <Tabs.Navigator initialRouteName="Post" screenOptions={screenOptions}>
+    <Tabs.Navigator initialRouteName="Posts" screenOptions={screenOptions}>
       <Tabs.Screen
-        name="Post"
+        name="Posts"
         component={PostsScreen}
         options={{
           title: 'Публікації',

@@ -26,7 +26,7 @@ const INITIAL_POST = {
   location: {},
 };
 
-export const CreatePosts = () => {
+export const CreatePosts = ({ navigation }) => {
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -202,6 +202,8 @@ export const CreatePosts = () => {
     setState(INITIAL_POST);
     hideKeyboard();
     console.log('state ', state);
+    
+    navigation.navigate('Posts', state)
   };
 
   return (
@@ -222,7 +224,6 @@ export const CreatePosts = () => {
               type={type}
               ref={cameraRef}
             >
-          
               <TouchableOpacity
                 style={styles.buttonCapture}
                 onPress={takePhoto}

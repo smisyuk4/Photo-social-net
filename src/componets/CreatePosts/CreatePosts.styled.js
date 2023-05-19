@@ -31,19 +31,15 @@ export const styles = StyleSheet.create({
   takePhotoContainer: {
     position: 'absolute',
     top: 0,
-    // zIndex: 'auto',
     backgroundColor: '#E8E8E8',
   },
   photo: {
-    // position: 'relative',
-    // zIndex: 'auto',
     height: hp('28.8%'),
     width: wp('100%'),
   },
   buttonCapture: {
     height: 60,
     width: 60,
-    // zIndex: 0,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
