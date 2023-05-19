@@ -202,8 +202,8 @@ export const CreatePosts = ({ navigation }) => {
     setState(INITIAL_POST);
     hideKeyboard();
     console.log('state ', state);
-    
-    navigation.navigate('Posts', state)
+
+    navigation.navigate('PostsScreen', {screen: 'Posts', params: state})
   };
 
   return (

@@ -1,10 +1,10 @@
 import { TouchableOpacity, View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Feather } from '@expo/vector-icons';
-
 import { PostsScreen } from '../PostsScreen';
 import { CreatePostsScreen } from '../CreatePostsScreen';
 import { ProfileScreen } from '../ProfileScreen';
+
 import { styles } from './Home.styles';
 
 const Tabs = createBottomTabNavigator();
@@ -19,7 +19,7 @@ const screenOptions = ({ route }) => ({
   tabBarIcon: ({ focused, color, size }) => {
     let tabBarItem;
 
-    if (route.name === 'Posts') {
+    if (route.name === 'PostsScreen') {
       tabBarItem = focused ? (
         <View style={styles.tabItemActive}>
           <AntDesign
@@ -80,11 +80,11 @@ const screenOptions = ({ route }) => ({
   tabBarItemStyle: styles.tabBarItem,
 });
 
-export const Home = ({ navigation, route, options, back }) => {
+export const Home = ({ navigation, route, options }) => {
   return (
-    <Tabs.Navigator initialRouteName="Posts" screenOptions={screenOptions}>
+    <Tabs.Navigator initialRouteName="PostsScreen" screenOptions={screenOptions} >
       <Tabs.Screen
-        name="Posts"
+        name="PostsScreen"
         component={PostsScreen}
         options={{
           title: 'Публікації',

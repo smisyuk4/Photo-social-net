@@ -1,9 +1,7 @@
 import { useFonts } from 'expo-font';
-import { TouchableOpacity, View, Text, Button } from 'react-native';
-// import * as SplashScreen from 'expo-splash-screen';
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+// import * as SplashScreen from 'expo-splash-screen';
 import {
   LoaderScreen,
   RegistrationScreen,
@@ -14,7 +12,6 @@ import {
 // SplashScreen.preventAutoHideAsync();
 
 const MainStack = createStackNavigator();
-// const AuthStack = createStackNavigator();
 
 const screenOptions = {
   headerShown: false,
@@ -40,13 +37,13 @@ const useRoute = isAuth => {
   );
 };
 
-export default function App() {
+export const App = () => {
   const [fontsLoaded] = useFonts({
     'Roboto-Italic': require('./src/fonts/Roboto/Roboto-Italic.ttf'),
     'Roboto-Regular': require('./src/fonts/Roboto/Roboto-Regular.ttf'),
   });
 
-  const routing = useRoute(true); // null
+  const routing = useRoute(true);
 
   // const onLayoutRootView = useCallback(async () => {
   //   if (fontsLoaded) {
@@ -59,4 +56,6 @@ export default function App() {
   }
 
   return <NavigationContainer>{routing}</NavigationContainer>;
-}
+};
+
+export default App;
