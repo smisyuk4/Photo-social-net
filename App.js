@@ -71,6 +71,7 @@ const useRoute = isAuth => {
         component={CommentsScreen}
         options={{
           title: 'Коментарі',
+          headerRight: null,
         }}
       />
 
@@ -79,6 +80,7 @@ const useRoute = isAuth => {
         component={MapScreen}
         options={{
           title: 'Карта',
+          headerRight: null,
         }}
       />
     </MainStack.Navigator>

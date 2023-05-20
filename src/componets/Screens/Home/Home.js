@@ -128,6 +128,7 @@ export const Home = ({ navigation, route, options }) => {
         component={ProfileScreen}
         options={{
           title: 'Кабінет користувача',
+          headerLeft: null,
         }}
       />
     </Tabs.Navigator>
