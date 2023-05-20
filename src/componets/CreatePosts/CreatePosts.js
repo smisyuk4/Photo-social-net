@@ -18,6 +18,7 @@ import * as Location from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
+import { ModalWrp } from '../ModalWrp';
 import { styles } from './CreatePosts.styled';
 
 const INITIAL_POST = {
@@ -38,6 +39,7 @@ export const CreatePosts = ({ navigation }) => {
   });
   const [styleSendBtn, setStyleSendBtn] = useState({});
   const [styleRemoveBtn, setStyleRemoveBtn] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -203,7 +205,7 @@ export const CreatePosts = ({ navigation }) => {
     hideKeyboard();
     console.log('state ', state);
 
-    navigation.navigate('PostsScreen', {screen: 'Posts', params: state})
+    navigation.navigate('PostsScreen', { screen: 'Posts', params: state });
   };
 
   return (
@@ -290,10 +292,13 @@ export const CreatePosts = ({ navigation }) => {
               placeholder="Назва..."
             />
 
-            <View>
+            <View  style={styles.locationWrp}>
               <TouchableOpacity
                 style={styles.buttonLocation}
-                onPress={() => {}}
+                onPress={() => {
+                  setModalVisible(true)
+                  console.log('open - modal')
+                }}
               >
                 <Feather
                   name="map-pin"
@@ -301,6 +306,7 @@ export const CreatePosts = ({ navigation }) => {
                   color={styles.locationIcon.fill}
                 />
               </TouchableOpacity>
+
               <TextInput
                 style={{
                   ...styles.input,
@@ -323,6 +329,17 @@ export const CreatePosts = ({ navigation }) => {
                 onBlur={() => handleInputBlur('location')}
                 inputMode="text"
                 placeholder="Місцевість..."
+              />
+
+              <ModalWrp
+                title="Місцезнаходження"
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+                location={{
+                  latitude: 37.785834,
+                  longitude: -122.406417,
+                  title: 'test',
+                }}
               />
             </View>
           </View>

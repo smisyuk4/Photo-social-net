@@ -60,6 +60,7 @@ export const styles = StyleSheet.create({
   input: {
     height: 50,
     paddingVertical: hp('1.92%'),
+    // paddingLeft: 0,
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     fontWeight: '500',
@@ -67,12 +68,17 @@ export const styles = StyleSheet.create({
     color: '#212121',
     borderBottomWidth: 1,
   },
+  locationWrp: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   inputLocation: {
-    paddingLeft: wp('8.4%'),
+    flexDirection: 'column',
+    flex: 24,
   },
   buttonLocation: {
-    position: 'absolute',
-    top: 12,
+    flex: 2,
   },
   locationIcon: {
     fill: '#BDBDBD',
