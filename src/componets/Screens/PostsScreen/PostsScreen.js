@@ -30,6 +30,7 @@ export const PostsScreen = ({ navigation }) => {
         component={PostsList}
         options={{
           title: 'Публікації',
+          headerTitleAlign: 'center',
           headerRight: () => (
             <Feather
               name="log-out"
@@ -46,6 +47,7 @@ export const PostsScreen = ({ navigation }) => {
         component={CommentsScreen}
         options={{
           title: 'Коментарі',
+          headerTitleAlign: 'center',
           headerLeft: () => (
             <Feather
               name="arrow-left"
@@ -63,6 +65,7 @@ export const PostsScreen = ({ navigation }) => {
         component={MapScreen}
         options={{
           title: 'Карта',
+          headerTitleAlign: 'center',
           headerLeft: () => (
             <Feather
               name="arrow-left"
