@@ -8,6 +8,11 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    marginTop: hp('3.8%'),
+    marginVertical: hp('3.8%'),
   },
+  mapStyle:{
+    borderRadius: 8,
+    width: '100%',
+    height: '100%',
+  }
 });

@@ -7,7 +7,9 @@ export const Post = ({ post, navigation }) => {
   return (
     <View style={styles.postWrp}>
       <Image source={{ uri: post.photoUri }} style={styles.photo} />
-      <Text style={styles.titlePost} ellipsizeMode="tail" numberOfLines={1}>title: {post.titlePost}</Text>
+      <Text style={styles.titlePost} ellipsizeMode="tail" numberOfLines={1}>
+        {post.titlePost}
+      </Text>
 
       <View style={styles.buttonsWrp}>
         <TouchableOpacity
@@ -26,13 +28,13 @@ export const Post = ({ post, navigation }) => {
 
         <TouchableOpacity
           style={styles.buttonLocation}
-          onPress={() => navigation.navigate('Map')}
+          onPress={() => navigation.navigate('Map', post)}
         >
           <View style={styles.mapIcon}>
             <Feather name="map-pin" size={24} color={styles.mapIcon.fill} />
           </View>
           <Text style={styles.mapTitle} ellipsizeMode="tail" numberOfLines={1}>
-            location{post.location.title}
+            {post.location.title}
           </Text>
         </TouchableOpacity>
       </View>
