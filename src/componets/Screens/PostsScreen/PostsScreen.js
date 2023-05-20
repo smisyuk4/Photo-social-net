@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+// import { useState, useEffect, useRef } from 'react';
+// import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Feather } from '@expo/vector-icons';
 import { PostsList } from '../../PostsList/PostsList';
@@ -10,6 +11,18 @@ import { styles } from './PostsScreen.styles';
 const PostStack = createStackNavigator();
 
 export const PostsScreen = ({ navigation }) => {
+
+  // useEffect(() => {
+  //   navigation.setOptions({ 
+  //     // tabBarVisible: false 
+  //     title: 'test'
+  //   })
+  //   // navigation.setOptions({
+  //   //   title: value === '' ? 'No title' : value,
+  //   // });
+  // }, [navigation]);
+
+
   return (
     <PostStack.Navigator>
       <PostStack.Screen
@@ -21,7 +34,7 @@ export const PostsScreen = ({ navigation }) => {
             <Feather
               name="log-out"
               size={24}
-              color="black"
+              color={styles.header.colorSecondary}
               onPress={navigation.goBack}
             />
           ),
@@ -37,11 +50,11 @@ export const PostsScreen = ({ navigation }) => {
             <Feather
               name="arrow-left"
               size={24}
-              color="black"
+              color={styles.header.colorPrimary}
               onPress={navigation.goBack}
             />
           ),
-          tabBarStyle: { display: 'none' },
+          // tabBarStyle: { display: 'none' },
         }}
       />
 
@@ -54,11 +67,11 @@ export const PostsScreen = ({ navigation }) => {
             <Feather
               name="arrow-left"
               size={24}
-              color="black"
+              color={styles.header.colorPrimary}
               onPress={navigation.goBack}
             />
           ),
-          tabBarStyle: { display: 'none' },
+          // tabBarStyle: { display: 'none' },
         }}
       />
     </PostStack.Navigator>

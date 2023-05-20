@@ -91,8 +91,10 @@ export const Home = ({ navigation, route, options }) => {
         component={PostsScreen}
         options={{
           headerShown: false,
+          
         }}
       />
+
       <Tabs.Screen
         name="Create"
         component={CreatePostsScreen}
@@ -109,6 +111,7 @@ export const Home = ({ navigation, route, options }) => {
           tabBarStyle: { display: 'none' },
         }}
       />
+      
       <Tabs.Screen
         name="Profile"
         component={ProfileScreen}
