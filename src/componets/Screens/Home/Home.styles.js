@@ -2,7 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   header: {
-    color: '#212121',
+    colorPrimary: '#212121',
+    colorSecondary: '#BDBDBD',
   },
   headerTitle: {
     alignItems: 'center',

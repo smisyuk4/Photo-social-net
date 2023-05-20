@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Post } from '../Post';
 import { styles } from './PostsList.styles';
 
 export const PostsList = ({ navigation, route }) => {
-	console.log('PostsList ',route.params)
-  const [posts, setPosts] = useState([]); //POSTS
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     if (route.params) {
@@ -16,7 +15,8 @@ export const PostsList = ({ navigation, route }) => {
 
   if (posts.length === 0) {
     return (
-      <View style={{ ...styles.container, ...styles.emptyScreen }}>
+      <View style={styles.container}>
+        <User />
         <Text>Зараз у тебе немає фото, але можна зробити щось класне...</Text>
 
         <TouchableOpacity
@@ -34,205 +34,220 @@ export const PostsList = ({ navigation, route }) => {
       <FlatList
         data={posts}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <Post post={item} navigation={navigation} />}
+        renderItem={({ item, index }) => (
+          <>
+            {index === 0 && <User />}
+            <Post post={item} navigation={navigation} />
+          </>
+        )}
       />
     </View>
   );
 };
 
-
+const User = () => {
+  return (
+    <View style={styles.userWrp}>
+      <Image style={styles.userPhoto} />
+      <View style={styles.userInfoWrp}>
+        <Text style={styles.userName}>Name</Text>
+        <Text style={styles.userEmail}>Email</Text>
+      </View>
+    </View>
+  );
+};
 
 const POSTS = [
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-	{
-	  location: {
-		latitude: 37.785834,
-		longitude: -122.406417,
-		postAddress: {
-		  street: 'Stockton St',
-		  city: 'Сан-Франциско',
-		  country: 'Сполучені Штати Америки',
-		  region: 'CA',
-		  district: 'Union Square',
-		},
-	  },
-	  photoUri:
-		'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
-	  titlePost: '',
-	},
-  ];
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+  {
+    location: {
+      latitude: 37.785834,
+      longitude: -122.406417,
+      postAddress: {
+        street: 'Stockton St',
+        city: 'Сан-Франциско',
+        country: 'Сполучені Штати Америки',
+        region: 'CA',
+        district: 'Union Square',
+      },
+    },
+    photoUri:
+      'file:///Users/sergiimisyuk/Library/Developer/CoreSimulator/Devices/0A5769BA-577D-404B-8727-6E0407760A36/data/Containers/Data/Application/C5A38197-ABA3-4E1B-B570-0AA80041BAEC/Library/Caches/ExponentExperienceData/%2540anonymous%252FMyPain-fc1e4b88-0b84-4949-ae78-6c3d5dad91e3/Camera/574A3359-8CA3-4DBD-B9B8-42230AE1AA82.jpg',
+    titlePost: '',
+  },
+];

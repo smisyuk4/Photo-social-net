@@ -2,6 +2,7 @@ import { TouchableOpacity, View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { PostsScreen } from '../PostsScreen';
+import { PostsList } from '../../PostsList/PostsList';
 import { CreatePostsScreen } from '../CreatePostsScreen';
 import { ProfileScreen } from '../ProfileScreen';
 
@@ -9,13 +10,29 @@ import { styles } from './Home.styles';
 
 const Tabs = createBottomTabNavigator();
 
-const screenOptions = ({ route }) => ({
-  headerTintColor: styles.header.color,
+const screenOptions = ({ navigation, route }) => ({
+  headerTintColor: styles.header.colorPrimary,
   headerTitleAlign: styles.headerTitle.alignItems,
   headerTitleStyle: styles.headerTitle,
   headerTitleContainerStyle: styles.headerContainerItem,
   headerRightContainerStyle: styles.headerContainerItem,
   headerLeftContainerStyle: styles.headerContainerItem,
+  headerLeft: () => (
+    <Feather
+      name="arrow-left"
+      size={24}
+      color={styles.header.colorPrimary}
+      onPress={navigation.goBack}
+    />
+  ),
+  headerRight: () => (
+    <Feather
+      name="log-out"
+      size={24}
+      color={styles.header.colorSecondary}
+      onPress={navigation.goBack}
+    />
+  ),
   tabBarIcon: ({ focused, color, size }) => {
     let tabBarItem;
 
@@ -90,8 +107,9 @@ export const Home = ({ navigation, route, options }) => {
         name="PostsScreen"
         component={PostsScreen}
         options={{
-          headerShown: false,
-          
+          title: 'Публікації',
+          headerLeft: null,
+          // headerShown: false,
         }}
       />
 
@@ -100,31 +118,16 @@ export const Home = ({ navigation, route, options }) => {
         component={CreatePostsScreen}
         options={{
           title: 'Створити публікацію',
-          headerLeft: () => (
-            <Feather
-              name="arrow-left"
-              size={24}
-              color={styles.header.color}
-              onPress={navigation.goBack}
-            />
-          ),
+          headerRight: null,
           tabBarStyle: { display: 'none' },
         }}
       />
-      
+
       <Tabs.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
           title: 'Кабінет користувача',
-          headerLeft: () => (
-            <Feather
-              name="arrow-left"
-              size={24}
-              color={styles.header.color}
-              onPress={navigation.goBack}
-            />
-          ),
         }}
       />
     </Tabs.Navigator>
