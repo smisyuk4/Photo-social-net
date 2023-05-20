@@ -183,6 +183,11 @@ export const CreatePosts = ({ navigation }) => {
     }
   };
 
+  const getCustomLocation = async () => {
+    await getLocation();
+    setModalVisible(true);
+  };
+
   const hideKeyboard = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
@@ -292,13 +297,10 @@ export const CreatePosts = ({ navigation }) => {
               placeholder="Назва..."
             />
 
-            <View  style={styles.locationWrp}>
+            <View style={styles.locationWrp}>
               <TouchableOpacity
                 style={styles.buttonLocation}
-                onPress={() => {
-                  setModalVisible(true)
-                  console.log('open - modal')
-                }}
+                onPress={getCustomLocation}
               >
                 <Feather
                   name="map-pin"
@@ -331,16 +333,19 @@ export const CreatePosts = ({ navigation }) => {
                 placeholder="Місцевість..."
               />
 
-              <ModalWrp
-                title="Місцезнаходження"
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
-                location={{
-                  latitude: 37.785834,
-                  longitude: -122.406417,
-                  title: 'test',
-                }}
-              />
+              {modalVisible && (
+                <ModalWrp
+                  title="Місцезнаходження"
+                  location={state.location}
+                  // location={{
+                  //   latitude: 37.785834,
+                  //   longitude: -122.406417,
+                  //   title: 'test',
+                  // }}
+                  modalVisible={modalVisible}
+                  setModalVisible={setModalVisible}
+                />
+              )}
             </View>
           </View>
         </View>

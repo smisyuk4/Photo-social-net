@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { Alert, Modal, Text, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { AntDesign } from '@expo/vector-icons';
@@ -5,13 +6,18 @@ import { styles } from './ModalWrp.styles';
 
 export const ModalWrp = ({
   title,
+  location,
   modalVisible,
   setModalVisible,
-  location,
 }) => {
+  console.log('location come', location);
+
+  const [draggableMarkerCoords, setDraggableMarkerCoords] = useState(location);
+  console.log('location dragg', draggableMarkerCoords);
+
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
@@ -41,7 +47,14 @@ export const ModalWrp = ({
               showsUserLocation={true}
             >
               {location && (
-                <Marker title={location.title} coordinate={location} />
+                <Marker
+                  draggable
+                  title={location.title ? location.title : null}
+                  coordinate={draggableMarkerCoords}
+                  onDragEnd={e =>
+                    setDraggableMarkerCoords(e.nativeEvent.coordinate)
+                  }
+                />
               )}
             </MapView>
           </View>
