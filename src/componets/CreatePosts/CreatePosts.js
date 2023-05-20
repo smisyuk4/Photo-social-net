@@ -184,8 +184,16 @@ export const CreatePosts = ({ navigation }) => {
   };
 
   const getCustomLocation = async () => {
-    await getLocation();
+    // if(state.location){
+    //   await getLocation();
+    // }
+   
     setModalVisible(true);
+  };
+
+  const draggableMarker = data => {
+    console.log('newData ', data);
+    setState(prev => ({ ...prev, location: { ...data } }));
   };
 
   const hideKeyboard = () => {
@@ -337,13 +345,9 @@ export const CreatePosts = ({ navigation }) => {
                 <ModalWrp
                   title="Місцезнаходження"
                   location={state.location}
-                  // location={{
-                  //   latitude: 37.785834,
-                  //   longitude: -122.406417,
-                  //   title: 'test',
-                  // }}
                   modalVisible={modalVisible}
                   setModalVisible={setModalVisible}
+                  draggableMarker={draggableMarker}
                 />
               )}
             </View>

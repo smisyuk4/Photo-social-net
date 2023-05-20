@@ -34,7 +34,9 @@ export const Post = ({ post, navigation }) => {
             <Feather name="map-pin" size={24} color={styles.mapIcon.fill} />
           </View>
           <Text style={styles.mapTitle} ellipsizeMode="tail" numberOfLines={1}>
-            {post.location.title}
+            {post.location.title
+              ? post.location.title
+              : `${post.location.postAddress.city}, ${post.location.postAddress.street}`}
           </Text>
         </TouchableOpacity>
       </View>

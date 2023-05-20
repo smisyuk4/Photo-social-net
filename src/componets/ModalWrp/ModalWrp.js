@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Alert, Modal, Text, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { AntDesign } from '@expo/vector-icons';
@@ -9,11 +9,14 @@ export const ModalWrp = ({
   location,
   modalVisible,
   setModalVisible,
+  draggableMarker,
 }) => {
-  console.log('location come', location);
-
   const [draggableMarkerCoords, setDraggableMarkerCoords] = useState(location);
-  console.log('location dragg', draggableMarkerCoords);
+
+  const closeAndElevate = () => {
+    setModalVisible(!modalVisible);
+    draggableMarker(draggableMarkerCoords);
+  };
 
   return (
     <Modal
@@ -31,7 +34,7 @@ export const ModalWrp = ({
 
           <TouchableOpacity
             style={styles.buttonClose}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={closeAndElevate}
           >
             <AntDesign name="close" size={24} color="#fff" />
           </TouchableOpacity>
@@ -48,12 +51,16 @@ export const ModalWrp = ({
             >
               {location && (
                 <Marker
-                  draggable
+                  draggable={true}
                   title={location.title ? location.title : null}
                   coordinate={draggableMarkerCoords}
-                  onDragEnd={e =>
-                    setDraggableMarkerCoords(e.nativeEvent.coordinate)
-                  }
+                  onDragEnd={e => {
+                    const newCoords = e.nativeEvent.coordinate;
+                    setDraggableMarkerCoords(prev => ({
+                      ...prev,
+                      ...newCoords,
+                    }));
+                  }}
                 />
               )}
             </MapView>
