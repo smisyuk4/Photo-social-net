@@ -82,21 +82,15 @@ const screenOptions = ({ route }) => ({
 
 export const Home = ({ navigation, route, options }) => {
   return (
-    <Tabs.Navigator initialRouteName="PostsScreen" screenOptions={screenOptions} >
+    <Tabs.Navigator
+      initialRouteName="PostsScreen"
+      screenOptions={screenOptions}
+    >
       <Tabs.Screen
         name="PostsScreen"
         component={PostsScreen}
         options={{
-          title: 'Публікації',
-
-          headerRight: () => (
-            <Feather
-              name="log-out"
-              size={24}
-              color={styles.headerExitBtn.color}
-              onPress={navigation.goBack}
-            />
-          ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen

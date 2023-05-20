@@ -15,7 +15,17 @@ export const PostsScreen = ({ navigation }) => {
       <PostStack.Screen
         name="Posts"
         component={PostsList}
-        options={{ headerShown: false }}
+        options={{
+          title: 'Публікації',
+          headerRight: () => (
+            <Feather
+              name="log-out"
+              size={24}
+              color="black"
+              onPress={navigation.goBack}
+            />
+          ),
+        }}
       />
 
       <PostStack.Screen
