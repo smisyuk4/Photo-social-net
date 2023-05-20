@@ -187,13 +187,13 @@ export const CreatePosts = ({ navigation }) => {
     // if(state.location){
     //   await getLocation();
     // }
-   
+
     setModalVisible(true);
   };
 
-  const draggableMarker = data => {
-    console.log('newData ', data);
-    setState(prev => ({ ...prev, location: { ...data } }));
+  const draggableMarker = async coords => {
+    const [postAddress] = await Location.reverseGeocodeAsync(coords);
+    setState(prev => ({ ...prev, location: { ...coords, postAddress } }));
   };
 
   const hideKeyboard = () => {
