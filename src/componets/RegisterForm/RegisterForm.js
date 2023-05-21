@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { signup } from '../../../redux/auth/authReducer';
 import {
   View,
   Text,
@@ -23,12 +25,7 @@ export const RegisterForm = ({
   navigation,
 }) => {
   const [state, setState] = useState({ ...INITIAL_STATE });
-
-  const submit = () => {
-    console.log(state);
-    setState(INITIAL_STATE);
-    hideKeyboard();
-  };
+  const dispatch = useDispatch()
 
   // border
   const [isActiveInput, setIsActiveInput] = useState({
@@ -53,6 +50,14 @@ export const RegisterForm = ({
 
   const toggleShowPassword = () => {
     setIsShowPassword(prevState => !prevState);
+  };
+
+  const submit = () => {
+    console.log(state);
+    hideKeyboard();
+    dispatch(signup(state))
+    setState(INITIAL_STATE);
+    //  navigation.navigate('Home', {}
   };
 
   return (
@@ -145,7 +150,7 @@ export const RegisterForm = ({
           <View style={{ display: isShowKeyboard ? 'none' : 'flex' }}>
             <TouchableOpacity
               style={styles.buttonForm}
-              onPress={() => navigation.navigate('Home', {})}
+              onPress={submit}
             >
               <Text style={styles.buttonFormText}>{'Зареєструватись'}</Text>
             </TouchableOpacity>

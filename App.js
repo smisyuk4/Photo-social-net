@@ -1,4 +1,4 @@
-import { Provider } from 'react-redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 import { store } from './redux/store';
 import { StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -95,7 +95,9 @@ export const App = () => {
     'Roboto-Regular': require('./src/fonts/Roboto/Roboto-Regular.ttf'),
   });
 
-  const routing = useRoute(true);
+//   const isLoggedIn = useSelector((state) => state)
+// console.log(isLoggedIn)
+  const routing = useRoute(false);
 
   // const onLayoutRootView = useCallback(async () => {
   //   if (fontsLoaded) {
@@ -116,7 +118,7 @@ export const App = () => {
 
 export default App;
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   header: {
     colorPrimary: '#212121',
     colorSecondary: '#BDBDBD',
