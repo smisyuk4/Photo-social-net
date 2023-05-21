@@ -1,3 +1,5 @@
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 import { StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
@@ -105,7 +107,11 @@ export const App = () => {
     return <LoaderScreen />;
   }
 
-  return <NavigationContainer>{routing}</NavigationContainer>;
+  return (
+    <Provider store={store}>
+      <NavigationContainer>{routing}</NavigationContainer>
+    </Provider>
+  );
 };
 
 export default App;
