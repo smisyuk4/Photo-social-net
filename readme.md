@@ -49,3 +49,9 @@
 - [npx expo install expo-image-picker](https://docs.expo.dev/versions/latest/sdk/imagepicker/)
 - [npx expo install expo-location](https://docs.expo.dev/versions/latest/sdk/location/)
 ![App screenshot](https://i.ibb.co/6wGwJDH/2023-05-18-00-45-47.png)
+
+## Redux and Firebase
+
+
+- `validation`
+- Firebase: Password should be at least 6 characters (auth/weak-password).

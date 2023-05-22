@@ -3,13 +3,20 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { auth } from '../../firebase/config';
+import { updateUserProfile } from './authReducer';
 
 export const authSignUpUser =
   ({ login, email, password }) =>
   async (dispatch, state) => {
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
       console.log('user authSignUpUser', user);
+      dispatch(updateUserProfile({ ...user, login }));
     } catch (error) {
       console.log(error.message);
     }
