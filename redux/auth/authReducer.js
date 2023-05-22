@@ -4,9 +4,7 @@ const initialState = {
   login: null,
   userId: null,
   email: '',
-  stateChange: null,
-  // password: '',
-  // isLoggedIn: false,
+  stateChange: false,
 };
 
 export const authSlice = createSlice({
@@ -25,6 +23,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { updateUserProfile } = authSlice.actions;
+export const { updateUserProfile, authStateChange } = authSlice.actions;
 
 export default authSlice.reducer;

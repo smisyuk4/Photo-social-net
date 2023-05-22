@@ -1,0 +1,1 @@
+export const selectStateChange = state => state.auth.stateChange

@@ -1,11 +1,7 @@
-import { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { useFonts } from 'expo-font';
-import { NavigationContainer } from '@react-navigation/native';
-import { auth } from './firebase/config';
-import { onAuthStateChanged } from 'firebase/auth';
-import { useRoute } from './src/routes';
+import { Main } from './src/componets/Main';
 import { LoaderScreen } from './src/Screens/LoaderScreen';
 
 export const App = () => {
@@ -13,11 +9,6 @@ export const App = () => {
     'Roboto-Italic': require('./src/fonts/Roboto/Roboto-Italic.ttf'),
     'Roboto-Regular': require('./src/fonts/Roboto/Roboto-Regular.ttf'),
   });
-  const [user, setUser] = useState(null);
-
-  onAuthStateChanged(auth, user => setUser(user));
-
-  const routing = useRoute(user);
 
   if (!fontsLoaded) {
     return <LoaderScreen />;
@@ -25,7 +16,7 @@ export const App = () => {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>{routing}</NavigationContainer>
+      <Main />
     </Provider>
   );
 };

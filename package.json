@@ -6,6 +6,7 @@
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19000'",
     "start": "expo start",
     "cache": "expo start -c",
+    "clear": "npx expo start --clear",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
