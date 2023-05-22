@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { authSignInUser } from '../../../redux/auth/authOperations';
 import {
   View,
   Text,
@@ -22,11 +24,14 @@ export const LoginForm = ({
   navigation,
 }) => {
   const [state, setState] = useState({ ...INITIAL_STATE });
+  const dispatch = useDispatch()
 
   const submit = () => {
     console.log(state);
+    dispatch(authSignInUser(state))
     setState(INITIAL_STATE);
     hideKeyboard();
+    // navigation.navigate('Home', {})
   };
 
   // border
@@ -124,7 +129,7 @@ export const LoginForm = ({
           <View style={{ display: isShowKeyboard ? 'none' : 'flex' }}>
             <TouchableOpacity
               style={styles.buttonForm}
-              onPress={() => navigation.navigate('Home', {})}
+              onPress={submit}
             >
               <Text style={styles.buttonFormText}>{'Вхід'}</Text>
             </TouchableOpacity>

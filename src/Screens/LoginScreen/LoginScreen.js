@@ -4,11 +4,11 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { RegisterForm } from '../../RegisterForm';
-import { styles } from './RegistrationScreen.styles';
-import image from '../../../images/photoBg.jpeg';
+import { LoginForm } from '../../componets/LoginForm';
+import { styles } from './LoginScreen.styles';
+import image from '../../images/photoBg.jpeg';
 
-export const RegistrationScreen = ({ navigation }) => {
+export const LoginScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const hideKeyboard = () => {
@@ -23,7 +23,7 @@ export const RegistrationScreen = ({ navigation }) => {
       // onLayout={onLayoutRootView}
     >
       <ImageBackground source={image} style={styles.imageBg}>
-        <RegisterForm
+        <LoginForm
           isShowKeyboard={isShowKeyboard}
           setIsShowKeyboard={setIsShowKeyboard}
           hideKeyboard={hideKeyboard}

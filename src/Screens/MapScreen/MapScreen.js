@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { styles } from './MapScreen.styles';
 
@@ -23,9 +23,7 @@ export const MapScreen = ({ navigation, route }) => {
         }}
         showsUserLocation={true}
       >
-        {location && (
-          <Marker title={location.title} coordinate={location} /> //description="Hello"
-        )}
+        {location && <Marker title={location.title} coordinate={location} />}
       </MapView>
     </View>
   );

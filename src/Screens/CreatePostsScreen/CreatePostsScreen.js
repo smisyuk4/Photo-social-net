@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { CreatePosts } from '../../CreatePosts';
+import { CreatePosts } from '../../componets/CreatePosts';
 import { styles } from './CreatePostsScreen.styles';
 
 export const CreatePostsScreen = ({navigation}) => {

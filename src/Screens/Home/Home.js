@@ -1,11 +1,9 @@
-import { TouchableOpacity, View, Text } from 'react-native';
+import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { PostsScreen } from '../PostsScreen';
-import { PostsList } from '../../PostsList/PostsList';
 import { CreatePostsScreen } from '../CreatePostsScreen';
 import { ProfileScreen } from '../ProfileScreen';
-
 import { styles } from './Home.styles';
 
 const Tabs = createBottomTabNavigator();

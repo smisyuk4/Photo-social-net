@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { signup } from '../../../redux/auth/authReducer';
+import { authSignUpUser } from '../../../redux/auth/authOperations';
 import {
   View,
   Text,
@@ -55,7 +55,7 @@ export const RegisterForm = ({
   const submit = () => {
     console.log(state);
     hideKeyboard();
-    dispatch(signup(state))
+    dispatch(authSignUpUser(state))
     setState(INITIAL_STATE);
     //  navigation.navigate('Home', {}
   };

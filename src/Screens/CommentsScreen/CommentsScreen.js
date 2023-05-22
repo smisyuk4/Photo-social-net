@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+// import { useState, useEffect, useRef } from 'react';
+import { View, Text } from 'react-native';
 import { styles } from './CommentsScreen.styles';
 
 export const CommentsScreen = ({ navigation }) => {

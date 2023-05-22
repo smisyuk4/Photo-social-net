@@ -17,7 +17,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { LoaderScreen } from '../Screens/LoaderScreen/LoaderScreen';
+import { LoaderScreen } from '../../Screens/LoaderScreen';
 import { ModalWrp } from '../ModalWrp';
 import { styles } from './CreatePosts.styled';
 
