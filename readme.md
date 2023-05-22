@@ -35,7 +35,7 @@
 
 - встановив додатково двигун
 - треба зупустити емулятор і дебагер на одному порті
-- на емуляторі треба викликати меню розробника і там активувати 'debug remote js'
+- на емуляторі треба викликати меню розробника (command + d, cpmmand + m) і там активувати 'debug remote js'
 [expo.dev](https://docs.expo.dev/guides/using-hermes/)
 ![App screenshot](https://i.ibb.co/wwMvtrD/2023-04-15-13-09-32.png)
 
