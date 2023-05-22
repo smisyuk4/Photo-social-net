@@ -1,4 +1,6 @@
 import { View } from 'react-native';
+// import { useDispatch } from 'react-redux';
+// import { authSignOutUser } from '../../../redux/auth/authOperations';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { PostsScreen } from '../PostsScreen';
@@ -28,7 +30,7 @@ const screenOptions = ({ navigation, route }) => ({
       name="log-out"
       size={24}
       color={styles.header.colorSecondary}
-      onPress={navigation.goBack}
+      onPress={() => {}}
     />
   ),
   tabBarIcon: ({ focused, color, size }) => {
@@ -96,6 +98,7 @@ const screenOptions = ({ navigation, route }) => ({
 });
 
 export const Home = ({ navigation, route, options }) => {
+  // const dispatch = useDispatch();
   return (
     <Tabs.Navigator
       initialRouteName="PostsScreen"
