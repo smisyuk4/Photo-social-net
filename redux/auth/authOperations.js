@@ -22,12 +22,12 @@ export const authSignUpUser =
         // photoURL: 'https://example.com/jane-q-user/profile.jpg',
       });
 
-      const { uid, displayName } = await auth.currentUser;
+      const { uid, displayName, email: emailBase } = await auth.currentUser;
 
       const userProfile = {
         userId: uid,
         login: displayName,
-        email,
+        email: emailBase,
       };
 
       dispatch(updateUserProfile(userProfile));

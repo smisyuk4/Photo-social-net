@@ -1,15 +1,18 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { authSignUpUser } from '../../../redux/auth/authOperations';
 import {
   View,
   Text,
+  Image,
   TouchableOpacity,
   TextInput,
   Platform,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -17,9 +20,10 @@ import {
 import { styles } from './RegisterForm.styles';
 
 const INITIAL_STATE = {
-  login: '',
-  email: '',
-  password: '',
+  login: null,
+  email: null,
+  password: null,
+  avatarUri: null,
 };
 
 export const RegisterForm = ({
@@ -29,7 +33,7 @@ export const RegisterForm = ({
   navigation,
 }) => {
   const [state, setState] = useState({ ...INITIAL_STATE });
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // border
   const [isActiveInput, setIsActiveInput] = useState({
@@ -56,12 +60,42 @@ export const RegisterForm = ({
     setIsShowPassword(prevState => !prevState);
   };
 
-  const submit = () => {
+  // avatar
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       await MediaLibrary.requestPermissionsAsync();
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   })();
+  // }, []);
+
+  const pickImage = async () => {
+    try {
+      await MediaLibrary.requestPermissionsAsync();
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        setState(prev => ({ ...prev, avatarUri: result.assets[0].uri }));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const submit = async () => {
     console.log(state);
     hideKeyboard();
     dispatch(authSignUpUser(state))
+
     setState(INITIAL_STATE);
-    //  navigation.navigate('Home', {}
   };
 
   return (
@@ -71,10 +105,20 @@ export const RegisterForm = ({
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View
-          style={{ ...styles.form, paddingBottom: isShowKeyboard ? hp('12.5%') : hp('9%') }}
+          style={{
+            ...styles.form,
+            paddingBottom: isShowKeyboard ? hp('2%') : hp('9%'),
+          }}
         >
-          <View style={styles.avatar}>
-            <TouchableOpacity style={styles.buttonAvatar} onPress={() => {}}>
+          <View style={styles.avatarContainer}>
+            <View style={styles.avatarWrp}>
+              <Image
+                source={{ uri: state.avatarUri }}
+                style={styles.avatarImg}
+              />
+            </View>
+
+            <TouchableOpacity style={styles.buttonAvatar} onPress={pickImage}>
               <Text style={styles.buttonAvatarText}>{'+'}</Text>
             </TouchableOpacity>
           </View>
@@ -152,10 +196,7 @@ export const RegisterForm = ({
           </View>
 
           <View style={{ display: isShowKeyboard ? 'none' : 'flex' }}>
-            <TouchableOpacity
-              style={styles.buttonForm}
-              onPress={submit}
-            >
+            <TouchableOpacity style={styles.buttonForm} onPress={submit}>
               <Text style={styles.buttonFormText}>{'Зареєструватись'}</Text>
             </TouchableOpacity>
 

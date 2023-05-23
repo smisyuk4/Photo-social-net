@@ -69,14 +69,8 @@ export const LoginForm = ({
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View
-          style={{ ...styles.form, paddingBottom: isShowKeyboard ? hp('12.5%') : hp('9%') }}
+          style={{ ...styles.form, paddingBottom: isShowKeyboard ? hp('2%') : hp('15%') }}
         >
-          <View style={styles.avatar}>
-            <TouchableOpacity style={styles.buttonAvatar} onPress={() => {}}>
-              <Text style={styles.buttonAvatarText}>{'+'}</Text>
-            </TouchableOpacity>
-          </View>
-
           <Text style={styles.title}>Вхід</Text>
 
           <TextInput

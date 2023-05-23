@@ -1,3 +1,7 @@
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -12,19 +16,28 @@ export const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     backgroundColor: '#fff',
   },
-  avatar: {
+  avatarContainer: {
     position: 'absolute',
     top: -60,
-    height: 120,
-    width: 120,
     alignSelf: 'center',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     borderRadius: 16,
-    backgroundColor: '#F6F6F6',
+    backgroundColor: '#f6F6F6',
+  },
+  avatarWrp: {
+    borderRadius: 16,
+    overflow: 'hidden',
+    height: 120,
+    width: 120,
+  },
+  avatarImg: {
+    width: '100%',
+    height: '100%',
   },
   buttonAvatar: {
-    top: -14,
+    position: 'absolute',
+    bottom: 13,
     right: -13,
     height: 25,
     width: 25,

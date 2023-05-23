@@ -6,37 +6,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   form: {
-    paddingTop: 92,
+    paddingTop: 32,
     paddingHorizontal: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: '#fff',
-  },
-  avatar: {
-    position: 'absolute',
-    top: -60,
-    height: 120,
-    width: 120,
-    alignSelf: 'center',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    borderRadius: 16,
-    backgroundColor: '#F6F6F6',
-  },
-  buttonAvatar: {
-    top: -14,
-    right: -13,
-    height: 25,
-    width: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: '#FF6C00',
-    backgroundColor: '#ffffff',
-  },
-  buttonAvatarText: {
-    color: '#FF6C00',
   },
   title: {
     marginBottom: 16,
@@ -78,7 +52,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 100,
     backgroundColor: '#FF6C00',
-    // backgroundColor: 'red'
   },
   buttonFormText: {
     alignItems: 'center',
