@@ -43,8 +43,20 @@ export const useRoute = isAuth => {
         initialRouteName="Login"
         screenOptions={screenOptions}
       >
-        <MainStack.Screen name="Registration" component={RegistrationScreen} />
-        <MainStack.Screen name="Login" component={LoginScreen} />
+        <MainStack.Screen
+          name="Registration"
+          component={RegistrationScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <MainStack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
       </MainStack.Navigator>
     );
   }
