@@ -10,6 +10,10 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import { styles } from './LoginForm.styles';
 
 const INITIAL_STATE = {
@@ -65,7 +69,7 @@ export const LoginForm = ({
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View
-          style={{ ...styles.form, paddingBottom: isShowKeyboard ? 32 : 92 }}
+          style={{ ...styles.form, paddingBottom: isShowKeyboard ? hp('12.5%') : hp('9%') }}
         >
           <View style={styles.avatar}>
             <TouchableOpacity style={styles.buttonAvatar} onPress={() => {}}>
