@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19000'",
     "start": "expo start",
     "cache": "expo start -c",
     "clear": "npx expo start --clear",

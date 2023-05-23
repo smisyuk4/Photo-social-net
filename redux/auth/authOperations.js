@@ -6,7 +6,7 @@ import {
   signOut,
 } from 'firebase/auth';
 import { auth } from '../../firebase/config';
-import { updateUserProfile, authStateChange } from './authReducer';
+import { updateUserProfile, authStateChange, authSignOut } from './authReducer';
 
 export const authSignUpUser =
   ({ login, email, password }) =>
@@ -15,6 +15,7 @@ export const authSignUpUser =
       await createUserWithEmailAndPassword(auth, email, password);
 
       const user = auth.currentUser;
+      console.log(user)
 
       await updateProfile(user, {
         displayName: login,
@@ -26,6 +27,7 @@ export const authSignUpUser =
       const userProfile = {
         userId: uid,
         login: displayName,
+        email,
       };
 
       dispatch(updateUserProfile(userProfile));
@@ -62,12 +64,5 @@ export const authStateChangeUser = () => async (dispatch, state) => {
 export const authSignOutUser = () => async (dispatch, state) => {
   await signOut(auth);
 
-  const userProfile = {
-    userId: null,
-    login: null,
-    stateChange: false,
-  };
-
-  dispatch(authStateChange(userProfile));
-  console.log('signOut success');
+  dispatch(authSignOut());
 };
