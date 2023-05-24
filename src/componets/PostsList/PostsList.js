@@ -6,7 +6,7 @@ import {
   selectStateAvatar,
 } from '../../../redux/selectors';
 import { db } from '../../../firebase/config';
-import { collection, getDocs, doc, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Post } from '../Post';
@@ -23,20 +23,16 @@ export const PostsList = ({ navigation }) => {
     getAllPosts();
   }, []);
 
-  const getAllPosts = async () => {
-    const dbRef = collection(db, 'posts');
+  const getAllPosts = () => {
+    try {
+      const dbRef = collection(db, 'posts');
 
-    let posts = [];
-    onSnapshot(dbRef, docsSnap => {
-      docsSnap.forEach(doc => {
-        // якісь проблеми з додаванням постів, виходить постіно дублюються
-        
-        // setPosts(prev => [...prev, { id: doc.id, ...doc.data() }]);
-        posts.push({ id: doc.id, ...doc.data() });
-      });
-    });
-    setPosts(prev => [...posts]);
-    // console.log('posts ', posts);
+      if (dbRef) {
+        onSnapshot(dbRef, data => {
+          setPosts(data.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        });
+      }
+    } catch (error) {}
   };
 
   if (posts.length === 0) {
@@ -54,7 +50,7 @@ export const PostsList = ({ navigation }) => {
       </View>
     );
   }
-  console.log('posts out ', posts);
+
   return (
     <View style={styles.container}>
       <FlatList
