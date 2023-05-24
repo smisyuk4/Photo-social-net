@@ -37,7 +37,7 @@ export const CreatePosts = ({ navigation }) => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [state, setState] = useState(INITIAL_POST);
-  const userId = useSelector(selectStateUserId)
+  const userId = useSelector(selectStateUserId);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isActiveInput, setIsActiveInput] = useState({
     title: false,
@@ -264,7 +264,7 @@ export const CreatePosts = ({ navigation }) => {
 
     setState(INITIAL_POST);
 
-    navigation.navigate('PostsScreen', { screen: 'Posts', params: state });
+    navigation.navigate('PostsScreen', { screen: 'Posts' });
   };
 
   return (
