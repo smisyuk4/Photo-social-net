@@ -1,4 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { selectStateUserId } from '../../../redux/selectors';
+import { db, myStorage } from '../../../firebase/config';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { doc, setDoc } from 'firebase/firestore';
 import {
   View,
   Image,
@@ -22,8 +27,8 @@ import { ModalWrp } from '../ModalWrp';
 import { styles } from './CreatePosts.styled';
 
 const INITIAL_POST = {
-  photoUri: '',
-  titlePost: '',
+  photoUri: null,
+  titlePost: null,
   location: {},
 };
 
@@ -32,6 +37,7 @@ export const CreatePosts = ({ navigation }) => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [state, setState] = useState(INITIAL_POST);
+  const userId = useSelector(selectStateUserId)
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isActiveInput, setIsActiveInput] = useState({
     title: false,
@@ -140,7 +146,6 @@ export const CreatePosts = ({ navigation }) => {
       try {
         const { uri } = await cameraRef.current.takePictureAsync();
         setState(prev => ({ ...prev, photoUri: uri }));
-        // await MediaLibrary.createAssetAsync(uri);
         getLocation();
       } catch (error) {
         console.log(error.message);
@@ -213,10 +218,51 @@ export const CreatePosts = ({ navigation }) => {
     });
   };
 
+  const uploadPhotoToServer = async () => {
+    const uniquePostId = Date.now().toString();
+
+    try {
+      const response = await fetch(state.photoUri);
+
+      const file = await response.blob();
+
+      const imageRef = await ref(myStorage, `postImages/${uniquePostId}`);
+
+      await uploadBytes(imageRef, file);
+
+      return await getDownloadURL(imageRef);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const uploadPostToServer = async () => {
+    const uniquePostId = Date.now().toString();
+
+    try {
+      const photo = await uploadPhotoToServer();
+      await setDoc(doc(db, 'posts', `${uniquePostId}`), {
+        photo,
+        userId,
+        titlePost: state.titlePost,
+        location: state.location,
+        commentsCount: 0,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const publishPost = async () => {
-    setState(INITIAL_POST);
     hideKeyboard();
-    console.log('state ', state);
+
+    try {
+      await uploadPostToServer();
+    } catch (error) {
+      console.log(error);
+    }
+
+    setState(INITIAL_POST);
 
     navigation.navigate('PostsScreen', { screen: 'Posts', params: state });
   };
