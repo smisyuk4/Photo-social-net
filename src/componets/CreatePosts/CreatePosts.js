@@ -27,8 +27,8 @@ import { ModalWrp } from '../ModalWrp';
 import { styles } from './CreatePosts.styled';
 
 const INITIAL_POST = {
-  photoUri: null,
-  titlePost: null,
+  photoUri: '',
+  titlePost: '',
   location: {},
 };
 
@@ -51,8 +51,13 @@ export const CreatePosts = ({ navigation }) => {
     (async () => {
       try {
         await Camera.requestCameraPermissionsAsync();
-        await Location.requestForegroundPermissionsAsync();
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        // await Location.requestForegroundPermissionsAsync();
         await MediaLibrary.requestPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('Permission to access location was denied');
+          return;
+        }
       } catch (error) {
         console.log(error.message);
       }
@@ -145,8 +150,8 @@ export const CreatePosts = ({ navigation }) => {
     if (cameraRef) {
       try {
         const { uri } = await cameraRef.current.takePictureAsync();
-        setState(prev => ({ ...prev, photoUri: uri }));
-        getLocation();
+        const location = await getLocation();
+        setState(prev => ({ ...prev, photoUri: uri, location }));
       } catch (error) {
         console.log(error.message);
       }
@@ -163,8 +168,12 @@ export const CreatePosts = ({ navigation }) => {
       });
 
       if (!result.canceled) {
-        setState(prev => ({ ...prev, photoUri: result.assets[0].uri }));
-        getLocation();
+        const location = await getLocation();
+        setState(prev => ({
+          ...prev,
+          photoUri: result.assets[0].uri,
+          location,
+        }));
       }
     } catch (error) {
       console.log(error.message);
@@ -174,6 +183,7 @@ export const CreatePosts = ({ navigation }) => {
   const getLocation = async () => {
     try {
       const location = await Location.getCurrentPositionAsync({});
+      console.log("location ", location);
 
       const coords = {
         latitude: location.coords.latitude,
@@ -182,7 +192,7 @@ export const CreatePosts = ({ navigation }) => {
 
       const [postAddress] = await Location.reverseGeocodeAsync(coords);
 
-      setState(prev => ({ ...prev, location: { ...coords, postAddress } }));
+      return { location: { ...coords, postAddress } };
     } catch (error) {
       console.log(error.message);
     }
@@ -371,7 +381,7 @@ export const CreatePosts = ({ navigation }) => {
                     ? '#FF6C00'
                     : '#E8E8E8',
                 }}
-                value={state.location.title}
+                value={state.location?.title}
                 onChangeText={value =>
                   setState(prev => ({
                     ...prev,
