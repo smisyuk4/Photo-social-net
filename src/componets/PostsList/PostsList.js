@@ -20,20 +20,12 @@ export const PostsList = ({ navigation }) => {
   // console.log(login, email, avatar)
 
   useEffect(() => {
-    getAllPosts();
+    const dbRef = collection(db, 'posts');
+
+    onSnapshot(dbRef, data => {
+      setPosts(data.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
   }, []);
-
-  const getAllPosts = () => {
-    try {
-      const dbRef = collection(db, 'posts');
-
-      if (dbRef) {
-        onSnapshot(dbRef, data => {
-          setPosts(data.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-        });
-      }
-    } catch (error) {}
-  };
 
   if (posts.length === 0) {
     return (
