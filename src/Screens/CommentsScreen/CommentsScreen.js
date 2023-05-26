@@ -5,6 +5,7 @@ import { collection, onSnapshot } from 'firebase/firestore';
 
 import {
   View,
+  Image,
   Keyboard,
   Platform,
   TouchableWithoutFeedback,
@@ -16,7 +17,7 @@ import { CommentForm } from '../../components/CommentForm/CommentForm';
 import { styles } from './CommentsScreen.styles';
 
 export const CommentsScreen = ({ navigation, route }) => {
-  const { id: postId } = route.params;
+  const { id: postId, photo } = route.params;
   const [allComments, setAllComments] = useState([]);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
@@ -28,7 +29,7 @@ export const CommentsScreen = ({ navigation, route }) => {
         data.docs.map(comment => ({ id: comment.id, ...comment.data() }))
       );
     });
-  }, []);
+  }, [postId]);
 
   const hideKeyboard = () => {
     setIsShowKeyboard(false);
@@ -43,16 +44,17 @@ export const CommentsScreen = ({ navigation, route }) => {
         style={styles.wrapper}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        {/* main content */}
         <View style={styles.container}>
-          <View
-            style={{
-              paddingVertical: isShowKeyboard ? hp('0.96%') : hp('3.8%'),
-              gap: isShowKeyboard ? hp('0.48%') : hp('1.92%'),
-            }}
-          >
-            <CommentsList allComments={allComments} />
-          </View>
+          {/* main content */}
+          {allComments.length === 0 ? (
+              <Image source={{ uri: photo }} style={styles.photo} />
+          ) : null}
+        
+          {allComments.length !== 0 ? (
+            <View>
+              <CommentsList allComments={allComments} photo={photo} />
+            </View>
+          ) : null}
 
           {/* bottom form */}
           <View style={styles.bottomSection}>

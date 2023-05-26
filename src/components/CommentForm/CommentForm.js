@@ -3,18 +3,9 @@ import { useSelector } from 'react-redux';
 import { selectStateLogin } from '../../../redux/selectors';
 
 import { db } from '../../../firebase/config';
-import {
-  setDoc,
-  doc,
-  Timestamp,
-} from 'firebase/firestore';
-import {
-  View,
-
-  Text,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import { setDoc, doc, Timestamp } from 'firebase/firestore';
+import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { styles } from './CommentForm.styles';
 
@@ -49,7 +40,7 @@ export const CommentForm = ({ postId, isShowKeyboard, setIsShowKeyboard }) => {
     }
   };
   return (
-    <View style={styles.container}>
+    <View style={styles.formWrp}>
       <TextInput
         style={{
           ...styles.input,
@@ -64,40 +55,28 @@ export const CommentForm = ({ postId, isShowKeyboard, setIsShowKeyboard }) => {
         onBlur={() => handleInputBlur('comment')}
         inputMode="text"
         placeholder="Коментар..."
+		multiline={true}
+		maxLength={200}
+		numberOfLines={5}
       />
 
-      <View
+      <TouchableOpacity
         style={
-          !isShowKeyboard
-            ? { ...styles.buttonsWrp }
-            : {
-                ...styles.buttonsWrp,
-                flexDirection: 'row-reverse',
-                marginTop: hp('5%'),
-              }
+          !myComment
+            ? styles.buttonForm
+            : { ...styles.buttonForm, ...styles.activeButtonForm }
         }
+        onPress={sendComment}
+        disabled={!myComment}
       >
-        <TouchableOpacity
-          style={
-            !myComment
-              ? styles.buttonForm
-              : { ...styles.buttonForm, ...styles.activeButtonForm }
+        <FontAwesome
+          name="send"
+          size={24}
+          color={
+            !myComment ? styles.buttonForm.fill : styles.activeButtonForm.fill
           }
-          onPress={sendComment}
-          disabled={!myComment}
-          // disabled={myComment === '' ? true : false}
-        >
-          <Text
-            style={
-              !myComment
-                ? styles.buttonFormText
-                : { ...styles.buttonFormText, ...styles.activeButtonFormText }
-            }
-          >
-            Опублікувати
-          </Text>
-        </TouchableOpacity>
-      </View>
+        />
+      </TouchableOpacity>
     </View>
   );
 };

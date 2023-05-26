@@ -10,12 +10,16 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   container: {
-    flex: 2,
-    // marginTop: hp('3.8%'),
+    flex: 1,
+    justifyContent: 'space-between',
+    marginTop: hp('3.8%'),
+    marginBottom: hp('2%'),
   },
- 
-  // =======================
-  bottomSection: {
-
+  photo: {
+    height: hp('28.8%'),
+    marginBottom: hp('0.96%'),
+    borderRadius: 8,
+    borderColor: '#E8E8E8',
   },
+  bottomSection: {},
 });
