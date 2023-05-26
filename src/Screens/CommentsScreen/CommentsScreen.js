@@ -25,6 +25,7 @@ import {
 } from 'react-native';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { CommentsList } from '../../componets/CommentsList/CommentsList';
 import { styles } from './CommentsScreen.styles';
 
 export const CommentsScreen = ({ navigation, route }) => {
@@ -55,7 +56,7 @@ export const CommentsScreen = ({ navigation, route }) => {
       const postRef = doc(db, 'posts', postId, 'comments', uniqueCommentId);
 
       await setDoc(postRef, {
-        myComment,
+        comment: myComment,
         login,
       });
 
@@ -91,6 +92,10 @@ export const CommentsScreen = ({ navigation, route }) => {
               gap: isShowKeyboard ? hp('0.48%') : hp('1.92%'),
             }}
           >
+            {/* list */}
+            <CommentsList allComments={allComments} />
+
+            {/* form */}
             <TextInput
               style={{
                 ...styles.input,
