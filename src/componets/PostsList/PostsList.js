@@ -17,7 +17,6 @@ export const PostsList = ({ navigation }) => {
   const login = useSelector(selectStateLogin);
   const email = useSelector(selectStateEmail);
   const avatar = useSelector(selectStateAvatar);
-  // console.log(login, email, avatar)
 
   useEffect(() => {
     const dbRef = collection(db, 'posts');
@@ -43,6 +42,7 @@ export const PostsList = ({ navigation }) => {
     );
   }
 
+  console.log('posts', posts);
   return (
     <View style={styles.container}>
       <FlatList
@@ -50,7 +50,9 @@ export const PostsList = ({ navigation }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
           <>
-            {index === 0 && <User />}
+            {index === 0 && (
+              <User login={login} email={email} avatar={avatar} />
+            )}
             <Post post={item} navigation={navigation} />
           </>
         )}

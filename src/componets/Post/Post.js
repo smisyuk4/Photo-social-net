@@ -1,6 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-
 import { styles } from './Post.styles';
 
 export const Post = ({ post, navigation }) => {

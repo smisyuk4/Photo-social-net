@@ -15,11 +15,17 @@ import {
   Platform,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
+  //
+  Linking,
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
+import {
+  getForegroundPermissionsAsync,
+  LocationPermissionResponse,
+} from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LoaderScreen } from '../../Screens/LoaderScreen';
@@ -35,7 +41,8 @@ const INITIAL_POST = {
 export const CreatePosts = ({ navigation }) => {
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [permissionCam, requestPermissionCam] = Camera.useCameraPermissions();
+  const [permissionLoc, setPermissionLoc] = useState();
   const [state, setState] = useState(INITIAL_POST);
   const userId = useSelector(selectStateUserId);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
@@ -51,13 +58,8 @@ export const CreatePosts = ({ navigation }) => {
     (async () => {
       try {
         await Camera.requestCameraPermissionsAsync();
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        // await Location.requestForegroundPermissionsAsync();
         await MediaLibrary.requestPermissionsAsync();
-        if (status !== 'granted') {
-          console.log('Permission to access location was denied');
-          return;
-        }
+        setPermissionLoc(await getForegroundPermissionsAsync());
       } catch (error) {
         console.log(error.message);
       }
@@ -92,9 +94,8 @@ export const CreatePosts = ({ navigation }) => {
         ...styles.changedButtonForm,
       });
     }
-  }, [state, isShowKeyboard]);
 
-  useEffect(() => {
+    // merge useEffect
     if (!state.photoUri && !isShowKeyboard) {
       return setStyleRemoveBtn({
         ...styles.removeBtn,
@@ -124,17 +125,17 @@ export const CreatePosts = ({ navigation }) => {
     }
   }, [state, isShowKeyboard]);
 
-  if (!permission) {
+  if (!permissionCam) {
     return <LoaderScreen />;
   }
 
-  if (!permission.granted) {
+  if (!permissionCam.granted) {
     return (
       <View style={styles.permission}>
         <Text style={{ textAlign: 'center' }}>
           We need your permission to show the camera
         </Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <Button onPress={requestPermissionCam} title="grant permission" />
       </View>
     );
   }
@@ -151,6 +152,7 @@ export const CreatePosts = ({ navigation }) => {
       try {
         const { uri } = await cameraRef.current.takePictureAsync();
         const location = await getLocation();
+
         setState(prev => ({ ...prev, photoUri: uri, location }));
       } catch (error) {
         console.log(error.message);
@@ -169,6 +171,7 @@ export const CreatePosts = ({ navigation }) => {
 
       if (!result.canceled) {
         const location = await getLocation();
+
         setState(prev => ({
           ...prev,
           photoUri: result.assets[0].uri,
@@ -181,9 +184,14 @@ export const CreatePosts = ({ navigation }) => {
   };
 
   const getLocation = async () => {
+    if (!permissionLoc.granted) {
+      console.log('Not permission to location');
+      Linking.openSettings();
+      return;
+    }
+
     try {
       const location = await Location.getCurrentPositionAsync({});
-      console.log("location ", location);
 
       const coords = {
         latitude: location.coords.latitude,
@@ -192,17 +200,13 @@ export const CreatePosts = ({ navigation }) => {
 
       const [postAddress] = await Location.reverseGeocodeAsync(coords);
 
-      return { location: { ...coords, postAddress } };
+      return { ...coords, postAddress };
     } catch (error) {
       console.log(error.message);
     }
   };
 
   const getCustomLocation = async () => {
-    // if(state.location){
-    //   await getLocation();
-    // }
-
     setModalVisible(true);
   };
 

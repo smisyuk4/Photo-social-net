@@ -91,10 +91,8 @@ export const RegisterForm = ({
   };
 
   const submit = async () => {
-    // console.log(state);
     hideKeyboard();
-    dispatch(authSignUpUser(state))
-
+    dispatch(authSignUpUser(state));
     setState(INITIAL_STATE);
   };
 
