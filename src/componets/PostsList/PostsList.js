@@ -42,7 +42,6 @@ export const PostsList = ({ navigation }) => {
     );
   }
 
-  console.log('posts', posts);
   return (
     <View style={styles.container}>
       <FlatList

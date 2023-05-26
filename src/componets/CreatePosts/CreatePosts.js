@@ -68,18 +68,33 @@ export const CreatePosts = ({ navigation }) => {
 
   useEffect(() => {
     if (state.photoUri && !isShowKeyboard) {
-      return setStyleSendBtn({
+      setStyleSendBtn({
         ...styles.buttonForm,
         ...styles.activeButtonForm,
       });
+
+      setStyleRemoveBtn({
+        ...styles.removeBtn,
+        ...styles.activeRemoveBtn,
+      });
+
+      return;
     }
 
     if (state.photoUri && isShowKeyboard) {
-      return setStyleSendBtn({
+      setStyleSendBtn({
         ...styles.buttonForm,
         ...styles.activeButtonForm,
         ...styles.changedButtonForm,
       });
+
+      setStyleRemoveBtn({
+        ...styles.removeBtn,
+        ...styles.activeRemoveBtn,
+        ...styles.changedRemoveBtn,
+      });
+
+      return;
     }
 
     if (!state.photoUri && !isShowKeyboard) {
@@ -89,39 +104,17 @@ export const CreatePosts = ({ navigation }) => {
     }
 
     if (!state.photoUri && isShowKeyboard) {
-      return setStyleSendBtn({
+      setStyleSendBtn({
         ...styles.buttonForm,
         ...styles.changedButtonForm,
       });
-    }
 
-    // merge useEffect
-    if (!state.photoUri && !isShowKeyboard) {
-      return setStyleRemoveBtn({
-        ...styles.removeBtn,
-      });
-    }
-
-    if (state.photoUri && !isShowKeyboard) {
-      return setStyleRemoveBtn({
-        ...styles.removeBtn,
-        ...styles.activeRemoveBtn,
-      });
-    }
-
-    if (state.photoUri && isShowKeyboard) {
-      return setStyleRemoveBtn({
-        ...styles.removeBtn,
-        ...styles.activeRemoveBtn,
-        ...styles.changedRemoveBtn,
-      });
-    }
-
-    if (!state.photoUri && isShowKeyboard) {
-      return setStyleRemoveBtn({
+      setStyleRemoveBtn({
         ...styles.removeBtn,
         ...styles.changedRemoveBtn,
       });
+
+      return;
     }
   }, [state, isShowKeyboard]);
 
