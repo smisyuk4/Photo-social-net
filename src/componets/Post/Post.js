@@ -3,9 +3,10 @@ import { Feather } from '@expo/vector-icons';
 import { styles } from './Post.styles';
 
 export const Post = ({ post, navigation }) => {
+  console.log(post)
   return (
     <View style={styles.postWrp}>
-      <Image source={{ uri: post.photoUri }} style={styles.photo} />
+      <Image source={{ uri: post.photo }} style={styles.photo} />
       <Text style={styles.titlePost} ellipsizeMode="tail" numberOfLines={1}>
         {post.titlePost}
       </Text>
