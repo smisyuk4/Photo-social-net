@@ -1,9 +1,29 @@
+import { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { db } from '../../../firebase/config';
+import { collection, onSnapshot, getCountFromServer } from 'firebase/firestore';
 import { Feather } from '@expo/vector-icons';
 import { styles } from './Post.styles';
 
 export const Post = ({ post, navigation }) => {
-  // console.log(post)
+  const [countComments, setCountComments] = useState(0);
+  // console.log('post', post);
+
+  useEffect(() => {
+    const checkCount = async () => {
+      const dbRef = collection(db, 'posts', post.id, 'comments');
+
+      // onSnapshot(dbRef, data => {
+      //   setCountComments(data?.docs?.length)
+      // });
+
+      const snapshot = await getCountFromServer(dbRef);
+      setCountComments(snapshot.data().count)
+    };
+
+    checkCount();
+  }, [post]);
+  console.log('countComments', countComments);
   return (
     <View style={styles.postWrp}>
       <Image source={{ uri: post.photo }} style={styles.photo} />
@@ -23,7 +43,7 @@ export const Post = ({ post, navigation }) => {
               color={styles.commentsIcon.fill}
             />
           </View>
-          <Text style={styles.commentsCount}>00</Text>
+          <Text style={styles.commentsCount}>{countComments}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

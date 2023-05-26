@@ -10,10 +10,10 @@ export const CommentsList = ({ allComments }) => {
         keyExtractor={({ id }) => id}
         renderItem={({ item: { login, comment, createdAt } }) => (
           <>
-            <View style={{ borderWidth: 1, borderColor: 'red' }}>
+            <View style={styles.commentWrp}>
               <Text>login: {login}</Text>
               <Text>comment: {comment}</Text>
-              {createdAt && <Text>createdAt: {dateConverter(createdAt)}</Text>}
+              <Text>createdAt: {dateConverter(createdAt)}</Text>
             </View>
           </>
         )}
