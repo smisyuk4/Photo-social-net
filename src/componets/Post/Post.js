@@ -3,7 +3,7 @@ import { Feather } from '@expo/vector-icons';
 import { styles } from './Post.styles';
 
 export const Post = ({ post, navigation }) => {
-  console.log(post)
+  // console.log(post)
   return (
     <View style={styles.postWrp}>
       <Image source={{ uri: post.photo }} style={styles.photo} />
@@ -14,7 +14,7 @@ export const Post = ({ post, navigation }) => {
       <View style={styles.buttonsWrp}>
         <TouchableOpacity
           style={styles.buttonComments}
-          onPress={() => navigation.navigate('Comments')}
+          onPress={() => navigation.navigate('Comments', post)}
         >
           <View style={styles.commentsIcon}>
             <Feather

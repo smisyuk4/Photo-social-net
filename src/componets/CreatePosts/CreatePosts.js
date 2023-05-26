@@ -15,17 +15,12 @@ import {
   Platform,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  //
   Linking,
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
-import {
-  getForegroundPermissionsAsync,
-  LocationPermissionResponse,
-} from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LoaderScreen } from '../../Screens/LoaderScreen';
@@ -59,7 +54,7 @@ export const CreatePosts = ({ navigation }) => {
       try {
         await Camera.requestCameraPermissionsAsync();
         await MediaLibrary.requestPermissionsAsync();
-        setPermissionLoc(await getForegroundPermissionsAsync());
+        setPermissionLoc(await Location.getForegroundPermissionsAsync());
       } catch (error) {
         console.log(error.message);
       }
@@ -247,12 +242,13 @@ export const CreatePosts = ({ navigation }) => {
 
     try {
       const photo = await uploadPhotoToServer();
-      await setDoc(doc(db, 'posts', `${uniquePostId}`), {
+      const postRef = doc(db, 'posts', uniquePostId);
+
+      await setDoc(postRef, {
         photo,
         userId,
         titlePost: state.titlePost,
         location: state.location,
-        commentsCount: 0,
       });
     } catch (error) {
       console.log(error);
