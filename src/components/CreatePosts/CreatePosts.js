@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectStateUserId } from '../../../redux/selectors';
 import { db, myStorage } from '../../../firebase/config';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import {
   View,
   Image,
@@ -249,6 +249,8 @@ export const CreatePosts = ({ navigation }) => {
         userId,
         titlePost: state.titlePost,
         location: state.location,
+        createdAt: Timestamp.fromDate(new Date()),
+        updatedAt: Timestamp.fromDate(new Date()),
       });
     } catch (error) {
       console.log(error);

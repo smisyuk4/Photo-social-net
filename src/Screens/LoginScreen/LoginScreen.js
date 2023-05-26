@@ -4,7 +4,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { LoginForm } from '../../componets/LoginForm';
+import { LoginForm } from '../../components/LoginForm';
 import { styles } from './LoginScreen.styles';
 import image from '../../images/photoBg.jpeg';
 

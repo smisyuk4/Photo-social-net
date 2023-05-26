@@ -4,7 +4,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { RegisterForm } from '../../componets/RegisterForm';
+import { RegisterForm } from '../../components/RegisterForm';
 import { styles } from './RegistrationScreen.styles';
 import image from '../../images/photoBg.jpeg';
 

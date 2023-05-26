@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { useFonts } from 'expo-font';
-import { Main } from './src/componets/Main';
+import { Main } from './src/components/Main';
 import { LoaderScreen } from './src/Screens/LoaderScreen';
 
 export const App = () => {

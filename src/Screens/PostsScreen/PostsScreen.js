@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { PostsList } from '../../componets/PostsList';
+import { PostsList } from '../../components/PostsList';
 
 const PostStack = createStackNavigator();
 

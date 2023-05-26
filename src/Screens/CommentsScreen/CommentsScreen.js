@@ -6,10 +6,9 @@ import { db } from '../../../firebase/config';
 import {
   setDoc,
   doc,
-  updateDoc,
-  arrayUnion,
   collection,
   onSnapshot,
+  Timestamp,
 } from 'firebase/firestore';
 
 import {
@@ -25,7 +24,7 @@ import {
 } from 'react-native';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { CommentsList } from '../../componets/CommentsList/CommentsList';
+import { CommentsList } from '../../components/CommentsList/CommentsList';
 import { styles } from './CommentsScreen.styles';
 
 export const CommentsScreen = ({ navigation, route }) => {
@@ -58,6 +57,8 @@ export const CommentsScreen = ({ navigation, route }) => {
       await setDoc(postRef, {
         comment: myComment,
         login,
+        createdAt: Timestamp.fromDate(new Date()),
+        updatedAt: Timestamp.fromDate(new Date()),
       });
 
       setMyComment('');
