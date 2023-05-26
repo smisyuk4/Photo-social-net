@@ -177,8 +177,7 @@ export const CreatePosts = ({ navigation }) => {
   };
 
   const getLocation = async () => {
-    if (!permissionLoc.granted) {
-      console.log('Not permission to location');
+    if (!permissionLoc.canAskAgain || permissionLoc.status === 'denied') {
       Linking.openSettings();
       return;
     }
