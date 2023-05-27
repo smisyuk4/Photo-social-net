@@ -23,19 +23,11 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { ProfileList } from '../../components/ProfileList/ProfileList';
 import { styles } from './ProfileScreen.styles';
 
-const INITIAL_STATE = {
-  login: null,
-  email: null,
-  password: null,
-  avatarUri: null,
-};
-
 export const ProfileScreen = ({ navigation }) => {
-  const [state, setState] = useState({ ...INITIAL_STATE });
   const dispatch = useDispatch();
   const userId = useSelector(selectStateUserId);
   const login = useSelector(selectStateLogin);
-  // const avatarUri = useSelector(selectStateAvatar);
+  const avatar = useSelector(selectStateAvatar);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -85,7 +77,7 @@ export const ProfileScreen = ({ navigation }) => {
           <View style={styles.avatarContainer}>
             <View style={styles.avatarWrp}>
               <Image
-                source={{ uri: state.avatarUri }}
+                source={{ uri: avatar }}
                 style={styles.avatarImg}
               />
             </View>

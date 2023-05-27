@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { authSignUpUser } from '../../../redux/auth/authOperations';
+import { myStorage } from '../../../firebase/config';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
   View,
   Text,
@@ -60,17 +62,6 @@ export const RegisterForm = ({
     setIsShowPassword(prevState => !prevState);
   };
 
-  // avatar
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       await MediaLibrary.requestPermissionsAsync();
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     }
-  //   })();
-  // }, []);
-
   const pickImage = async () => {
     try {
       await MediaLibrary.requestPermissionsAsync();
@@ -90,10 +81,28 @@ export const RegisterForm = ({
     }
   };
 
+  const uploadPhotoToServer = async () => {
+    const uniquePostId = Date.now().toString();
+
+    try {
+      const response = await fetch(state.avatarUri);
+
+      const file = await response.blob();
+
+      const imageRef = await ref(myStorage, `userAvatars/${uniquePostId}`);
+      await uploadBytes(imageRef, file);
+
+      return await getDownloadURL(imageRef);
+    } catch (error) {
+      console.log('uploadPhotoToServer', error.message);
+    }
+  };
+
   const submit = async () => {
-    hideKeyboard();
-    dispatch(authSignUpUser(state));
+    const photo = await uploadPhotoToServer();
+    dispatch(authSignUpUser({ ...state, photo }));
     setState(INITIAL_STATE);
+    hideKeyboard();
   };
 
   return (

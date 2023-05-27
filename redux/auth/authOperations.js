@@ -9,25 +9,25 @@ import { auth } from '../../firebase/config';
 import { updateUserProfile, authStateChange, authSignOut } from './authReducer';
 
 export const authSignUpUser =
-  ({ login, email, password }) =>
+  ({ login, email, password, photo }) =>
   async (dispatch, state) => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
 
       const user = auth.currentUser;
-      // console.log(user)
 
       await updateProfile(user, {
         displayName: login,
-        // photoURL: 'https://example.com/jane-q-user/profile.jpg',
+        photoURL: photo,
       });
 
-      const { uid, displayName, email: emailBase } = await auth.currentUser;
+      const { uid, displayName, email: emailBase, photoURL: photoUrlBase } = await auth.currentUser;
 
       const userProfile = {
         userId: uid,
         login: displayName,
         email: emailBase,
+        photoURL: photoUrlBase,
       };
 
       dispatch(updateUserProfile(userProfile));
@@ -48,12 +48,13 @@ export const authSignInUser =
 
 export const authStateChangeUser = () => async (dispatch, state) => {
   await onAuthStateChanged(auth, user => {
-    // console.log(user)
+    console.log(user)
     if (user) {
       const userProfile = {
         userId: user.uid,
         login: user.displayName,
         email: user.email,
+        photoURL: user.photoURL,
       };
 
       dispatch(authStateChange({ stateChange: true }));
