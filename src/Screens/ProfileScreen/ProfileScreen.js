@@ -12,15 +12,26 @@ import {
   Button,
   FlatList,
   TouchableOpacity,
+  ImageBackground,
   Image,
 } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import image from '../../images/photoBg.jpeg';
 
 import { db } from '../../../firebase/config';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { ProfileList } from '../../components/ProfileList/ProfileList';
 import { styles } from './ProfileScreen.styles';
 
+const INITIAL_STATE = {
+  login: null,
+  email: null,
+  password: null,
+  avatarUri: null,
+};
+
 export const ProfileScreen = ({ navigation }) => {
+  const [state, setState] = useState({ ...INITIAL_STATE });
   const dispatch = useDispatch();
   const userId = useSelector(selectStateUserId);
   const login = useSelector(selectStateLogin);
@@ -36,10 +47,68 @@ export const ProfileScreen = ({ navigation }) => {
     });
   }, []);
 
+  // avatar
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       await MediaLibrary.requestPermissionsAsync();
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   })();
+  // }, []);
+
+  const pickImage = async () => {
+    try {
+      await MediaLibrary.requestPermissionsAsync();
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        setState(prev => ({ ...prev, avatarUri: result.assets[0].uri }));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      {/* <Button title="signOut" onPress={() => dispatch(authSignOutUser())} /> */}
-      <ProfileList posts={posts} login={login} navigation={navigation} />
-    </View>
+    <ImageBackground source={image} style={styles.imageBg}>
+      <View style={styles.container}>
+        {/* <Button title="signOut" onPress={() => dispatch(authSignOutUser())} /> */}
+        <View style={styles.myPostsContainer}>
+          <View style={styles.avatarContainer}>
+            <View style={styles.avatarWrp}>
+              <Image
+                source={{ uri: state.avatarUri }}
+                style={styles.avatarImg}
+              />
+            </View>
+
+            <TouchableOpacity style={styles.buttonAvatar} onPress={pickImage}>
+              <Text style={styles.buttonAvatarText}>{'+'}</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.exitBtn}>
+            <Feather
+              name="log-out"
+              size={24}
+              color={styles.exitBtn.color}
+              onPress={() => dispatch(authSignOutUser())}
+            />
+          </View>
+
+          <Text style={styles.login}>{login}</Text>
+
+          <ProfileList posts={posts} login={login} navigation={navigation} />
+        </View>
+      </View>
+    </ImageBackground>
   );
 };

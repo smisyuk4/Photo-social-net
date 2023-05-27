@@ -23,7 +23,7 @@ export const Post = ({ post, navigation }) => {
 
     checkCount();
   }, [post]);
-  console.log('countComments', countComments);
+  // console.log('countComments', countComments);
   return (
     <View style={styles.postWrp}>
       <Image source={{ uri: post.photo }} style={styles.photo} />

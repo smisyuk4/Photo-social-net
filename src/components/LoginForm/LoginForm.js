@@ -31,7 +31,7 @@ export const LoginForm = ({
   const dispatch = useDispatch()
 
   const submit = () => {
-    console.log(state);
+    // console.log(state);
     dispatch(authSignInUser(state))
     setState(INITIAL_STATE);
     hideKeyboard();

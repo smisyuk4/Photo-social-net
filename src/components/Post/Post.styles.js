@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     fontWeight: '500',
-    lineHeight: 19,
+    // lineHeight: 19,
     color: '#212121',
   },
   buttonsWrp: {
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   commentsCount: {
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
-    lineHeight: 19,
+    // lineHeight: 19,
     color: '#BDBDBD',
   },
   buttonLocation: {
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     fontWeight: '500',
-    lineHeight: 19,
+    // lineHeight: 19,
     textDecorationLine: 'underline',
     color: '#212121',
   }

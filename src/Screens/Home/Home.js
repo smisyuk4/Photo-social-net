@@ -25,14 +25,6 @@ const screenOptions = ({ navigation, route }) => ({
       onPress={navigation.goBack}
     />
   ),
-  // headerRight: () => (
-  //   <Feather
-  //     name="log-out"
-  //     size={24}
-  //     color={styles.header.colorSecondary}
-  //     onPress={() => {}}
-  //   />
-  // ),
   tabBarIcon: ({ focused, color, size }) => {
     let tabBarItem;
 
@@ -99,7 +91,6 @@ const screenOptions = ({ navigation, route }) => ({
 
 export const Home = ({ navigation, route, options }) => {
   const dispatch = useDispatch()
-  // () => dispatch(authSignOutUser())
   return (
     <Tabs.Navigator
       initialRouteName="PostsScreen"
@@ -127,7 +118,6 @@ export const Home = ({ navigation, route, options }) => {
         component={CreatePostsScreen}
         options={{
           title: 'Створити публікацію',
-          // headerRight: null,
           tabBarStyle: { display: 'none' },
         }}
       />
@@ -135,18 +125,7 @@ export const Home = ({ navigation, route, options }) => {
       <Tabs.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{
-          title: 'Кабінет користувача',
-          headerLeft: null,
-          headerRight: () => (
-            <Feather
-              name="log-out"
-              size={24}
-              color={styles.header.colorSecondary}
-              onPress={() => dispatch(authSignOutUser())}
-            />
-          ),
-        }}
+        options={{ headerShown: false }}
       />
     </Tabs.Navigator>
   );

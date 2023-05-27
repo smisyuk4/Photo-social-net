@@ -20,9 +20,10 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     fontWeight: '500',
-    lineHeight: 19,
+    // lineHeight: 19,
     color: '#212121',
     backgroundColor: '#F6F6F6',
+
     borderBottomWidth: 1,
   },
   buttonForm: {

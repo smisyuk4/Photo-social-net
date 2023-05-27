@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
   buttonGalleryText: {
     marginTop: hp('0.96%'),
     fontSize: 16,
-    lineHeight: 19,
+    // lineHeight: 19,
     color: '#BDBDBD',
   },
   input: {
@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     fontWeight: '500',
-    lineHeight: 19,
+    // lineHeight: 19,
     color: '#212121',
     borderBottomWidth: 1,
   },
@@ -104,7 +104,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
-    lineHeight: 19,
+    // lineHeight: 19,
     color: '#BDBDBD',
   },
   activeButtonFormText: {

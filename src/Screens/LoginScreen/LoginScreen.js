@@ -20,7 +20,6 @@ export const LoginScreen = ({ navigation }) => {
     <TouchableWithoutFeedback
       onPress={hideKeyboard}
       style={styles.container}
-      // onLayout={onLayoutRootView}
     >
       <ImageBackground source={image} style={styles.imageBg}>
         <LoginForm

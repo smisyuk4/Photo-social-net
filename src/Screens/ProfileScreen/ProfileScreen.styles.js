@@ -1,7 +1,70 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  imageBg: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'flex-end',
+  },
   container: {
     paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: 'red',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    backgroundColor: '#fff',
+  },
+  myPostsContainer: {
+    paddingTop: 92,
+    minHeight: 500,
+  },
+  avatarContainer: {
+    position: 'absolute',
+    top: -60,
+    alignSelf: 'center',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    borderRadius: 16,
+    backgroundColor: '#dadee6',
+  },
+  avatarWrp: {
+    borderRadius: 16,
+    overflow: 'hidden',
+    height: 120,
+    width: 120,
+  },
+  avatarImg: {
+    width: '100%',
+    height: '100%',
+  },
+  buttonAvatar: {
+    position: 'absolute',
+    bottom: 13,
+    right: -13,
+    height: 25,
+    width: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: '#FF6C00',
+    backgroundColor: '#ffffff',
+  },
+  buttonAvatarText: {
+    color: '#FF6C00',
+  },
+  exitBtn: {
+    position: 'absolute',
+    right: 0,
+    top: 16,
+    color: '#BDBDBD',
+  },
+  login: {
+    marginBottom: 16,
+    alignSelf: 'center',
+    fontFamily: 'Roboto-Regular',
+    fontSize: 30,
+    fontWeight: '500',
+    // lineHeight: 35,
   },
 });

@@ -9,12 +9,12 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 16,
-    marginTop: hp('3.8%'),
   },
-  text: { 
-    alignSelf: 'center' 
+  text: {
+    alignSelf: 'center',
   },
   userWrp: {
+    marginTop: hp('3.8%'),
     marginBottom: hp('3.8%'),
     flexDirection: 'row',
   },
@@ -32,14 +32,11 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 15,
     fontWeight: '700',
-    lineHeight: 13,
     color: '#212121',
   },
   userEmail: {
     fontFamily: 'Roboto-Regular',
     fontSize: 11,
-    lineHeight: 13,
     color: '#212121CC',
   },
-
 });
