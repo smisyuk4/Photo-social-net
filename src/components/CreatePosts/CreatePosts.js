@@ -93,9 +93,15 @@ export const CreatePosts = ({ navigation }) => {
     }
 
     if (!state.photoUri && !isShowKeyboard) {
-      return setStyleSendBtn({
+      setStyleSendBtn({
         ...styles.buttonForm,
       });
+
+      setStyleRemoveBtn({
+        ...styles.removeBtn,
+      });
+
+      return;
     }
 
     if (!state.photoUri && isShowKeyboard) {
