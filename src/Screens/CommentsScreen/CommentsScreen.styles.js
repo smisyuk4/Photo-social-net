@@ -5,15 +5,13 @@ import {
 } from 'react-native-responsive-screen';
 
 export const styles = StyleSheet.create({
-  wrapper: {
+  keyboardWrp: {
     flex: 1,
     paddingHorizontal: 16,
   },
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    marginTop: hp('3.8%'),
-    marginBottom: hp('2%'),
   },
   photo: {
     height: hp('28.8%'),
@@ -21,5 +19,4 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: '#E8E8E8',
   },
-  bottomSection: {},
 });

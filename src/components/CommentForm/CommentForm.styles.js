@@ -5,11 +5,15 @@ import {
 } from 'react-native-responsive-screen';
 
 export const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+  },
   formWrp: {
+    position: 'absolute',
+    bottom: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // borderWidth: 1,
-    // borderColor: 'green',
+    backgroundColor: '#F6F6F6',
   },
   input: {
     flex: 4,

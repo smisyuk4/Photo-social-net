@@ -9,7 +9,12 @@ import { FontAwesome } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { styles } from './CommentForm.styles';
 
-export const CommentForm = ({ postId, isShowKeyboard, setIsShowKeyboard }) => {
+export const CommentForm = ({
+  postId,
+  isShowKeyboard,
+  setIsShowKeyboard,
+  hideKeyboard,
+}) => {
   const login = useSelector(selectStateLogin);
   const [myComment, setMyComment] = useState('');
   const [isActiveInput, setIsActiveInput] = useState(false);
@@ -33,14 +38,26 @@ export const CommentForm = ({ postId, isShowKeyboard, setIsShowKeyboard }) => {
         createdAt: Timestamp.fromDate(new Date()),
         updatedAt: Timestamp.fromDate(new Date()),
       });
-
       setMyComment('');
     } catch (error) {
       console.log(error);
+    } finally {
+      hideKeyboard();
     }
   };
+
   return (
-    <View style={styles.formWrp}>
+    <View
+      style={
+        isShowKeyboard
+          ? {
+              ...styles.formWrp,
+
+              paddingBottom: hp('12%'),
+            }
+          : styles.formWrp
+      }
+    >
       <TextInput
         style={{
           ...styles.input,
@@ -55,9 +72,9 @@ export const CommentForm = ({ postId, isShowKeyboard, setIsShowKeyboard }) => {
         onBlur={() => handleInputBlur('comment')}
         inputMode="text"
         placeholder="Коментар..."
-		multiline={true}
-		maxLength={200}
-		numberOfLines={5}
+        multiline={true}
+        maxLength={200}
+        numberOfLines={5}
       />
 
       <TouchableOpacity

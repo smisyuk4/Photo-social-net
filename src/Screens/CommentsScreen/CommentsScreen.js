@@ -5,7 +5,10 @@ import { collection, onSnapshot } from 'firebase/firestore';
 
 import {
   View,
+  Text,
   Image,
+  TextInput,
+  Button,
   Keyboard,
   Platform,
   TouchableWithoutFeedback,
@@ -36,20 +39,20 @@ export const CommentsScreen = ({ navigation, route }) => {
     Keyboard.dismiss();
   };
 
-  console.log('allComments ', allComments);
+  // console.log('allComments ', allComments);
 
   return (
     <TouchableWithoutFeedback onPress={() => hideKeyboard()}>
       <KeyboardAvoidingView
-        style={styles.wrapper}
+        style={styles.keyboardWrp}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View style={styles.container}>
           {/* main content */}
           {allComments.length === 0 ? (
-              <Image source={{ uri: photo }} style={styles.photo} />
+            <Image source={{ uri: photo }} style={styles.photo} />
           ) : null}
-        
+
           {allComments.length !== 0 ? (
             <View>
               <CommentsList allComments={allComments} photo={photo} />
@@ -57,13 +60,12 @@ export const CommentsScreen = ({ navigation, route }) => {
           ) : null}
 
           {/* bottom form */}
-          <View style={styles.bottomSection}>
-            <CommentForm
-              postId={postId}
-              isShowKeyboard={isShowKeyboard}
-              setIsShowKeyboard={setIsShowKeyboard}
-            />
-          </View>
+          <CommentForm
+            postId={postId}
+            isShowKeyboard={isShowKeyboard}
+            setIsShowKeyboard={setIsShowKeyboard}
+            hideKeyboard={hideKeyboard}
+          />
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>

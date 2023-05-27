@@ -38,7 +38,7 @@ export const PostsList = ({ navigation }) => {
     <View style={styles.container}>
       <FlatList
         data={posts}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={({ id }) => id}
         renderItem={({ item, index }) => (
           <>
             {index === 0 && (
