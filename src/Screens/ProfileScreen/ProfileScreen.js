@@ -38,7 +38,7 @@ export const ProfileScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Button title="signOut" onPress={() => dispatch(authSignOutUser())} />
+      {/* <Button title="signOut" onPress={() => dispatch(authSignOutUser())} /> */}
       <ProfileList posts={posts} login={login} navigation={navigation} />
     </View>
   );

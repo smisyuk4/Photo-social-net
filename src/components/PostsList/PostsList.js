@@ -7,8 +7,8 @@ import {
 } from '../../../redux/selectors';
 import { db } from '../../../firebase/config';
 import { collection, onSnapshot } from 'firebase/firestore';
-import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { View, Text, FlatList, Image } from 'react-native';
+
 import { Post } from '../Post';
 import { styles } from './PostsList.styles';
 
@@ -29,15 +29,7 @@ export const PostsList = ({ navigation }) => {
   if (posts.length === 0) {
     return (
       <View style={styles.container}>
-        <User login={login} email={email} avatar={avatar} />
-        <Text>Зараз у тебе немає фото, але можна зробити щось класне...</Text>
-
-        <TouchableOpacity
-          style={styles.buttonCapture}
-          onPress={() => navigation.navigate('Create')}
-        >
-          <MaterialIcons name="photo-camera" size={24} color="white" />
-        </TouchableOpacity>
+        <Text style={styles.text}>Ще ніхто не зробив фотознімки</Text>
       </View>
     );
   }
