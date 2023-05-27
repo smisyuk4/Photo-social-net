@@ -46,6 +46,32 @@ export const authSignInUser =
     }
   };
 
+  // refactor to change avatar or login
+  export const authUpdateUser =
+  ({ avatarURL }) =>
+  async (dispatch, state) => {
+    try {
+      const user = auth.currentUser;
+
+      await updateProfile(user, {
+        photoURL: avatarURL,
+      });
+
+      const { uid, displayName, email: emailBase, photoURL: photoUrlBase } = await auth.currentUser;
+
+      const userProfile = {
+        userId: uid,
+        login: displayName,
+        email: emailBase,
+        photoURL: photoUrlBase,
+      };
+
+      dispatch(updateUserProfile(userProfile));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
 export const authStateChangeUser = () => async (dispatch, state) => {
   await onAuthStateChanged(auth, user => {
     console.log(user)

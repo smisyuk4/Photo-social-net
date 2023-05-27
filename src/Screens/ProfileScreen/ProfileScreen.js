@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { authSignOutUser } from '../../../redux/auth/authOperations';
+import {
+  authSignOutUser,
+  authUpdateUser,
+} from '../../../redux/auth/authOperations';
 import {
   selectStateUserId,
   selectStateLogin,
   selectStateAvatar,
 } from '../../../redux/selectors';
+import { myStorage } from '../../../firebase/config';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
   View,
   Text,
@@ -15,6 +20,8 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
+import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
 import { Feather } from '@expo/vector-icons';
 import image from '../../images/photoBg.jpeg';
 
@@ -40,15 +47,15 @@ export const ProfileScreen = ({ navigation }) => {
   }, []);
 
   // avatar
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       await MediaLibrary.requestPermissionsAsync();
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     }
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        await MediaLibrary.requestPermissionsAsync();
+      } catch (error) {
+        console.log(error.message);
+      }
+    })();
+  }, []);
 
   const pickImage = async () => {
     try {
@@ -62,27 +69,49 @@ export const ProfileScreen = ({ navigation }) => {
       });
 
       if (!result.canceled) {
-        setState(prev => ({ ...prev, avatarUri: result.assets[0].uri }));
+        return result.assets[0].uri;
       }
     } catch (error) {
       console.log(error.message);
     }
   };
 
+  const uploadPhotoToServer = async photo => {
+    const uniquePostId = Date.now().toString();
+
+    try {
+      const response = await fetch(photo);
+
+      const file = await response.blob();
+
+      const imageRef = await ref(myStorage, `userAvatars/${uniquePostId}`);
+      await uploadBytes(imageRef, file);
+
+      return await getDownloadURL(imageRef);
+    } catch (error) {
+      console.log('uploadPhotoToServer', error.message);
+    }
+  };
+
+  const changeAvatar = async () => {
+    const avatarUri = await pickImage();
+    const avatarURL = await uploadPhotoToServer(avatarUri);
+    dispatch(authUpdateUser({ avatarURL }));
+  };
+
   return (
     <ImageBackground source={image} style={styles.imageBg}>
       <View style={styles.container}>
-        {/* <Button title="signOut" onPress={() => dispatch(authSignOutUser())} /> */}
         <View style={styles.myPostsContainer}>
           <View style={styles.avatarContainer}>
             <View style={styles.avatarWrp}>
-              <Image
-                source={{ uri: avatar }}
-                style={styles.avatarImg}
-              />
+              <Image source={{ uri: avatar }} style={styles.avatarImg} />
             </View>
 
-            <TouchableOpacity style={styles.buttonAvatar} onPress={pickImage}>
+            <TouchableOpacity
+              style={styles.buttonAvatar}
+              onPress={changeAvatar}
+            >
               <Text style={styles.buttonAvatarText}>{'+'}</Text>
             </TouchableOpacity>
           </View>
