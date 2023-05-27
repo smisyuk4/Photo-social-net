@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
   formWrp: {
     position: 'absolute',
     bottom: 0,
+    paddingBottom: hp('2%'),
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#F6F6F6',

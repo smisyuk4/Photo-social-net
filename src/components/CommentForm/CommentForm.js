@@ -52,7 +52,6 @@ export const CommentForm = ({
         isShowKeyboard
           ? {
               ...styles.formWrp,
-
               paddingBottom: hp('12%'),
             }
           : styles.formWrp

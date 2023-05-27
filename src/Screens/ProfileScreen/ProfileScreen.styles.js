@@ -1,3 +1,7 @@
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -7,16 +11,15 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   container: {
+    marginTop: hp('20%'),
     paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: 'red',
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     backgroundColor: '#fff',
   },
   myPostsContainer: {
     paddingTop: 92,
-    minHeight: 500,
+    minHeight: hp('50%'),
   },
   avatarContainer: {
     position: 'absolute',
