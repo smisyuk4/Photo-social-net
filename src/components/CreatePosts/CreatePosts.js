@@ -13,9 +13,8 @@ import {
   TextInput,
   Keyboard,
   Platform,
-  TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  Linking,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
@@ -30,7 +29,11 @@ import { styles } from './CreatePosts.styled';
 const INITIAL_POST = {
   photoUri: '',
   titlePost: '',
-  location: {},
+  location: {
+    latitude: '',
+    longitude: '',
+    postAddress: '',
+  },
 };
 
 export const CreatePosts = ({ navigation }) => {
@@ -382,6 +385,7 @@ export const CreatePosts = ({ navigation }) => {
               <TouchableOpacity
                 style={styles.buttonLocation}
                 onPress={getCustomLocation}
+                disabled={!state.location.latitude}
               >
                 <Feather
                   name="map-pin"

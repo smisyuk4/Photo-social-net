@@ -9,10 +9,20 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     marginVertical: hp('3.8%'),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
-  mapStyle:{
+  mapStyle: {
+    borderWidth: 4,
+    borderColor: '#FF6C00',
     borderRadius: 8,
     width: '100%',
     height: '100%',
-  }
+  },
 });
