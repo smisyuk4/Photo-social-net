@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View, Alert, Button } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { authSignOutUser } from '../../../redux/auth/authOperations';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,6 +9,33 @@ import { ProfileScreen } from '../ProfileScreen';
 import { styles } from './Home.styles';
 
 const Tabs = createBottomTabNavigator();
+
+const checkIsDirtyForm = (navigation, { params }) => {
+  if (params.isDirtyForm) {
+    Alert.alert('Увага!', 'При переході дані не зберігаються', [
+      {
+        text: 'Відмінити',
+        onPress: () => console.log('Cancel Pressed'),
+        // style: 'cancel',
+      },
+      { text: 'Добре', onPress: () => navigation.goBack() },
+    ]);
+    return;
+  }
+
+  navigation.goBack();
+};
+
+export const askIfQuit = dispatch => {
+  Alert.alert('Увага!', 'Вихід з додатку', [
+    {
+      text: 'Відмінити',
+      onPress: () => console.log('Cancel Pressed'),
+      // style: 'cancel',
+    },
+    { text: 'Добре', onPress: () => dispatch(authSignOutUser()) },
+  ]);
+};
 
 const screenOptions = ({ navigation, route }) => ({
   headerTintColor: styles.header.colorPrimary,
@@ -22,7 +49,9 @@ const screenOptions = ({ navigation, route }) => ({
       name="arrow-left"
       size={24}
       color={styles.header.colorPrimary}
-      onPress={navigation.goBack}
+      onPress={() => {
+        checkIsDirtyForm(navigation, route);
+      }}
     />
   ),
   tabBarIcon: ({ focused, color, size }) => {
@@ -90,7 +119,7 @@ const screenOptions = ({ navigation, route }) => ({
 });
 
 export const Home = ({ navigation, route, options }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <Tabs.Navigator
       initialRouteName="PostsScreen"
@@ -107,7 +136,7 @@ export const Home = ({ navigation, route, options }) => {
               name="log-out"
               size={24}
               color={styles.header.colorSecondary}
-              onPress={() => dispatch(authSignOutUser())}
+              onPress={() => askIfQuit(dispatch)}
             />
           ),
         }}

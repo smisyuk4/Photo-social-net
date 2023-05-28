@@ -26,6 +26,7 @@ import image from '../../images/photoBg.jpeg';
 import { db } from '../../../firebase/config';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { ProfileList } from '../../components/ProfileList/ProfileList';
+import { askIfQuit } from '../Home';
 import { styles } from './ProfileScreen.styles';
 
 export const ProfileScreen = ({ navigation }) => {
@@ -125,7 +126,8 @@ export const ProfileScreen = ({ navigation }) => {
               name="log-out"
               size={24}
               color={styles.exitBtn.color}
-              onPress={() => dispatch(authSignOutUser())}
+              // onPress={() => dispatch(authSignOutUser())}
+              onPress={() => askIfQuit(dispatch)}
             />
           </View>
 

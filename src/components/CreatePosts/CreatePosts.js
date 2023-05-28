@@ -37,6 +37,7 @@ const INITIAL_POST = {
 };
 
 export const CreatePosts = ({ navigation }) => {
+  const [isDirtyForm, setIsDirtyForm] = useState(false);
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [permissionCam, requestPermissionCam] = Camera.useCameraPermissions();
@@ -52,6 +53,19 @@ export const CreatePosts = ({ navigation }) => {
   const [styleSendBtn, setStyleSendBtn] = useState({});
   const [styleRemoveBtn, setStyleRemoveBtn] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setState(INITIAL_POST);
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    navigation.setParams({
+      isDirtyForm,
+    });
+  }, [isDirtyForm]);
 
   useEffect(() => {
     (async () => {
@@ -183,6 +197,8 @@ export const CreatePosts = ({ navigation }) => {
           ...prev,
           photoUri: uri,
         }));
+
+        setIsDirtyForm(true);
       } catch (error) {
         console.log('takePhoto ===>>> ', error.message);
       }
@@ -202,10 +218,13 @@ export const CreatePosts = ({ navigation }) => {
 
       if (!result.canceled) {
         await getLocation();
+
         setState(prev => ({
           ...prev,
           photoUri: result.assets[0].uri,
         }));
+
+        setIsDirtyForm(true);
       }
     } catch (error) {
       console.log('pickImage ====>> ', error.message);
@@ -293,6 +312,7 @@ export const CreatePosts = ({ navigation }) => {
     }
 
     setState(INITIAL_POST);
+    setIsDirtyForm(false);
 
     navigation.navigate('PostsScreen', { screen: 'Posts' });
   };
@@ -369,9 +389,10 @@ export const CreatePosts = ({ navigation }) => {
                 borderBottomColor: isActiveInput.title ? '#FF6C00' : '#E8E8E8',
               }}
               value={state.titlePost}
-              onChangeText={value =>
-                setState(prev => ({ ...prev, titlePost: value }))
-              }
+              onChangeText={value => {
+                setState(prev => ({ ...prev, titlePost: value }));
+                setIsDirtyForm(value.length > 0 ? true : false);
+              }}
               onFocus={() => {
                 setIsShowKeyboard(true);
                 handleInputFocus('title');
@@ -403,12 +424,13 @@ export const CreatePosts = ({ navigation }) => {
                     : '#E8E8E8',
                 }}
                 value={state.location?.title}
-                onChangeText={value =>
+                onChangeText={value => {
                   setState(prev => ({
                     ...prev,
                     location: { ...prev.location, title: value },
-                  }))
-                }
+                  }));
+                  setIsDirtyForm(value.length > 0 ? true : false);
+                }}
                 onFocus={() => {
                   setIsShowKeyboard(true);
                   handleInputFocus('location');
@@ -463,6 +485,7 @@ export const CreatePosts = ({ navigation }) => {
             style={styleRemoveBtn}
             onPress={() => {
               setState(INITIAL_POST);
+              setIsDirtyForm(false);
               hideKeyboard();
             }}
             disabled={!state.photoUri}
