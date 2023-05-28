@@ -6,7 +6,7 @@ import { Feather } from '@expo/vector-icons';
 import { styles } from './Post.styles';
 
 export const Post = ({ post, navigation }) => {
-  console.log('Post ====>>>', post);
+  // console.log('Post ====>>>', post);
   const [countComments, setCountComments] = useState(0);
 
   useEffect(() => {

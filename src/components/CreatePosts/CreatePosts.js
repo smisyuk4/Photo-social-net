@@ -37,8 +37,8 @@ export const CreatePosts = ({ navigation }) => {
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [permissionCam, requestPermissionCam] = Camera.useCameraPermissions();
-  const [permissionLoc, setPermissionLoc] = useState();
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [permissionLoc, requestPermissionLoc] =
+    Location.useForegroundPermissions();
   const [state, setState] = useState(INITIAL_POST);
   const userId = useSelector(selectStateUserId);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
@@ -55,38 +55,6 @@ export const CreatePosts = ({ navigation }) => {
       try {
         await Camera.requestCameraPermissionsAsync();
         await MediaLibrary.requestPermissionsAsync();
-      } catch (error) {
-        console.log(error.message);
-      }
-    })();
-  }, []);
-
-  // location permission and coords
-  useEffect(() => {
-    (async () => {
-      try {
-        const { status } = await Location.requestForegroundPermissionsAsync();
-
-        if (status !== 'granted') {
-          setErrorMsg('Permission to access location was denied');
-          return;
-        }
-
-        const {
-          coords: { latitude, longitude },
-        } = await Location.getCurrentPositionAsync({});
-
-        const [postAddress] = await Location.reverseGeocodeAsync({
-          latitude,
-          longitude,
-        });
-
-        console.log('postAddress ', postAddress);
-
-        setState(prev => ({
-          ...prev,
-          location: { latitude, longitude, postAddress },
-        }));
       } catch (error) {
         console.log(error.message);
       }
@@ -173,22 +141,54 @@ export const CreatePosts = ({ navigation }) => {
     );
   };
 
+  const getLocation = async () => {
+    if (!permissionLoc.granted) {
+      return (
+        <View style={styles.permission}>
+          <Text style={{ textAlign: 'center' }}>
+            We need your permission to location
+          </Text>
+          <Button onPress={requestPermissionLoc} title="grant permission" />
+        </View>
+      );
+    }
+
+    const {
+      coords: { latitude, longitude },
+    } = await Location.getCurrentPositionAsync({});
+
+    const [postAddress] = await Location.reverseGeocodeAsync({
+      latitude,
+      longitude,
+    });
+
+    setState(prev => ({
+      ...prev,
+      location: { latitude, longitude, postAddress },
+    }));
+  };
+
   const takePhoto = async () => {
+    console.log('takePhoto - permissionLoc.granted', permissionLoc.granted);
+
     if (cameraRef) {
       try {
         const { uri } = await cameraRef.current.takePictureAsync();
+        await getLocation();
 
         setState(prev => ({
           ...prev,
           photoUri: uri,
         }));
       } catch (error) {
-        console.log(error.message);
+        console.log('takePhoto ===>>> ', error.message);
       }
     }
   };
 
   const pickImage = async () => {
+    console.log('pickImage - permissionLoc.granted', permissionLoc.granted);
+
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -198,13 +198,14 @@ export const CreatePosts = ({ navigation }) => {
       });
 
       if (!result.canceled) {
+        await getLocation();
         setState(prev => ({
           ...prev,
           photoUri: result.assets[0].uri,
         }));
       }
     } catch (error) {
-      console.log(error.message);
+      console.log('pickImage ====>> ', error.message);
     }
   };
 
