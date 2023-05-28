@@ -1,20 +1,13 @@
-import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
-import { Post } from '../Post';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import * as MediaLibrary from 'expo-media-library';
-import * as ImagePicker from 'expo-image-picker';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Post } from '../Post';
 import { styles } from './ProfileList.styles';
 
-export const ProfileList = ({ navigation, posts, login }) => {
-
+export const ProfileList = ({ navigation, posts }) => {
   if (posts.length === 0) {
     return (
       <View style={styles.container}>
-
         <Text>Зараз у тебе немає фото, але можна зробити щось класне...</Text>
 
         <TouchableOpacity
@@ -27,14 +20,13 @@ export const ProfileList = ({ navigation, posts, login }) => {
     );
   }
 
-
   return (
     <View style={styles.container}>
       <FlatList
         data={posts}
-        keyExtractor={({ id }) => id}
+        keyExtractor={({id}) => id}
         renderItem={({ item }) => <Post post={item} navigation={navigation} />}
-        ListFooterComponent={<View style={{height: hp('12%')}}/>}
+        ListFooterComponent={<View style={{ height: hp('12%') }} />}
       />
     </View>
   );

@@ -1,29 +1,28 @@
 import { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { db } from '../../../firebase/config';
-import { collection, onSnapshot, getCountFromServer } from 'firebase/firestore';
+import { collection, getCountFromServer } from 'firebase/firestore';
 import { Feather } from '@expo/vector-icons';
 import { styles } from './Post.styles';
 
 export const Post = ({ post, navigation }) => {
   const [countComments, setCountComments] = useState(0);
-  console.log('post', post);
 
   useEffect(() => {
-    const checkCount = async () => {
-      const dbRef = collection(db, 'posts', post.id, 'comments');
+    try {
+      const checkCount = async () => {
+        const dbRef = collection(db, 'posts', post.id, 'comments');
 
-      // onSnapshot(dbRef, data => {
-      //   setCountComments(data?.docs?.length)
-      // });
+        const snapshot = await getCountFromServer(dbRef);
+        setCountComments(snapshot.data().count);
+      };
 
-      const snapshot = await getCountFromServer(dbRef);
-      setCountComments(snapshot.data().count)
-    };
-
-    checkCount();
+      checkCount();
+    } catch (error) {
+      console.log('Post ====>>>', error.message);
+    }
   }, [post]);
-  // console.log('countComments', countComments);
+
   return (
     <View style={styles.postWrp}>
       <Image source={{ uri: post.photo }} style={styles.photo} />

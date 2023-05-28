@@ -14,8 +14,6 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
   View,
   Text,
-  Button,
-  FlatList,
   TouchableOpacity,
   ImageBackground,
   Image,
@@ -38,12 +36,18 @@ export const ProfileScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const dbRef = collection(db, 'posts');
-    const myQuery = query(dbRef, where('userId', '==', userId));
+    try {
+      const dbRef = collection(db, 'posts');
+      const myQuery = query(dbRef, where('userId', '==', userId));
 
-    onSnapshot(myQuery, querySnapshot => {
-      setPosts(querySnapshot.docs.map(doc => doc.data()));
-    });
+      onSnapshot(myQuery, querySnapshot => {
+        setPosts(
+          querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        );
+      });
+    } catch (error) {
+      console.log('ProfileScreen ====>>>', error.message);
+    }
   }, []);
 
   // avatar
@@ -127,7 +131,7 @@ export const ProfileScreen = ({ navigation }) => {
 
           <Text style={styles.login}>{login}</Text>
 
-          <ProfileList posts={posts} login={login} navigation={navigation} />
+          <ProfileList posts={posts} navigation={navigation} />
         </View>
       </View>
     </ImageBackground>
