@@ -38,6 +38,7 @@ export const CreatePosts = ({ navigation }) => {
   const [type, setType] = useState(CameraType.back);
   const [permissionCam, requestPermissionCam] = Camera.useCameraPermissions();
   const [permissionLoc, setPermissionLoc] = useState();
+  const [errorMsg, setErrorMsg] = useState(null);
   const [state, setState] = useState(INITIAL_POST);
   const userId = useSelector(selectStateUserId);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
@@ -54,7 +55,38 @@ export const CreatePosts = ({ navigation }) => {
       try {
         await Camera.requestCameraPermissionsAsync();
         await MediaLibrary.requestPermissionsAsync();
-        setPermissionLoc(await Location.getForegroundPermissionsAsync());
+      } catch (error) {
+        console.log(error.message);
+      }
+    })();
+  }, []);
+
+  // location permission and coords
+  useEffect(() => {
+    (async () => {
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
+
+        const {
+          coords: { latitude, longitude },
+        } = await Location.getCurrentPositionAsync({});
+
+        const [postAddress] = await Location.reverseGeocodeAsync({
+          latitude,
+          longitude,
+        });
+
+        console.log('postAddress ', postAddress);
+
+        setState(prev => ({
+          ...prev,
+          location: { latitude, longitude, postAddress },
+        }));
       } catch (error) {
         console.log(error.message);
       }
@@ -145,9 +177,11 @@ export const CreatePosts = ({ navigation }) => {
     if (cameraRef) {
       try {
         const { uri } = await cameraRef.current.takePictureAsync();
-        const location = await getLocation();
 
-        setState(prev => ({ ...prev, photoUri: uri, location }));
+        setState(prev => ({
+          ...prev,
+          photoUri: uri,
+        }));
       } catch (error) {
         console.log(error.message);
       }
@@ -164,36 +198,11 @@ export const CreatePosts = ({ navigation }) => {
       });
 
       if (!result.canceled) {
-        const location = await getLocation();
-
         setState(prev => ({
           ...prev,
           photoUri: result.assets[0].uri,
-          location,
         }));
       }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const getLocation = async () => {
-    if (!permissionLoc.canAskAgain || permissionLoc.status === 'denied') {
-      Linking.openSettings();
-      return;
-    }
-
-    try {
-      const location = await Location.getCurrentPositionAsync({});
-
-      const coords = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      };
-
-      const [postAddress] = await Location.reverseGeocodeAsync(coords);
-
-      return { ...coords, postAddress };
     } catch (error) {
       console.log(error.message);
     }
@@ -203,9 +212,16 @@ export const CreatePosts = ({ navigation }) => {
     setModalVisible(true);
   };
 
-  const draggableMarker = async coords => {
-    const [postAddress] = await Location.reverseGeocodeAsync(coords);
-    setState(prev => ({ ...prev, location: { ...coords, postAddress } }));
+  const draggableMarker = async ({ latitude, longitude }) => {
+    const [postAddress] = await Location.reverseGeocodeAsync({
+      latitude,
+      longitude,
+    });
+
+    setState(prev => ({
+      ...prev,
+      location: { latitude, longitude, postAddress },
+    }));
   };
 
   const hideKeyboard = () => {
@@ -253,8 +269,8 @@ export const CreatePosts = ({ navigation }) => {
       await setDoc(postRef, {
         photo,
         userId,
-        titlePost: state.titlePost,
-        location: state.location,
+        titlePost: state.titlePost ? state.titlePost : 'Незабутня подія',
+        location: state.location ? state.location : {},
         createdAt: Timestamp.fromDate(new Date()),
         updatedAt: Timestamp.fromDate(new Date()),
       });
@@ -269,7 +285,7 @@ export const CreatePosts = ({ navigation }) => {
     try {
       await uploadPostToServer();
     } catch (error) {
-      console.log(error);
+      console.log('publishPost ====>>>', error.message);
     }
 
     setState(INITIAL_POST);

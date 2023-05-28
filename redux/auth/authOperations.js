@@ -74,7 +74,7 @@ export const authSignInUser =
 
 export const authStateChangeUser = () => async (dispatch, state) => {
   await onAuthStateChanged(auth, user => {
-    console.log(user)
+    // console.log(user)
     if (user) {
       const userProfile = {
         userId: user.uid,
