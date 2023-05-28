@@ -34,7 +34,7 @@ export const ProfileList = ({ navigation, posts, login }) => {
         data={posts}
         keyExtractor={({ id }) => id}
         renderItem={({ item }) => <Post post={item} navigation={navigation} />}
-        ListFooterComponent={<View style={{height: 100}}/>}
+        ListFooterComponent={<View style={{height: hp('12%')}}/>}
       />
     </View>
   );

@@ -136,7 +136,7 @@ export const LoginForm = ({
               style={styles.link}
               onPress={() => navigation.navigate('Registration')}
             >
-              Немає аакаунта? Зареєструватись
+              Немає аккаунта? Зареєструватись
             </Text>
           </View>
         </View>

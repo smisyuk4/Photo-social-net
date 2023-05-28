@@ -1,4 +1,5 @@
 import { View, FlatList, Image } from 'react-native';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Comment } from '../Comment';
 import { styles } from './CommentsList.styles';
 
@@ -18,6 +19,7 @@ export const CommentsList = ({ allComments, photo }) => {
           </>
         )}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        ListFooterComponent={<View style={{height: hp('8%')}}/>}
       />
     </View>
   );

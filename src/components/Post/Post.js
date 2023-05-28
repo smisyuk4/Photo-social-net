@@ -7,7 +7,7 @@ import { styles } from './Post.styles';
 
 export const Post = ({ post, navigation }) => {
   const [countComments, setCountComments] = useState(0);
-  // console.log('post', post);
+  console.log('post', post);
 
   useEffect(() => {
     const checkCount = async () => {

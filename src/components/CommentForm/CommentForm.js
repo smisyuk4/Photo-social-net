@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectStateLogin } from '../../../redux/selectors';
 
 import { db } from '../../../firebase/config';
 import { setDoc, doc, Timestamp } from 'firebase/firestore';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, TouchableOpacity, TextInput } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { styles } from './CommentForm.styles';
@@ -68,7 +68,10 @@ export const CommentForm = ({
           setIsShowKeyboard(true);
           handleInputFocus('comment');
         }}
-        onBlur={() => handleInputBlur('comment')}
+        onBlur={() => {
+          handleInputBlur('comment');
+          hideKeyboard();
+        }}
         inputMode="text"
         placeholder="Коментар..."
         multiline={true}
