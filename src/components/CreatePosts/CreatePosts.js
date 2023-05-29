@@ -45,6 +45,7 @@ export const CreatePosts = ({ navigation }) => {
     Location.useForegroundPermissions();
   const [state, setState] = useState(INITIAL_POST);
   const userId = useSelector(selectStateUserId);
+  const [isShowLoader, setIsShowLoader] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isActiveInput, setIsActiveInput] = useState({
     title: false,
@@ -186,8 +187,6 @@ export const CreatePosts = ({ navigation }) => {
   };
 
   const takePhoto = async () => {
-    console.log('takePhoto - permissionLoc.granted', permissionLoc.granted);
-
     if (cameraRef) {
       try {
         const { uri } = await cameraRef.current.takePictureAsync();
@@ -206,8 +205,6 @@ export const CreatePosts = ({ navigation }) => {
   };
 
   const pickImage = async () => {
-    console.log('pickImage - permissionLoc.granted', permissionLoc.granted);
-
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -236,15 +233,19 @@ export const CreatePosts = ({ navigation }) => {
   };
 
   const draggableMarker = async ({ latitude, longitude }) => {
-    const [postAddress] = await Location.reverseGeocodeAsync({
-      latitude,
-      longitude,
-    });
+    try {
+      const [postAddress] = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
 
-    setState(prev => ({
-      ...prev,
-      location: { latitude, longitude, postAddress },
-    }));
+      setState(prev => ({
+        ...prev,
+        location: { latitude, longitude, postAddress },
+      }));
+    } catch (error) {
+      console.log('draggableMarker ====>> ', error.message);
+    }
   };
 
   const hideKeyboard = () => {
@@ -303,6 +304,7 @@ export const CreatePosts = ({ navigation }) => {
   };
 
   const publishPost = async () => {
+    setIsShowLoader(true);
     hideKeyboard();
 
     try {
@@ -313,9 +315,13 @@ export const CreatePosts = ({ navigation }) => {
 
     setState(INITIAL_POST);
     setIsDirtyForm(false);
-
+    setIsShowLoader(false);
     navigation.navigate('PostsScreen', { screen: 'Posts' });
   };
+
+  if (isShowLoader) {
+    return <LoaderScreen />;
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => hideKeyboard()}>

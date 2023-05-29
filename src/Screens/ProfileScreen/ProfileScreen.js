@@ -27,14 +27,16 @@ import { db } from '../../../firebase/config';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { ProfileList } from '../../components/ProfileList/ProfileList';
 import { askIfQuit } from '../Home';
+import { LoaderScreen } from '../LoaderScreen';
 import { styles } from './ProfileScreen.styles';
 
 export const ProfileScreen = ({ navigation }) => {
+  const [posts, setPosts] = useState([]);
+  const [isShowLoader, setIsShowLoader] = useState(false);
   const dispatch = useDispatch();
   const userId = useSelector(selectStateUserId);
   const login = useSelector(selectStateLogin);
   const avatar = useSelector(selectStateAvatar);
-  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     try {
@@ -99,9 +101,13 @@ export const ProfileScreen = ({ navigation }) => {
   };
 
   const changeAvatar = async () => {
+    setIsShowLoader(true);
+
     const avatarUri = await pickImage();
     const avatarURL = await uploadPhotoToServer(avatarUri);
+
     dispatch(authUpdateUser({ avatarURL }));
+    setIsShowLoader(false);
   };
 
   return (
@@ -110,7 +116,11 @@ export const ProfileScreen = ({ navigation }) => {
         <View style={styles.myPostsContainer}>
           <View style={styles.avatarContainer}>
             <View style={styles.avatarWrp}>
-              <Image source={{ uri: avatar }} style={styles.avatarImg} />
+              {isShowLoader ? (
+                <LoaderScreen />
+              ) : (
+                <Image source={{ uri: avatar }} style={styles.avatarImg} />
+              )}
             </View>
 
             <TouchableOpacity
