@@ -160,15 +160,10 @@ export const CreatePosts = ({ navigation }) => {
   };
 
   const getLocation = async () => {
+    console.log('permissionLoc ', permissionLoc);
+
     if (!permissionLoc.granted) {
-      return (
-        <View style={styles.permission}>
-          <Text style={{ textAlign: 'center' }}>
-            We need your permission to location
-          </Text>
-          <Button onPress={requestPermissionLoc} title="grant permission" />
-        </View>
-      );
+      requestPermissionLoc();
     }
 
     const {
