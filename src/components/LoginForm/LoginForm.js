@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 import { authSignInUser } from '../../../redux/auth/authOperations';
 import {
   View,
@@ -9,11 +9,10 @@ import {
   Platform,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  Alert,
 } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { LoaderScreen } from '../../Screens/LoaderScreen';
 import { styles } from './LoginForm.styles';
 
 const INITIAL_STATE = {
@@ -28,15 +27,9 @@ export const LoginForm = ({
   navigation,
 }) => {
   const [state, setState] = useState({ ...INITIAL_STATE });
-  const dispatch = useDispatch()
-
-  const submit = () => {
-    // console.log(state);
-    dispatch(authSignInUser(state))
-    setState(INITIAL_STATE);
-    hideKeyboard();
-    // navigation.navigate('Home', {})
-  };
+  const [isShowLoader, setIsShowLoader] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(true);
+  const dispatch = useDispatch();
 
   // border
   const [isActiveInput, setIsActiveInput] = useState({
@@ -55,12 +48,24 @@ export const LoginForm = ({
     });
   };
 
-  // password
-  const [isShowPassword, setIsShowPassword] = useState(true);
-
   const toggleShowPassword = () => {
     setIsShowPassword(prevState => !prevState);
   };
+
+  const submit = () => {
+    setIsShowLoader(true);
+    hideKeyboard();
+    dispatch(authSignInUser(state)).then(data => {
+      if (data === undefined || !data.user) {
+        setIsShowLoader(false);
+        Alert.alert('Вхід не виконано!', `Помилка: ${data}`);
+      }
+    });
+  };
+
+  if (isShowLoader) {
+    return <LoaderScreen />;
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => hideKeyboard()}>
@@ -69,7 +74,10 @@ export const LoginForm = ({
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View
-          style={{ ...styles.form, paddingBottom: isShowKeyboard ? hp('2%') : hp('15%') }}
+          style={{
+            ...styles.form,
+            paddingBottom: isShowKeyboard ? hp('2%') : hp('15%'),
+          }}
         >
           <Text style={styles.title}>Вхід</Text>
 
@@ -125,10 +133,7 @@ export const LoginForm = ({
           </View>
 
           <View style={{ display: isShowKeyboard ? 'none' : 'flex' }}>
-            <TouchableOpacity
-              style={styles.buttonForm}
-              onPress={submit}
-            >
+            <TouchableOpacity style={styles.buttonForm} onPress={submit}>
               <Text style={styles.buttonFormText}>{'Вхід'}</Text>
             </TouchableOpacity>
 

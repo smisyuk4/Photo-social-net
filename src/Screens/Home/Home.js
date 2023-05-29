@@ -1,4 +1,4 @@
-import { View, Alert, Button } from 'react-native';
+import { View, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { authSignOutUser } from '../../../redux/auth/authOperations';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';

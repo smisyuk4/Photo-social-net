@@ -12,13 +12,12 @@ import {
   Platform,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  Alert,
 } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { LoaderScreen } from '../../Screens/LoaderScreen';
 import { styles } from './RegisterForm.styles';
 
 const INITIAL_STATE = {
@@ -35,6 +34,8 @@ export const RegisterForm = ({
   navigation,
 }) => {
   const [state, setState] = useState({ ...INITIAL_STATE });
+  const [isShowLoader, setIsShowLoader] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(true);
   const dispatch = useDispatch();
 
   // border
@@ -49,14 +50,12 @@ export const RegisterForm = ({
       [textInput]: true,
     });
   };
+
   const handleInputBlur = textInput => {
     setIsActiveInput({
       [textInput]: false,
     });
   };
-
-  // password
-  const [isShowPassword, setIsShowPassword] = useState(true);
 
   const toggleShowPassword = () => {
     setIsShowPassword(prevState => !prevState);
@@ -82,6 +81,9 @@ export const RegisterForm = ({
   };
 
   const uploadPhotoToServer = async () => {
+    if (!state.avatarUri) {
+      return null;
+    }
     const uniquePostId = Date.now().toString();
 
     try {
@@ -99,11 +101,21 @@ export const RegisterForm = ({
   };
 
   const submit = async () => {
-    const photo = await uploadPhotoToServer();
-    dispatch(authSignUpUser({ ...state, photo }));
-    setState(INITIAL_STATE);
+    setIsShowLoader(true);
     hideKeyboard();
+
+    const photo = await uploadPhotoToServer();
+    dispatch(authSignUpUser({ ...state, photo })).then(data => {
+      if (data === undefined || !data.uid) {
+        setIsShowLoader(false);
+        Alert.alert('Реєстрацію не виконано!', `Помилка: ${data}`);
+      }
+    });
   };
+
+  if (isShowLoader) {
+    return <LoaderScreen />;
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => hideKeyboard()}>

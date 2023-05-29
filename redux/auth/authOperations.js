@@ -21,7 +21,12 @@ export const authSignUpUser =
         photoURL: photo,
       });
 
-      const { uid, displayName, email: emailBase, photoURL: photoUrlBase } = await auth.currentUser;
+      const {
+        uid,
+        displayName,
+        email: emailBase,
+        photoURL: photoUrlBase,
+      } = await auth.currentUser;
 
       const userProfile = {
         userId: uid,
@@ -31,8 +36,9 @@ export const authSignUpUser =
       };
 
       dispatch(updateUserProfile(userProfile));
+      return user;
     } catch (error) {
-      console.log(error.message);
+      return error.code;
     }
   };
 
@@ -40,14 +46,14 @@ export const authSignInUser =
   ({ login, email, password }) =>
   async (dispatch, state) => {
     try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
+      return await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      console.log(error.message);
+      return error.code;
     }
   };
 
-  // refactor to change avatar or login
-  export const authUpdateUser =
+// refactor to change avatar or login
+export const authUpdateUser =
   ({ avatarURL }) =>
   async (dispatch, state) => {
     try {
@@ -57,7 +63,12 @@ export const authSignInUser =
         photoURL: avatarURL,
       });
 
-      const { uid, displayName, email: emailBase, photoURL: photoUrlBase } = await auth.currentUser;
+      const {
+        uid,
+        displayName,
+        email: emailBase,
+        photoURL: photoUrlBase,
+      } = await auth.currentUser;
 
       const userProfile = {
         userId: uid,
@@ -68,7 +79,7 @@ export const authSignInUser =
 
       dispatch(updateUserProfile(userProfile));
     } catch (error) {
-      console.log(error.message);
+      return error.code;
     }
   };
 
