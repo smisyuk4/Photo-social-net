@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
+  headerBackBtn: '#212121',
   photo: {
     height: hp('28.8%'),
     marginBottom: hp('0.96%'),

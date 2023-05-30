@@ -2,9 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   headerTintColor: '#212121',
-  // headerTitleAlign: 'center',
+  headerTitleAlign: 'center',
   headerTitleStyle: {
-    headerTitleAlign: 'center',
     fontWeight: '500',
     fontSize: 17,
   },

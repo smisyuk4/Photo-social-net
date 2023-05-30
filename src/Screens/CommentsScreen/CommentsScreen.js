@@ -9,6 +9,7 @@ import {
   Platform,
   KeyboardAvoidingView,
 } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import { CommentsList } from '../../components/CommentsList/CommentsList';
 import { CommentForm } from '../../components/CommentForm/CommentForm';
 import { styles } from './CommentsScreen.styles';
@@ -26,7 +27,21 @@ export const CommentsScreen = ({ navigation, route }) => {
         data.docs.map(comment => ({ id: comment.id, ...comment.data() }))
       );
     });
-  }, [postId]);
+
+    navigation.setOptions({
+      headerLeft: () => (
+        <Feather
+          name="arrow-left"
+          size={24}
+          color={styles.headerBackBtn}
+          onPress={() => {
+            unsubscribe();
+            navigation.goBack();
+          }}
+        />
+      ),
+    });
+  }, [postId, navigation]);
 
   const hideKeyboard = () => {
     setIsShowKeyboard(false);

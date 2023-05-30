@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  authSignOutUser,
-  authUpdateUser,
-} from '../../../redux/auth/authOperations';
+import { authUpdateUser } from '../../../redux/auth/authOperations';
 import {
   selectStateUserId,
   selectStateLogin,
@@ -48,7 +45,7 @@ export const ProfileScreen = ({ navigation }) => {
     });
 
     refUnsubscribe.current = unsubscribe;
-  }, []);
+  }, [userId]);
 
   // avatar
   useEffect(() => {
@@ -133,8 +130,9 @@ export const ProfileScreen = ({ navigation }) => {
               name="log-out"
               size={24}
               color={styles.exitBtn.color}
-              // onPress={() => dispatch(authSignOutUser())}
-              onPress={() => askIfQuit(dispatch, refUnsubscribe.current)}
+              onPress={() => {
+                askIfQuit(dispatch, refUnsubscribe.current);
+              }}
             />
           </View>
 

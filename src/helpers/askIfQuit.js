@@ -2,7 +2,7 @@ import { authSignOutUser } from '../../redux/auth/authOperations';
 import { Alert } from 'react-native';
 
 export const askIfQuit = (dispatch, unsubscribe) => {
-  console.log(unsubscribe)
+  console.log('unsubscribe', unsubscribe);
   Alert.alert('Увага!', 'Вихід з додатку', [
     {
       text: 'Відмінити',
@@ -12,7 +12,9 @@ export const askIfQuit = (dispatch, unsubscribe) => {
     {
       text: 'Добре',
       onPress: () => {
-        unsubscribe()
+        if (unsubscribe) {
+          unsubscribe();
+        }
         dispatch(authSignOutUser());
       },
     },

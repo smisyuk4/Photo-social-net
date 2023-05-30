@@ -4,25 +4,10 @@ import { AntDesign, Feather } from '@expo/vector-icons';
 import { PostsScreen } from '../PostsScreen';
 import { CreatePostsScreen } from '../CreatePostsScreen';
 import { ProfileScreen } from '../ProfileScreen';
+import { checkIsDirtyForm } from '../../helpers/checkIsDirtyForm';
 import { styles } from './Home.styles';
 
 const Tabs = createBottomTabNavigator();
-
-const checkIsDirtyForm = (navigation, { params }) => {
-  if (params.isDirtyForm) {
-    Alert.alert('Увага!', 'При переході дані не зберігаються', [
-      {
-        text: 'Відмінити',
-        onPress: () => console.log('Cancel Pressed'),
-        // style: 'cancel',
-      },
-      { text: 'Добре', onPress: () => navigation.goBack() },
-    ]);
-    return;
-  }
-
-  navigation.goBack();
-};
 
 const screenOptions = ({ navigation, route }) => ({
   headerLeft: () => (
@@ -31,7 +16,7 @@ const screenOptions = ({ navigation, route }) => ({
       size={24}
       color={styles.headerTintColor}
       onPress={() => {
-        console.log('home - left')
+        console.log('home - left');
         checkIsDirtyForm(navigation, route);
       }}
     />

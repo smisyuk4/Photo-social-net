@@ -43,14 +43,6 @@ const screenOptions = ({ navigation, route }) => ({
       onPress={navigation.goBack}
     />
   ),
-  headerRight: () => (
-    <Feather
-      name="log-out"
-      size={24}
-      color={styles.header.colorSecondary}
-      onPress={navigation.goBack}
-    />
-  ),
 });
 
 export const useRoute = isAuth => {
