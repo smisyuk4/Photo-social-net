@@ -21,7 +21,7 @@ export const CommentsScreen = ({ navigation, route }) => {
   useEffect(() => {
     const commentsRef = collection(db, 'posts', postId, 'comments');
 
-    onSnapshot(commentsRef, data => {
+    const unsubscribe = onSnapshot(commentsRef, data => {
       setAllComments(
         data.docs.map(comment => ({ id: comment.id, ...comment.data() }))
       );

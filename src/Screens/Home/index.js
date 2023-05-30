@@ -1,1 +1,1 @@
-export { Home, askIfQuit } from './Home';
+export { Home } from './Home';

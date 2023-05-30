@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { authSignOutUser } from '../../../redux/auth/authOperations';
 import {
   selectStateLogin,
   selectStateEmail,
@@ -8,23 +10,46 @@ import {
 import { db } from '../../../firebase/config';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { View, Text, FlatList, Image } from 'react-native';
-
+import { Feather } from '@expo/vector-icons';
+import { LoaderScreen } from '../../Screens/LoaderScreen';
 import { Post } from '../Post';
+import { askIfQuit } from '../../helpers/askIfQuit';
 import { styles } from './PostsList.styles';
 
-export const PostsList = ({ navigation }) => {
+export const PostsList = ({ navigation, route }) => {
+  const dispatch = useDispatch();
+  const [isShowLoader, setIsShowLoader] = useState(false);
   const [posts, setPosts] = useState([]);
   const login = useSelector(selectStateLogin);
   const email = useSelector(selectStateEmail);
   const avatar = useSelector(selectStateAvatar);
 
   useEffect(() => {
+    setIsShowLoader(true);
     const dbRef = collection(db, 'posts');
 
-    onSnapshot(dbRef, data => {
+    const unsubscribe = onSnapshot(dbRef, data => {
       setPosts(data.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setIsShowLoader(false);
     });
-  }, []);
+
+    navigation.setOptions({
+      headerRight: () => (
+        <Feather
+          name="log-out"
+          size={24}
+          color={styles.headerExitBtn.color}
+          onPress={() => {
+            askIfQuit(dispatch, unsubscribe);
+          }}
+        />
+      ),
+    });
+  }, [navigation]);
+
+  if (isShowLoader) {
+    return <LoaderScreen />;
+  }
 
   if (posts.length === 0) {
     return (

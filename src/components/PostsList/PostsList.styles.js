@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import {
-  widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
@@ -9,6 +8,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 16,
+  },
+  headerExitBtn: {
+    color: '#BDBDBD',
   },
   text: {
     alignSelf: 'center',

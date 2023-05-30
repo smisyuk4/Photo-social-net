@@ -1,27 +1,32 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  header: {
-    colorPrimary: '#212121',
-    colorSecondary: '#BDBDBD',
-  },
-  headerTitle: {
-    alignItems: 'center',
+  headerTintColor: '#212121',
+  // headerTitleAlign: 'center',
+  headerTitleStyle: {
+    headerTitleAlign: 'center',
     fontWeight: '500',
     fontSize: 17,
   },
-  headerContainerItem: {
+  headerTitleContainerStyle: {
     justifyContent: 'flex-end',
     paddingBottom: 11,
     paddingHorizontal: 16,
   },
-  headerExitBtn: {
-    color: '#BDBDBD',
+  headerRightContainerStyle: {
+    justifyContent: 'flex-end',
+    paddingBottom: 11,
+    paddingHorizontal: 16,
   },
-  tabBar: {
+  headerLeftContainerStyle: {
+    justifyContent: 'flex-end',
+    paddingBottom: 11,
+    paddingHorizontal: 16,
+  },
+  tabBarStyle: {
     paddingHorizontal: 73,
   },
-  tabBarItem: {
+  tabBarItemStyle: {
     paddingTop: 9,
     paddingBottom: 35,
     height: 85,

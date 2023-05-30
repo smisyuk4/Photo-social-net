@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   authSignOutUser,
@@ -26,7 +26,7 @@ import image from '../../images/photoBg.jpeg';
 import { db } from '../../../firebase/config';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { ProfileList } from '../../components/ProfileList/ProfileList';
-import { askIfQuit } from '../Home';
+import { askIfQuit } from '../../helpers/askIfQuit';
 import { LoaderScreen } from '../LoaderScreen';
 import { styles } from './ProfileScreen.styles';
 
@@ -34,23 +34,20 @@ export const ProfileScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
   const [isShowLoader, setIsShowLoader] = useState(false);
   const dispatch = useDispatch();
+  const refUnsubscribe = useRef();
   const userId = useSelector(selectStateUserId);
   const login = useSelector(selectStateLogin);
   const avatar = useSelector(selectStateAvatar);
 
   useEffect(() => {
-    try {
-      const dbRef = collection(db, 'posts');
-      const myQuery = query(dbRef, where('userId', '==', userId));
+    const dbRef = collection(db, 'posts');
+    const myQuery = query(dbRef, where('userId', '==', userId));
 
-      onSnapshot(myQuery, querySnapshot => {
-        setPosts(
-          querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-        );
-      });
-    } catch (error) {
-      console.log('ProfileScreen ====>>>', error.message);
-    }
+    const unsubscribe = onSnapshot(myQuery, querySnapshot => {
+      setPosts(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+
+    refUnsubscribe.current = unsubscribe;
   }, []);
 
   // avatar
@@ -137,7 +134,7 @@ export const ProfileScreen = ({ navigation }) => {
               size={24}
               color={styles.exitBtn.color}
               // onPress={() => dispatch(authSignOutUser())}
-              onPress={() => askIfQuit(dispatch)}
+              onPress={() => askIfQuit(dispatch, refUnsubscribe.current)}
             />
           </View>
 

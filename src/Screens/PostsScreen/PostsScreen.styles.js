@@ -1,11 +1,24 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  header: {
-    colorPrimary: '#212121',
-    colorSecondary: '#BDBDBD',
+  headerTintColor: '#212121',
+  // headerTitleAlign: 'center',
+  headerTitleStyle: {
+    headerTitleAlign: 'center',
+    fontWeight: '500',
+    fontSize: 17,
   },
-  headerContainerItem: {
+  headerTitleContainerStyle: {
+    justifyContent: 'flex-end',
+    paddingBottom: 11,
+    paddingHorizontal: 16,
+  },
+  headerRightContainerStyle: {
+    justifyContent: 'flex-end',
+    paddingBottom: 11,
+    paddingHorizontal: 16,
+  },
+  headerLeftContainerStyle: {
     justifyContent: 'flex-end',
     paddingBottom: 11,
     paddingHorizontal: 16,

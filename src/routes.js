@@ -8,6 +8,23 @@ import { Home } from './Screens/Home';
 import { CommentsScreen } from './Screens/CommentsScreen';
 import { MapScreen } from './Screens/MapScreen';
 
+const styles = StyleSheet.create({
+  header: {
+    colorPrimary: '#212121',
+    colorSecondary: '#BDBDBD',
+  },
+  headerTitle: {
+    alignItems: 'center',
+    fontWeight: '500',
+    fontSize: 17,
+  },
+  headerContainerItem: {
+    justifyContent: 'flex-end',
+    paddingBottom: 11,
+    paddingHorizontal: 16,
+  },
+});
+
 const MainStack = createStackNavigator();
 
 const screenOptions = ({ navigation, route }) => ({
@@ -92,19 +109,4 @@ export const useRoute = isAuth => {
   );
 };
 
-const styles = StyleSheet.create({
-  header: {
-    colorPrimary: '#212121',
-    colorSecondary: '#BDBDBD',
-  },
-  headerTitle: {
-    alignItems: 'center',
-    fontWeight: '500',
-    fontSize: 17,
-  },
-  headerContainerItem: {
-    justifyContent: 'flex-end',
-    paddingBottom: 11,
-    paddingHorizontal: 16,
-  },
-});
+
