@@ -19,29 +19,33 @@ export const CommentsScreen = ({ navigation, route }) => {
   const [allComments, setAllComments] = useState([]);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
-  // useEffect(() => {
-  //   const commentsRef = collection(db, 'posts', postId, 'comments');
+  useEffect(() => {
+    const commentsRef = collection(db, 'posts', postId, 'comments');
 
-  //   const unsubscribe = onSnapshot(commentsRef, data => {
-  //     setAllComments(
-  //       data.docs.map(comment => ({ id: comment.id, ...comment.data() }))
-  //     );
-  //   });
+    onSnapshot(commentsRef, data => {
+      setAllComments(
+        data.docs.map(comment => ({ id: comment.id, ...comment.data() }))
+      );
+    },
+    (error) => {
+      console.log('CommentsScreen - error, ', error)
+    }
+    );
 
-  //   navigation.setOptions({
-  //     headerLeft: () => (
-  //       <Feather
-  //         name="arrow-left"
-  //         size={24}
-  //         color={styles.headerBackBtn}
-  //         onPress={() => {
-  //           unsubscribe();
-  //           navigation.goBack();
-  //         }}
-  //       />
-  //     ),
-  //   });
-  // }, [postId, navigation]);
+    navigation.setOptions({
+      headerLeft: () => (
+        <Feather
+          name="arrow-left"
+          size={24}
+          color={styles.headerBackBtn}
+          onPress={() => {
+            // unsubscribe();
+            navigation.goBack();
+          }}
+        />
+      ),
+    });
+  }, [postId, navigation]);
 
   const hideKeyboard = () => {
     setIsShowKeyboard(false);

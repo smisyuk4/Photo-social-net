@@ -28,10 +28,14 @@ export const PostsList = ({ navigation, route }) => {
     setIsShowLoader(true);
     const dbRef = collection(db, 'posts');
 
-    const unsubscribe = onSnapshot(dbRef, data => {
+    onSnapshot(dbRef, data => {
       setPosts(data.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       setIsShowLoader(false);
-    });
+    },
+    (error) => {
+      console.log('posts list - error, ', error)
+    }
+    );
 
 
     navigation.setOptions({
@@ -47,7 +51,6 @@ export const PostsList = ({ navigation, route }) => {
       ),
     });
 
-    return () => unsubscribe()
   }, [navigation]);
 
   if (isShowLoader) {
