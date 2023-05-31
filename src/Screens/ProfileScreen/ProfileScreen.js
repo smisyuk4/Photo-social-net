@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authUpdateUser } from '../../../redux/auth/authOperations';
 import {
@@ -31,7 +31,6 @@ export const ProfileScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
   const [isShowLoader, setIsShowLoader] = useState(false);
   const dispatch = useDispatch();
-  const refUnsubscribe = useRef();
   const userId = useSelector(selectStateUserId);
   const login = useSelector(selectStateLogin);
   const avatar = useSelector(selectStateAvatar);
@@ -40,11 +39,15 @@ export const ProfileScreen = ({ navigation }) => {
     const dbRef = collection(db, 'posts');
     const myQuery = query(dbRef, where('userId', '==', userId));
 
-    const unsubscribe = onSnapshot(myQuery, querySnapshot => {
-      setPosts(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
-
-    refUnsubscribe.current = unsubscribe;
+    onSnapshot(
+      myQuery,
+      querySnapshot => {
+        setPosts(
+          querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        );
+      },
+      () => {}
+    );
   }, [userId]);
 
   // avatar
@@ -131,7 +134,7 @@ export const ProfileScreen = ({ navigation }) => {
               size={24}
               color={styles.exitBtn.color}
               onPress={() => {
-                askIfQuit(dispatch, refUnsubscribe.current);
+                askIfQuit(dispatch);
               }}
             />
           </View>

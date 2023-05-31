@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { authSignOutUser } from '../../../redux/auth/authOperations';
 import {
   selectStateLogin,
   selectStateEmail,
   selectStateAvatar,
+  selectorStateComment,
 } from '../../../redux/selectors';
 import { db } from '../../../firebase/config';
 import { collection, onSnapshot } from 'firebase/firestore';
@@ -23,15 +23,20 @@ export const PostsList = ({ navigation, route }) => {
   const login = useSelector(selectStateLogin);
   const email = useSelector(selectStateEmail);
   const avatar = useSelector(selectStateAvatar);
+  const comment = useSelector(selectorStateComment);
 
   useEffect(() => {
     setIsShowLoader(true);
     const dbRef = collection(db, 'posts');
 
-    const unsubscribe = onSnapshot(dbRef, data => {
-      setPosts(data.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      setIsShowLoader(false);
-    });
+    onSnapshot(
+      dbRef,
+      data => {
+        setPosts(data.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        setIsShowLoader(false);
+      },
+      () => {}
+    );
 
     navigation.setOptions({
       headerRight: () => (
@@ -40,12 +45,12 @@ export const PostsList = ({ navigation, route }) => {
           size={24}
           color={styles.headerExitBtn.color}
           onPress={() => {
-            askIfQuit(dispatch, unsubscribe);
+            askIfQuit(dispatch);
           }}
         />
       ),
     });
-  }, [navigation]);
+  }, [navigation, comment]);
 
   if (isShowLoader) {
     return <LoaderScreen />;

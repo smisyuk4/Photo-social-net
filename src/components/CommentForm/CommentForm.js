@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectStateLogin } from '../../../redux/selectors';
+import { addComment } from '../../../redux/post/postReducer';
 
 import { db } from '../../../firebase/config';
 import { setDoc, doc, Timestamp } from 'firebase/firestore';
@@ -15,6 +16,7 @@ export const CommentForm = ({
   setIsShowKeyboard,
   hideKeyboard,
 }) => {
+  const dispatch = useDispatch();
   const login = useSelector(selectStateLogin);
   const [myComment, setMyComment] = useState('');
   const [isActiveInput, setIsActiveInput] = useState(false);
@@ -39,6 +41,7 @@ export const CommentForm = ({
         updatedAt: Timestamp.fromDate(new Date()),
       });
       setMyComment('');
+      dispatch(addComment(myComment));
     } catch (error) {
       console.log(error);
     } finally {

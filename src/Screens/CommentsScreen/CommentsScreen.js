@@ -22,11 +22,15 @@ export const CommentsScreen = ({ navigation, route }) => {
   useEffect(() => {
     const commentsRef = collection(db, 'posts', postId, 'comments');
 
-    const unsubscribe = onSnapshot(commentsRef, data => {
-      setAllComments(
-        data.docs.map(comment => ({ id: comment.id, ...comment.data() }))
-      );
-    });
+    onSnapshot(
+      commentsRef,
+      data => {
+        setAllComments(
+          data.docs.map(comment => ({ id: comment.id, ...comment.data() }))
+        );
+      },
+      () => {}
+    );
 
     navigation.setOptions({
       headerLeft: () => (
@@ -35,7 +39,6 @@ export const CommentsScreen = ({ navigation, route }) => {
           size={24}
           color={styles.headerBackBtn}
           onPress={() => {
-            unsubscribe();
             navigation.goBack();
           }}
         />
