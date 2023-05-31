@@ -58,6 +58,7 @@ export const CreatePosts = ({ navigation }) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setState(INITIAL_POST);
+      setIsDirtyForm(false)
     });
     return unsubscribe;
   }, [navigation]);

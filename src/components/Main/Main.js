@@ -15,5 +15,7 @@ export const Main = () => {
 
   const routing = useRoute(stateChange);
 
-  return <NavigationContainer>{routing}</NavigationContainer>;
+  return (
+    <NavigationContainer independent={true}>{routing}</NavigationContainer>
+  );
 };

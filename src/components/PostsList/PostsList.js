@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { authSignOutUser } from '../../../redux/auth/authOperations';
 import {
   selectStateLogin,
   selectStateEmail,
