@@ -37,14 +37,14 @@ export const ProfileScreen = ({ navigation }) => {
   const avatar = useSelector(selectStateAvatar);
 
   useEffect(() => {
-    const dbRef = collection(db, 'posts');
-    const myQuery = query(dbRef, where('userId', '==', userId));
+    // const dbRef = collection(db, 'posts');
+    // const myQuery = query(dbRef, where('userId', '==', userId));
 
-    const unsubscribe = onSnapshot(myQuery, querySnapshot => {
-      setPosts(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
+    // const unsubscribe = onSnapshot(myQuery, querySnapshot => {
+    //   setPosts(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    // });
 
-    refUnsubscribe.current = unsubscribe;
+    // refUnsubscribe.current = unsubscribe;
   }, [userId]);
 
   // avatar

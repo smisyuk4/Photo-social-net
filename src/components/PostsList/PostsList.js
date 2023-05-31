@@ -33,6 +33,7 @@ export const PostsList = ({ navigation, route }) => {
       setIsShowLoader(false);
     });
 
+
     navigation.setOptions({
       headerRight: () => (
         <Feather
@@ -40,11 +41,13 @@ export const PostsList = ({ navigation, route }) => {
           size={24}
           color={styles.headerExitBtn.color}
           onPress={() => {
-            askIfQuit(dispatch, unsubscribe);
+            askIfQuit(dispatch);
           }}
         />
       ),
     });
+
+    return () => unsubscribe()
   }, [navigation]);
 
   if (isShowLoader) {
@@ -59,6 +62,7 @@ export const PostsList = ({ navigation, route }) => {
     );
   }
 
+  console.log('posts list')
   return (
     <View style={styles.container}>
       <FlatList
