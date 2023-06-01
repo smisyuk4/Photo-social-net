@@ -58,7 +58,7 @@ export const CreatePosts = ({ navigation }) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setState(INITIAL_POST);
-      setIsDirtyForm(false)
+      setIsDirtyForm(false);
     });
     return unsubscribe;
   }, [navigation]);
@@ -74,6 +74,7 @@ export const CreatePosts = ({ navigation }) => {
       try {
         await Camera.requestCameraPermissionsAsync();
         await MediaLibrary.requestPermissionsAsync();
+        await requestPermissionLoc();
       } catch (error) {
         console.log(error.message);
       }
@@ -176,17 +177,14 @@ export const CreatePosts = ({ navigation }) => {
       longitude,
     });
 
-    setState(prev => ({
-      ...prev,
-      location: { latitude, longitude, postAddress },
-    }));
+    return { latitude, longitude, postAddress };
   };
 
   const takePhoto = async () => {
     if (cameraRef) {
       try {
         const { uri } = await cameraRef.current.takePictureAsync();
-        await getLocation();
+        // await getLocation();
 
         setState(prev => ({
           ...prev,
@@ -202,19 +200,20 @@ export const CreatePosts = ({ navigation }) => {
 
   const pickImage = async () => {
     try {
-      const result = await ImagePicker.launchImageLibraryAsync({
+      const { assets, canceled } = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
       });
 
-      if (!result.canceled) {
-        await getLocation();
+      const [{ uri }] = assets;
+      console.log('uri ====>> ', uri);
 
+      if (!canceled) {
         setState(prev => ({
           ...prev,
-          photoUri: result.assets[0].uri,
+          photoUri: uri,
         }));
 
         setIsDirtyForm(true);
@@ -266,23 +265,26 @@ export const CreatePosts = ({ navigation }) => {
 
     try {
       const response = await fetch(state.photoUri);
-
       const file = await response.blob();
-
       const imageRef = await ref(myStorage, `postImages/${uniquePostId}`);
+      await uploadBytes(imageRef, file); // тут можна показати статус завантаження
 
-      await uploadBytes(imageRef, file);
-
-      return await getDownloadURL(imageRef);
+      const photoURL = await getDownloadURL(imageRef);
+      return photoURL;
     } catch (error) {
-      console.log(error);
+      console.log('uploadPhotoToServer =====>> ', error);
     }
   };
 
   const uploadPostToServer = async () => {
+    setIsShowLoader(true);
+    hideKeyboard();
+
     const uniquePostId = Date.now().toString();
 
     try {
+      const location = await getLocation();
+      // console.log('location ', location);
       const photo = await uploadPhotoToServer();
       const postRef = doc(db, 'posts', uniquePostId);
 
@@ -290,29 +292,19 @@ export const CreatePosts = ({ navigation }) => {
         photo,
         userId,
         titlePost: state.titlePost ? state.titlePost : 'Незабутня подія',
-        location: state.location ? state.location : {},
+        location,
+        // location: state.location ? state.location : {},
         createdAt: Timestamp.fromDate(new Date()),
         updatedAt: Timestamp.fromDate(new Date()),
       });
     } catch (error) {
-      console.log(error);
+      console.log('uploadPostToServer ===>>', error);
+    } finally {
+      setState(INITIAL_POST);
+      setIsDirtyForm(false);
+      setIsShowLoader(false);
+      navigation.navigate('PostsScreen', { screen: 'Posts' });
     }
-  };
-
-  const publishPost = async () => {
-    setIsShowLoader(true);
-    hideKeyboard();
-
-    try {
-      await uploadPostToServer();
-    } catch (error) {
-      console.log('publishPost ====>>>', error.message);
-    }
-
-    setState(INITIAL_POST);
-    setIsDirtyForm(false);
-    setIsShowLoader(false);
-    navigation.navigate('PostsScreen', { screen: 'Posts' });
   };
 
   if (isShowLoader) {
@@ -469,7 +461,7 @@ export const CreatePosts = ({ navigation }) => {
         >
           <TouchableOpacity
             style={styleSendBtn}
-            onPress={publishPost}
+            onPress={uploadPostToServer}
             disabled={!state.photoUri}
           >
             <Text
