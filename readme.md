@@ -1,5 +1,5 @@
 ## Expo server
-- [Expo] (https://expo.dev/@misyuk.dev/MyPain?serviceType=classic&distribution=expo-go)
+- [Expo](https://expo.dev/@misyuk.dev/MyPain?serviceType=classic&distribution=expo-go)
 
 ## Design
 
