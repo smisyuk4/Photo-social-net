@@ -12,6 +12,7 @@ export const ModalWrp = ({
   draggableMarker,
 }) => {
   const [draggableMarkerCoords, setDraggableMarkerCoords] = useState(location);
+  const [isMoveMarker, setIsMoveMarker] = useState(false)
 
   const closeAndElevate = () => {
     setModalVisible(!modalVisible);
@@ -29,7 +30,12 @@ export const ModalWrp = ({
     >
       <View style={styles.container}>
         <View style={styles.modalView}>
-          {title && <Text style={styles.modalTitle}>{title}</Text>}
+          {title && (
+            <View>
+              <Text style={styles.modalTitle}>{title}</Text>
+              <Text style={styles.modalSubTitle}>(режим редагування - перемісти маркер)</Text>
+            </View>
+          )}
 
           <TouchableOpacity
             style={styles.buttonClose}
@@ -52,7 +58,9 @@ export const ModalWrp = ({
                 <Marker
                   draggable={true}
                   title={location.title ? location.title : null}
+                  pinColor={isMoveMarker ? 'green' : 'red'}
                   coordinate={draggableMarkerCoords}
+                  onDragStart={()=>{setIsMoveMarker(true)}}
                   onDragEnd={e => {
                     const newCoords = e.nativeEvent.coordinate;
                     setDraggableMarkerCoords(prev => ({

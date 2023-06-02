@@ -26,11 +26,18 @@ export const styles = StyleSheet.create({
     elevation: 5,
   },
   modalTitle: {
-    marginBottom: hp('0.96%'),
+    alignSelf: 'center',
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     fontWeight: '500',
-
+    color: '#fff',
+  },
+  modalSubTitle: {
+    alignSelf: 'center',
+    marginBottom: hp('0.96%'),
+    fontFamily: 'Roboto-Regular',
+    fontSize: 12,
+    fontWeight: '500',
     color: '#fff',
   },
   buttonClose: {
@@ -40,7 +47,7 @@ export const styles = StyleSheet.create({
     padding: 4,
   },
   mapWrp: {
-    height: hp('40%'),
+    height: hp('80%'),
     width: wp('90%'),
     borderRadius: 8,
     overflow: 'hidden',

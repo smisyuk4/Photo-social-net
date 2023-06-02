@@ -227,10 +227,19 @@ export const CreatePosts = ({ navigation }) => {
   };
 
   const getCustomLocation = async () => {
+    if (!state.location.time) {
+      const location = await getLocation();
+      setState(prev => ({
+        ...prev,
+        location,
+      }));
+    }
+
     setModalVisible(true);
   };
 
   const draggableMarker = async ({ latitude, longitude }) => {
+    const time = Date.now().toString();
     try {
       const [postAddress] = await Location.reverseGeocodeAsync({
         latitude,
@@ -239,7 +248,7 @@ export const CreatePosts = ({ navigation }) => {
 
       setState(prev => ({
         ...prev,
-        location: { latitude, longitude, postAddress },
+        location: { latitude, longitude, postAddress, time },
       }));
     } catch (error) {
       console.log('draggableMarker ====>> ', error.message);
@@ -290,7 +299,12 @@ export const CreatePosts = ({ navigation }) => {
     const uniquePostId = Date.now().toString();
 
     try {
-      const location = await getLocation();
+      let location = state.location;
+
+      if (location.latitude === '') {
+        location = await getLocation();
+      }
+
       const photo = await uploadPhotoToServer();
       const postRef = doc(db, 'posts', uniquePostId);
 
@@ -405,7 +419,7 @@ export const CreatePosts = ({ navigation }) => {
               <TouchableOpacity
                 style={styles.buttonLocation}
                 onPress={getCustomLocation}
-                disabled={!state.location.latitude}
+                disabled={!state.photoUri}
               >
                 <Feather
                   name="map-pin"
