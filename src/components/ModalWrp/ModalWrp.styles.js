@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     fontWeight: '500',
-    // lineHeight: 19,
+
     color: '#fff',
   },
   buttonClose: {

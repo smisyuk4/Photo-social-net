@@ -54,17 +54,14 @@ export const styles = StyleSheet.create({
   buttonGalleryText: {
     marginTop: hp('0.96%'),
     fontSize: 16,
-    // lineHeight: 19,
+
     color: '#BDBDBD',
   },
   input: {
-    height: 50,
     paddingVertical: hp('1.92%'),
-    // paddingLeft: 0,
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     fontWeight: '500',
-    // lineHeight: 19,
     color: '#212121',
     borderBottomWidth: 1,
   },
@@ -104,7 +101,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
-    // lineHeight: 19,
     color: '#BDBDBD',
   },
   activeButtonFormText: {

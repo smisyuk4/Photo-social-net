@@ -18,15 +18,12 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 30,
     fontWeight: '500',
-    // lineHeight: 35,
   },
   input: {
-    height: 50,
     marginTop: 16,
     padding: 16,
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
-    // lineHeight: 19,
     borderRadius: 8,
     borderWidth: 1,
     backgroundColor: '#F6F6F6',
@@ -42,7 +39,6 @@ export const styles = StyleSheet.create({
   buttonPasswordText: {
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
-    // lineHeight: 19,
     color: '#1B4371',
   },
   buttonForm: {
@@ -57,7 +53,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
-    // lineHeight: 19,
     color: '#fff',
   },
   link: {
@@ -65,7 +60,6 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
-    // lineHeight: 19,
     color: '#1B4371',
   },
 });

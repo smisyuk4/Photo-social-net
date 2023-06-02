@@ -1,5 +1,4 @@
 import {
-  widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { StyleSheet } from 'react-native';
@@ -28,7 +27,7 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     borderRadius: 16,
-    backgroundColor: '#dadee6',
+    backgroundColor: '#F6F6F6',
   },
   avatarWrp: {
     borderRadius: 16,
@@ -68,6 +67,5 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 30,
     fontWeight: '500',
-    // lineHeight: 35,
   },
 });

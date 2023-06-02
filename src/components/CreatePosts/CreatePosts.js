@@ -17,7 +17,6 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
-// import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
@@ -73,7 +72,6 @@ export const CreatePosts = ({ navigation }) => {
     (async () => {
       try {
         await Camera.requestCameraPermissionsAsync();
-        // await MediaLibrary.requestPermissionsAsync();
         await requestPermissionLoc();
 
         if (Platform.OS !== 'web') {
@@ -171,8 +169,6 @@ export const CreatePosts = ({ navigation }) => {
   };
 
   const getLocation = async () => {
-    console.log('permissionLoc ', permissionLoc);
-
     if (!permissionLoc.granted) {
       requestPermissionLoc();
     }
@@ -193,7 +189,6 @@ export const CreatePosts = ({ navigation }) => {
     if (cameraRef) {
       try {
         const { uri } = await cameraRef.current.takePictureAsync();
-        // await getLocation();
 
         setState(prev => ({
           ...prev,
@@ -217,7 +212,6 @@ export const CreatePosts = ({ navigation }) => {
       });
 
       const [{ uri }] = assets;
-      // console.log('uri ====>> ', uri);
 
       if (!canceled) {
         setState(prev => ({
@@ -279,7 +273,7 @@ export const CreatePosts = ({ navigation }) => {
 
       const imageRef = ref(myStorage, `postImages/${uniquePostId}`);
 
-      await uploadBytes(imageRef, file); // тут можна показати статус завантаження
+      await uploadBytes(imageRef, file);
 
       const link = await getDownloadURL(imageRef);
 
@@ -297,9 +291,7 @@ export const CreatePosts = ({ navigation }) => {
 
     try {
       const location = await getLocation();
-      console.log('location ', location);
       const photo = await uploadPhotoToServer();
-      console.log('photo ', photo);
       const postRef = doc(db, 'posts', uniquePostId);
 
       await setDoc(postRef, {
@@ -307,7 +299,6 @@ export const CreatePosts = ({ navigation }) => {
         userId,
         titlePost: state.titlePost ? state.titlePost : 'Незабутня подія',
         location,
-        // location: state.location ? state.location : {},
         createdAt: Timestamp.fromDate(new Date()),
         updatedAt: Timestamp.fromDate(new Date()),
       });

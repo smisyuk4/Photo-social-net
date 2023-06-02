@@ -14,7 +14,6 @@ import {
   TouchableWithoutFeedback,
   Alert,
 } from 'react-native';
-import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LoaderScreen } from '../../Screens/LoaderScreen';
@@ -63,8 +62,6 @@ export const RegisterForm = ({
 
   const pickImage = async () => {
     try {
-      await MediaLibrary.requestPermissionsAsync();
-
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,

@@ -15,7 +15,6 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
-import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import { Feather } from '@expo/vector-icons';
 import image from '../../images/photoBg.jpeg';
@@ -50,21 +49,8 @@ export const ProfileScreen = ({ navigation }) => {
     );
   }, [userId]);
 
-  // avatar
-  useEffect(() => {
-    (async () => {
-      try {
-        await MediaLibrary.requestPermissionsAsync();
-      } catch (error) {
-        console.log(error.message);
-      }
-    })();
-  }, []);
-
   const pickImage = async () => {
     try {
-      await MediaLibrary.requestPermissionsAsync();
-
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,

@@ -9,6 +9,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     marginVertical: hp('3.8%'),
+  },
+  mapWrp: {
+    backgroundColor: 'pink',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

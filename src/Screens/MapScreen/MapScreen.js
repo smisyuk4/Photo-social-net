@@ -14,6 +14,8 @@ export const MapScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.mapWrp}>
+
       <MapView
         style={styles.mapStyle}
         region={{
@@ -25,6 +27,7 @@ export const MapScreen = ({ navigation, route }) => {
       >
         {location && <Marker title={location.title} coordinate={location} />}
       </MapView>
+      </View>
     </View>
   );
 };

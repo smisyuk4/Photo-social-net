@@ -1,4 +1,4 @@
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { PostsScreen } from '../PostsScreen';
@@ -16,7 +16,6 @@ const screenOptions = ({ navigation, route }) => ({
       size={24}
       color={styles.headerTintColor}
       onPress={() => {
-        console.log('home - left');
         checkIsDirtyForm(navigation, route);
       }}
     />

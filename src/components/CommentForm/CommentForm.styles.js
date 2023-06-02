@@ -5,9 +5,7 @@ import {
 } from 'react-native-responsive-screen';
 
 export const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-  },
+  container: {},
   formWrp: {
     position: 'absolute',
     bottom: 0,
@@ -25,10 +23,8 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     fontWeight: '500',
-    // lineHeight: 19,
     color: '#212121',
     backgroundColor: '#F6F6F6',
-
     borderBottomWidth: 1,
   },
   buttonForm: {
@@ -37,7 +33,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 100,
     backgroundColor: '#F6F6F6',
-    // backgroundColor: 'pink',
     fill: '#BDBDBD',
   },
   activeButtonForm: {
