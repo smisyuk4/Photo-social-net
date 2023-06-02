@@ -31,7 +31,9 @@ export const PostsList = ({ navigation, route }) => {
     onSnapshot(
       dbRef,
       data => {
-        setPosts(data.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        const posts = data.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        const reversPosts = posts.reverse()
+        setPosts(reversPosts);
         setIsShowLoader(false);
       },
       () => {}
@@ -70,9 +72,9 @@ export const PostsList = ({ navigation, route }) => {
         keyExtractor={({ id }) => id}
         renderItem={({ item, index }) => (
           <>
-            {index === 0 && (
+            {/* {index === 0 && (
               <User login={login} email={email} avatar={avatar} />
-            )}
+            )} */}
             <Post post={item} navigation={navigation} />
           </>
         )}

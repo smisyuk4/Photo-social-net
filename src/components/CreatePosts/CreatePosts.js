@@ -17,7 +17,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
+// import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
@@ -73,10 +73,19 @@ export const CreatePosts = ({ navigation }) => {
     (async () => {
       try {
         await Camera.requestCameraPermissionsAsync();
-        await MediaLibrary.requestPermissionsAsync();
+        // await MediaLibrary.requestPermissionsAsync();
         await requestPermissionLoc();
+
+        if (Platform.OS !== 'web') {
+          const { status } =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
       } catch (error) {
-        console.log(error.message);
+        console.log('permission: camera, media lib, location: ', error.message);
       }
     })();
   }, []);
@@ -208,7 +217,7 @@ export const CreatePosts = ({ navigation }) => {
       });
 
       const [{ uri }] = assets;
-      console.log('uri ====>> ', uri);
+      // console.log('uri ====>> ', uri);
 
       if (!canceled) {
         setState(prev => ({
@@ -265,12 +274,16 @@ export const CreatePosts = ({ navigation }) => {
 
     try {
       const response = await fetch(state.photoUri);
+
       const file = await response.blob();
-      const imageRef = await ref(myStorage, `postImages/${uniquePostId}`);
+
+      const imageRef = ref(myStorage, `postImages/${uniquePostId}`);
+
       await uploadBytes(imageRef, file); // тут можна показати статус завантаження
 
-      const photoURL = await getDownloadURL(imageRef);
-      return photoURL;
+      const link = await getDownloadURL(imageRef);
+
+      return link;
     } catch (error) {
       console.log('uploadPhotoToServer =====>> ', error);
     }
@@ -284,8 +297,9 @@ export const CreatePosts = ({ navigation }) => {
 
     try {
       const location = await getLocation();
-      // console.log('location ', location);
+      console.log('location ', location);
       const photo = await uploadPhotoToServer();
+      console.log('photo ', photo);
       const postRef = doc(db, 'posts', uniquePostId);
 
       await setDoc(postRef, {
