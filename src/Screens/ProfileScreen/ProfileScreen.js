@@ -5,6 +5,7 @@ import {
   selectStateUserId,
   selectStateLogin,
   selectStateAvatar,
+  selectorStateComment,
 } from '../../../redux/selectors';
 import { myStorage } from '../../../firebase/config';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -33,6 +34,7 @@ export const ProfileScreen = ({ navigation }) => {
   const userId = useSelector(selectStateUserId);
   const login = useSelector(selectStateLogin);
   const avatar = useSelector(selectStateAvatar);
+  const comment = useSelector(selectorStateComment);
 
   useEffect(() => {
     const dbRef = collection(db, 'posts');
@@ -47,7 +49,7 @@ export const ProfileScreen = ({ navigation }) => {
       },
       () => {}
     );
-  }, [userId]);
+  }, [userId, comment]);
 
   const pickImage = async () => {
     try {
@@ -126,6 +128,7 @@ export const ProfileScreen = ({ navigation }) => {
           </View>
 
           <Text style={styles.login}>{login}</Text>
+          <Text style={styles.count}>Всього публікацій: {posts.length}</Text>
 
           <ProfileList posts={posts} navigation={navigation} />
         </View>

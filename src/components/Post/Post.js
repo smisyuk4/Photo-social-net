@@ -38,36 +38,46 @@ export const Post = ({ post, navigation }) => {
   return (
     <View style={styles.postWrp}>
       <Image source={{ uri: post.photo }} style={styles.photo} />
-      <Text style={styles.titlePost} ellipsizeMode="tail" numberOfLines={1}>
-        {post.titlePost}
-      </Text>
+      <View style={styles.bottomInfo}>
+        <View style={styles.owner}></View>
 
-      <View style={styles.buttonsWrp}>
-        <TouchableOpacity
-          style={styles.buttonComments}
-          onPress={() => navigation.navigate('Comments', post)}
-        >
-          <View style={styles.commentsIcon}>
-            <Feather
-              name="message-circle"
-              size={24}
-              color={styles.commentsIcon.fill}
-            />
-          </View>
-          <Text style={styles.commentsCount}>{countComments}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.buttonLocation}
-          onPress={() => navigation.navigate('Map', post)}
-        >
-          <View style={styles.mapIcon}>
-            <Feather name="map-pin" size={24} color={styles.mapIcon.fill} />
-          </View>
-          <Text style={styles.mapTitle} ellipsizeMode="tail" numberOfLines={1}>
-            {selectTitleLocation(post)}
+        <View style={styles.desc}>
+          <Text style={styles.titlePost} ellipsizeMode="tail" numberOfLines={1}>
+            {post.titlePost}
           </Text>
-        </TouchableOpacity>
+
+          <View style={styles.buttonsWrp}>
+            <TouchableOpacity
+              style={styles.buttonComments}
+              onPress={() => navigation.navigate('Comments', post)}
+            >
+              <View style={styles.commentsIcon}>
+                <Feather
+                  name="message-circle"
+                  size={24}
+                  color={styles.commentsIcon.fill}
+                />
+              </View>
+              <Text style={styles.commentsCount}>{countComments}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.buttonLocation}
+              onPress={() => navigation.navigate('Map', post)}
+            >
+              <View style={styles.mapIcon}>
+                <Feather name="map-pin" size={24} color={styles.mapIcon.fill} />
+              </View>
+              <Text
+                style={styles.mapTitle}
+                ellipsizeMode="tail"
+                numberOfLines={1}
+              >
+                {selectTitleLocation(post)}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </View>
   );

@@ -6,7 +6,7 @@ import {
 
 export const styles = StyleSheet.create({
   postWrp: {
-    marginBottom: hp('1.92%'),
+    marginBottom: hp('3%'),
   },
   photo: {
     backgroundColor: '#F6F6F6',
@@ -15,6 +15,17 @@ export const styles = StyleSheet.create({
     marginBottom: hp('0.96%'),
     borderRadius: 8,
     borderColor: '#E8E8E8',
+  },
+  bottomInfo: {
+    flexDirection: 'row',
+  },
+  owner: {
+    height: 50,
+    width: 50,
+    backgroundColor: 'orange',
+  },
+  desc: {
+    marginLeft: 10,
   },
   titlePost: {
     marginBottom: hp('0.96%'),
@@ -27,6 +38,7 @@ export const styles = StyleSheet.create({
   buttonsWrp: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: wp('75%'),
   },
   buttonComments: {
     flexDirection: 'row',
@@ -40,7 +52,6 @@ export const styles = StyleSheet.create({
   commentsCount: {
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
-
     color: '#BDBDBD',
   },
   buttonLocation: {
@@ -56,7 +67,6 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     fontWeight: '500',
-
     textDecorationLine: 'underline',
     color: '#212121',
   },

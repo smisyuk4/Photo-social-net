@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db } from '../../../firebase/config';
 import { collection, onSnapshot } from 'firebase/firestore';
-
 import {
   View,
   Image,

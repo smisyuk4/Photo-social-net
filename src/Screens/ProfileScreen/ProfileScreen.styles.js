@@ -68,4 +68,11 @@ export const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '500',
   },
+  count:{ 
+    alignSelf: 'flex-end',
+    fontFamily: 'Roboto-Regular',
+    fontSize: 12,
+    marginBottom: 3,
+    color: '#BDBDBD',
+  },
 });

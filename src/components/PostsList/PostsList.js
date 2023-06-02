@@ -56,7 +56,7 @@ export const PostsList = ({ navigation, route }) => {
   }, [navigation, comment]);
 
   if (isShowLoader) {
-    // return <LoaderScreen />;
+    return <LoaderScreen />;
     // return (
     //   <SkeletonPlaceholder borderRadius={4}>
     //     <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
