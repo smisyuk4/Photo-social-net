@@ -5,7 +5,7 @@ import { collection, getCountFromServer } from 'firebase/firestore';
 import { Feather } from '@expo/vector-icons';
 import { styles } from './Post.styles';
 
-export const Post = ({ post, navigation }) => {
+export const Post = ({ post, navigation, route }) => {
   const [countComments, setCountComments] = useState(0);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export const Post = ({ post, navigation }) => {
       };
 
       checkCount();
-      // getOwner()
+      getOwner();
     } catch (error) {
       console.log('Post ====>>>', error.message);
     }
@@ -36,21 +36,16 @@ export const Post = ({ post, navigation }) => {
     return 'Гарне місце';
   };
 
-  const getOwner = () => {
-    console.log(post.userId);
-    // owner: {
-    //   userId,
-    //   login,
-    //   avatar,
-    // }
-
-  };
-
+  console.log(route?.name === 'Profile');
   return (
     <View style={styles.postWrp}>
       <Image source={{ uri: post.photo }} style={styles.photo} />
       <View style={styles.bottomInfo}>
-        <View style={styles.owner}></View>
+        {route?.name !== 'Profile' && (
+          <View style={styles.owner}>
+            <Image source={{ uri: post.owner.avatar }} style={styles.avatar} />
+          </View>
+        )}
 
         <View style={styles.desc}>
           <Text style={styles.titlePost} ellipsizeMode="tail" numberOfLines={1}>

@@ -4,7 +4,7 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Post } from '../Post';
 import { styles } from './ProfileList.styles';
 
-export const ProfileList = ({ navigation, posts }) => {
+export const ProfileList = ({ navigation, posts, route }) => {
   if (posts.length === 0) {
     return (
       <View style={styles.container}>
@@ -25,7 +25,7 @@ export const ProfileList = ({ navigation, posts }) => {
       <FlatList
         data={posts}
         keyExtractor={({id}) => id}
-        renderItem={({ item }) => <Post post={item} navigation={navigation} />}
+        renderItem={({ item }) => <Post post={item} navigation={navigation} route={route}/>}
         ListFooterComponent={<View style={{ height: hp('12%') }} />}
       />
     </View>

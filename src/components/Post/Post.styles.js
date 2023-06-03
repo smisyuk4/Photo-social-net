@@ -20,13 +20,20 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   owner: {
+    marginRight: 10,
     height: 50,
     width: 50,
-    backgroundColor: 'orange',
+    borderRadius: 50,
+    backgroundColor: 'grey',
   },
-  desc: {
-    marginLeft: 10,
+  avatar: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 50,
+    borderWidth: 1,
+    overflow: 'hidden',
   },
+  desc: {},
   titlePost: {
     marginBottom: hp('0.96%'),
     maxWidth: wp('70%'),

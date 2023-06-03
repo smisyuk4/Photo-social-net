@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   myPostsContainer: {
-    paddingTop: 92,
+    paddingTop: hp('7%'),
     minHeight: hp('50%'),
   },
   avatarContainer: {
@@ -32,8 +32,8 @@ export const styles = StyleSheet.create({
   avatarWrp: {
     borderRadius: 16,
     overflow: 'hidden',
-    height: 120,
-    width: 120,
+    height: hp('14%'),
+    width: hp('14%'),
   },
   avatarImg: {
     width: '100%',
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     color: '#BDBDBD',
   },
   login: {
-    marginBottom: 16,
+    marginBottom: 5,
     alignSelf: 'center',
     fontFamily: 'Roboto-Regular',
     fontSize: 30,

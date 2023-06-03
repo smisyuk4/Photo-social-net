@@ -31,7 +31,6 @@ export const Comment = ({
         <Image
           source={{ uri: avatar }}
           style={styles.avatar}
-          resizeMode="contain"
         />
       </View>
       <View style={styles.commentWrp}>

@@ -27,7 +27,7 @@ import { askIfQuit } from '../../helpers/askIfQuit';
 import { LoaderScreen } from '../LoaderScreen';
 import { styles } from './ProfileScreen.styles';
 
-export const ProfileScreen = ({ navigation }) => {
+export const ProfileScreen = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
   const [isShowLoader, setIsShowLoader] = useState(false);
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ export const ProfileScreen = ({ navigation }) => {
 
   useEffect(() => {
     const dbRef = collection(db, 'posts');
-    const myQuery = query(dbRef, where('userId', '==', userId));
+    const myQuery = query(dbRef, where('owner.userId', '==', userId));
 
     onSnapshot(
       myQuery,
@@ -130,7 +130,7 @@ export const ProfileScreen = ({ navigation }) => {
           <Text style={styles.login}>{login}</Text>
           <Text style={styles.count}>Всього публікацій: {posts.length}</Text>
 
-          <ProfileList posts={posts} navigation={navigation} />
+          <ProfileList posts={posts} navigation={navigation} route={route}/>
         </View>
       </View>
     </ImageBackground>

@@ -86,9 +86,12 @@ export const RegisterForm = ({
       const file = await response.blob();
 
       const imageRef = ref(myStorage, `userAvatars/${uniquePostId}`);
+
       await uploadBytes(imageRef, file);
 
-      return await getDownloadURL(imageRef);
+      const link = await getDownloadURL(imageRef);
+
+      return link;
     } catch (error) {
       console.log('uploadPhotoToServer', error.message);
     }
