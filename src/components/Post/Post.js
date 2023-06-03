@@ -18,7 +18,6 @@ export const Post = ({ post, navigation, route }) => {
       };
 
       checkCount();
-      getOwner();
     } catch (error) {
       console.log('Post ====>>>', error.message);
     }
@@ -36,7 +35,6 @@ export const Post = ({ post, navigation, route }) => {
     return 'Гарне місце';
   };
 
-  console.log(route?.name === 'Profile');
   return (
     <View style={styles.postWrp}>
       <Image source={{ uri: post.photo }} style={styles.photo} />

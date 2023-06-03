@@ -1,20 +1,28 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getStorage } from "firebase/storage";
-import { getFirestore } from "firebase/firestore";
+import { getStorage } from 'firebase/storage';
+import { getFirestore } from 'firebase/firestore';
+import {
+  API_KEY,
+  AUTH_DOMAIN,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+  MESSAGING_SENDDER_ID,
+  APP_ID,
+  MEASUREMENT_ID,
+} from '@env';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBQFWQicQqvEGqWVKvbiCd34zJHeK_MdtU',
-  authDomain: 'rn-imagelibrary.firebaseapp.com',
-  projectId: 'rn-imagelibrary',
-  storageBucket: 'rn-imagelibrary.appspot.com',
-  messagingSenderId: '854232737821',
-  appId: '1:854232737821:web:7882200d08c86913ad7ef4',
-  measurementId: 'G-SR7QX9C8GN',
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID,
 };
 
 export const app = initializeApp(firebaseConfig);
-
 export const auth = getAuth(app);
 export const myStorage = getStorage(app);
 export const db = getFirestore(app);
