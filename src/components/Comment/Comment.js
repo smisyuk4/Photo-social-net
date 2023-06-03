@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectStateLogin } from '../../../redux/selectors';
 import { View, Text, Image } from 'react-native';
@@ -13,9 +12,6 @@ export const Comment = ({
   },
 }) => {
   const myLogin = useSelector(selectStateLogin);
-  // const [isShowLogin, setIsShowLogin] = useState(false);
-
-  const trimLogin = login.slice(0, 2);
 
   return (
     <View
@@ -26,12 +22,7 @@ export const Comment = ({
       }
     >
       <View style={styles.avatarWrp}>
-        {/* {!isShowLogin && <Text style={{...styles.login, opacity: fadeAnim}}>{trimLogin}</Text>} */}
-
-        <Image
-          source={{ uri: avatar }}
-          style={styles.avatar}
-        />
+        <Image source={{ uri: avatar }} style={styles.avatar} />
       </View>
       <View style={styles.commentWrp}>
         <Text style={styles.comment}>{comment}</Text>

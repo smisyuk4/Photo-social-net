@@ -1,5 +1,4 @@
 import {
-  widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { StyleSheet } from 'react-native';
@@ -10,7 +9,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   form: {
-    paddingTop: 92,
+    paddingTop: hp('9%'),
     paddingHorizontal: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -28,8 +27,8 @@ export const styles = StyleSheet.create({
   avatarWrp: {
     borderRadius: 16,
     overflow: 'hidden',
-    height: 120,
-    width: 120,
+    height: hp('14%'),
+    width: hp('14%'),
   },
   avatarImg: {
     width: '100%',
@@ -81,8 +80,8 @@ export const styles = StyleSheet.create({
     color: '#1B4371',
   },
   buttonForm: {
-    height: 51,
-    marginTop: 43,
+    height: hp('6%'),
+    marginTop: hp('5%'),
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,

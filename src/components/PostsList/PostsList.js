@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  selectStateLogin,
-  selectStateEmail,
-  selectStateAvatar,
-  selectorStateComment,
-} from '../../../redux/selectors';
+import { selectorStateComment } from '../../../redux/selectors';
 import { db } from '../../../firebase/config';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { View, Text, FlatList, Image } from 'react-native';
@@ -21,9 +16,6 @@ export const PostsList = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const [isShowLoader, setIsShowLoader] = useState(false);
   const [posts, setPosts] = useState([]);
-  const login = useSelector(selectStateLogin);
-  const email = useSelector(selectStateEmail);
-  const avatar = useSelector(selectStateAvatar);
   const comment = useSelector(selectorStateComment);
 
   useEffect(() => {
@@ -33,8 +25,8 @@ export const PostsList = ({ navigation, route }) => {
     onSnapshot(
       dbRef,
       data => {
-        const posts = data.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-        const reversPosts = posts.reverse()
+        const posts = data.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const reversPosts = posts.reverse();
         setPosts(reversPosts);
         setIsShowLoader(false);
       },
@@ -83,27 +75,8 @@ export const PostsList = ({ navigation, route }) => {
       <FlatList
         data={posts}
         keyExtractor={({ id }) => id}
-        renderItem={({ item, index }) => (
-          <>
-            {/* {index === 0 && (
-              <User login={login} email={email} avatar={avatar} />
-            )} */}
-            <Post post={item} navigation={navigation} />
-          </>
-        )}
+        renderItem={({ item }) => <Post post={item} navigation={navigation} />}
       />
-    </View>
-  );
-};
-
-const User = ({ login, email, avatar }) => {
-  return (
-    <View style={styles.userWrp}>
-      <Image style={styles.userPhoto} source={{ uri: avatar }} />
-      <View style={styles.userInfoWrp}>
-        <Text style={styles.userName}>{login}</Text>
-        <Text style={styles.userEmail}>{email}</Text>
-      </View>
     </View>
   );
 };

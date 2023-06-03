@@ -1,4 +1,8 @@
 import { StyleSheet } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export const styles = StyleSheet.create({
   wrapper: {
@@ -6,7 +10,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   form: {
-    paddingTop: 32,
+    paddingTop: hp('3%'),
     paddingHorizontal: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -42,8 +46,8 @@ export const styles = StyleSheet.create({
     color: '#1B4371',
   },
   buttonForm: {
-    height: 51,
-    marginTop: 43,
+    height: hp('6%'),
+    marginTop: hp('5%'),
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,

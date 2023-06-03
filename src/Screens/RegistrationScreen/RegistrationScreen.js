@@ -20,7 +20,6 @@ export const RegistrationScreen = ({ navigation }) => {
     <TouchableWithoutFeedback
       onPress={hideKeyboard}
       style={styles.container}
-      // onLayout={onLayoutRootView}
     >
       <ImageBackground source={image} style={styles.imageBg}>
         <RegisterForm

@@ -1,7 +1,4 @@
 import { StyleSheet } from 'react-native';
-import {
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,31 +11,5 @@ export const styles = StyleSheet.create({
   },
   text: {
     alignSelf: 'center',
-  },
-  userWrp: {
-    marginTop: hp('3.8%'),
-    marginBottom: hp('3.8%'),
-    flexDirection: 'row',
-  },
-  userPhoto: {
-    height: hp('7%'),
-    width: hp('7%'),
-    marginRight: hp('0.96%'),
-    borderRadius: 16,
-    backgroundColor: '#FF6C00',
-  },
-  userInfoWrp: {
-    justifyContent: 'center',
-  },
-  userName: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#212121',
-  },
-  userEmail: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: 11,
-    color: '#212121CC',
   },
 });
