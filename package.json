@@ -40,7 +40,8 @@
     "react-native-skeleton-placeholder": "^5.2.4",
     "react-native-web": "~0.18.10",
     "react-redux": "^8.0.5",
-    "expo-linear-gradient": "~12.1.2"
+    "expo-linear-gradient": "~12.1.2",
+    "expo-updates": "~0.16.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

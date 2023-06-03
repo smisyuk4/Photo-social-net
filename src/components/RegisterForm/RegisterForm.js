@@ -78,9 +78,6 @@ export const RegisterForm = ({
   };
 
   const uploadPhotoToServer = async () => {
-    if (!state.avatarUri) {
-      return null;
-    }
     const uniquePostId = Date.now().toString();
 
     try {
@@ -88,7 +85,7 @@ export const RegisterForm = ({
 
       const file = await response.blob();
 
-      const imageRef = await ref(myStorage, `userAvatars/${uniquePostId}`);
+      const imageRef = ref(myStorage, `userAvatars/${uniquePostId}`);
       await uploadBytes(imageRef, file);
 
       return await getDownloadURL(imageRef);
@@ -101,7 +98,14 @@ export const RegisterForm = ({
     setIsShowLoader(true);
     hideKeyboard();
 
-    const photo = await uploadPhotoToServer();
+    let photo;
+    if (state.avatarUri) {
+      photo = await uploadPhotoToServer();
+    } else {
+      photo =
+        'https://firebasestorage.googleapis.com/v0/b/rn-imagelibrary.appspot.com/o/userAvatars%2F%D0%97%D0%BD%D1%96%D0%BC%D0%BE%D0%BA%20%D0%B5%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202023-06-03%20%D0%BE%2015.01.32.png?alt=media&token=271ad0cf-ff14-46b4-8125-85e9aaed16f5';
+    }
+
     dispatch(authSignUpUser({ ...state, photo })).then(data => {
       if (data === undefined || !data.uid) {
         setIsShowLoader(false);

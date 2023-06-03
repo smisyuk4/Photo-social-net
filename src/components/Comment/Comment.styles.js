@@ -13,25 +13,31 @@ export const styles = StyleSheet.create({
   commentWrp: {
     flex: 10,
     padding: 4,
-    shadowColor: "#000000",
+    shadowColor: '#000000',
     shadowOpacity: 0.8,
     shadowRadius: 2,
     shadowOffset: {
       height: 1,
-      width: 1
+      width: 1,
     },
-    
     borderRadius: 10,
     backgroundColor: '#F6F6F6',
   },
-  avatar: {
-    flex: 1,
-    height: 30,
-    width: 30,
+  avatarWrp: {
+    flex: 1.4,
+    height: 40,
+    width: 40,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
     backgroundColor: 'grey',
+  },
+  avatar: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 50,
+    borderWidth: 1,
+    overflow: 'hidden',
   },
   login: {
     color: '#fff',
@@ -39,6 +45,6 @@ export const styles = StyleSheet.create({
   comment: {},
   date: {
     alignSelf: 'flex-end',
-    color: '#BDBDBD'
+    color: '#BDBDBD',
   },
 });

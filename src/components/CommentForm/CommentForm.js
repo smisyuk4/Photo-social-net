@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectStateLogin } from '../../../redux/selectors';
+import { selectStateLogin, selectStateAvatar } from '../../../redux/selectors';
 import { addComment } from '../../../redux/post/postReducer';
 
 import { db } from '../../../firebase/config';
@@ -18,6 +18,7 @@ export const CommentForm = ({
 }) => {
   const dispatch = useDispatch();
   const login = useSelector(selectStateLogin);
+  const avatar = useSelector(selectStateAvatar);
   const [myComment, setMyComment] = useState('');
   const [isActiveInput, setIsActiveInput] = useState(false);
 
@@ -36,7 +37,10 @@ export const CommentForm = ({
 
       await setDoc(postRef, {
         comment: myComment,
-        login,
+        owner:{
+          login,
+          avatar,
+        },
         createdAt: Timestamp.fromDate(new Date()),
         updatedAt: Timestamp.fromDate(new Date()),
       });

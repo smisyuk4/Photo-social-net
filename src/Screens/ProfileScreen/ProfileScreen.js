@@ -76,7 +76,7 @@ export const ProfileScreen = ({ navigation }) => {
 
       const file = await response.blob();
 
-      const imageRef = await ref(myStorage, `userAvatars/${uniquePostId}`);
+      const imageRef = ref(myStorage, `userAvatars/${uniquePostId}`);
       await uploadBytes(imageRef, file);
 
       return await getDownloadURL(imageRef);

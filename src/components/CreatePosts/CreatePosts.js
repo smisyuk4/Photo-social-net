@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { selectStateUserId } from '../../../redux/selectors';
+import {
+  selectStateUserId,
+  selectStateAvatar,
+  selectStateLogin,
+} from '../../../redux/selectors';
 import { db, myStorage } from '../../../firebase/config';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
@@ -44,6 +48,8 @@ export const CreatePosts = ({ navigation }) => {
     Location.useForegroundPermissions();
   const [state, setState] = useState(INITIAL_POST);
   const userId = useSelector(selectStateUserId);
+  const avatar = useSelector(selectStateAvatar);
+  const login = useSelector(selectStateLogin);
   const [isShowLoader, setIsShowLoader] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isActiveInput, setIsActiveInput] = useState({
@@ -310,11 +316,15 @@ export const CreatePosts = ({ navigation }) => {
 
       await setDoc(postRef, {
         photo,
-        userId,
         titlePost: state.titlePost ? state.titlePost : 'Незабутня подія',
         location,
         createdAt: Timestamp.fromDate(new Date()),
         updatedAt: Timestamp.fromDate(new Date()),
+        owner: {
+          userId,
+          login,
+          avatar,
+        },
       });
     } catch (error) {
       console.log('uploadPostToServer ===>>', error);

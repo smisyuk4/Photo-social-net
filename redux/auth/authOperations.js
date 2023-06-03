@@ -26,7 +26,7 @@ export const authSignUpUser =
         displayName,
         email: emailBase,
         photoURL: photoUrlBase,
-      } = await auth.currentUser;
+      } = auth.currentUser;
 
       const userProfile = {
         userId: uid,
@@ -68,7 +68,7 @@ export const authUpdateUser =
         displayName,
         email: emailBase,
         photoURL: photoUrlBase,
-      } = await auth.currentUser;
+      } = auth.currentUser;
 
       const userProfile = {
         userId: uid,
@@ -84,7 +84,7 @@ export const authUpdateUser =
   };
 
 export const authStateChangeUser = () => async (dispatch, state) => {
-  await onAuthStateChanged(auth, user => {
+  onAuthStateChanged(auth, user => {
     // console.log(user)
     if (user) {
       const userProfile = {

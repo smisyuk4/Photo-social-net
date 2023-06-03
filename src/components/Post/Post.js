@@ -18,6 +18,7 @@ export const Post = ({ post, navigation }) => {
       };
 
       checkCount();
+      // getOwner()
     } catch (error) {
       console.log('Post ====>>>', error.message);
     }
@@ -33,6 +34,16 @@ export const Post = ({ post, navigation }) => {
     }
 
     return 'Гарне місце';
+  };
+
+  const getOwner = () => {
+    console.log(post.userId);
+    // owner: {
+    //   userId,
+    //   login,
+    //   avatar,
+    // }
+
   };
 
   return (
