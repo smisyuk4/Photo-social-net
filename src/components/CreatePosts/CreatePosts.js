@@ -9,6 +9,7 @@ import { db, myStorage } from '../../../firebase/config';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import {
+  Alert,
   View,
   Image,
   Text,
@@ -22,6 +23,7 @@ import {
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+// import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -44,9 +46,9 @@ export const CreatePosts = ({ navigation }) => {
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [permissionCam, requestPermissionCam] = Camera.useCameraPermissions();
-  const [permissionLoc, requestPermissionLoc] =
-    Location.useForegroundPermissions();
+  const [status, requestPermission] = Location.useForegroundPermissions();
   const [state, setState] = useState(INITIAL_POST);
+  // const [errorMsg, setErrorMsg] = useState(null);
   const userId = useSelector(selectStateUserId);
   const avatar = useSelector(selectStateAvatar);
   const login = useSelector(selectStateLogin);
@@ -76,20 +78,56 @@ export const CreatePosts = ({ navigation }) => {
 
   useEffect(() => {
     (async () => {
+      // camera
       try {
-        await Camera.requestCameraPermissionsAsync();
-        await requestPermissionLoc();
+        const { status } = await Camera.requestCameraPermissionsAsync();
 
+        if (status !== 'granted') {
+          Alert.alert('Sorry, we need permissions to camera');
+          return;
+        }
+      } catch (error) {
+        console.log('permission camera === >> ', error.message);
+      }
+
+      // location
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+
+        if (status !== 'granted') {
+          Alert.alert('Sorry, we need permissions to location');
+          return;
+        }
+
+        const {
+          coords: { latitude, longitude },
+        } = await Location.getCurrentPositionAsync({});
+
+        const [postAddress] = await Location.reverseGeocodeAsync({
+          latitude,
+          longitude,
+        });
+
+        setState(prev => ({
+          ...prev,
+          location: { latitude, longitude, postAddress },
+        }));
+      } catch (error) {
+        console.log('permission location === >> ', error.message);
+      }
+
+      // gallery
+      try {
         if (Platform.OS !== 'web') {
           const { status } =
             await ImagePicker.requestMediaLibraryPermissionsAsync();
 
           if (status !== 'granted') {
-            alert('Sorry, we need camera roll permissions to make this work!');
+            Alert.alert('Sorry, we need permissions to library');
           }
         }
       } catch (error) {
-        console.log('permission: camera, media lib, location: ', error.message);
+        console.log('permission library === >> ', error.message);
       }
     })();
   }, []);
@@ -174,23 +212,6 @@ export const CreatePosts = ({ navigation }) => {
     );
   };
 
-  const getLocation = async () => {
-    if (!permissionLoc.granted) {
-      requestPermissionLoc();
-    }
-
-    const {
-      coords: { latitude, longitude },
-    } = await Location.getCurrentPositionAsync({});
-
-    const [postAddress] = await Location.reverseGeocodeAsync({
-      latitude,
-      longitude,
-    });
-
-    return { latitude, longitude, postAddress };
-  };
-
   const takePhoto = async () => {
     if (cameraRef) {
       try {
@@ -230,18 +251,6 @@ export const CreatePosts = ({ navigation }) => {
     } catch (error) {
       console.log('pickImage ====>> ', error.message);
     }
-  };
-
-  const getCustomLocation = async () => {
-    if (!state.location.time) {
-      const location = await getLocation();
-      setState(prev => ({
-        ...prev,
-        location,
-      }));
-    }
-
-    setModalVisible(true);
   };
 
   const draggableMarker = async ({ latitude, longitude }) => {
@@ -288,13 +297,17 @@ export const CreatePosts = ({ navigation }) => {
 
       const imageRef = ref(myStorage, `postImages/${uniquePostId}`);
 
-      await uploadBytes(imageRef, file);
+      const q = await uploadBytes(imageRef, file);
 
       const link = await getDownloadURL(imageRef);
 
       return link;
     } catch (error) {
       console.log('uploadPhotoToServer =====>> ', error);
+      Alert.alert(
+        'Sorry, upload photo to server not successful',
+        error.message
+      );
     }
   };
 
@@ -305,19 +318,13 @@ export const CreatePosts = ({ navigation }) => {
     const uniquePostId = Date.now().toString();
 
     try {
-      let location = state.location;
-
-      if (location.latitude === '') {
-        location = await getLocation();
-      }
-
       const photo = await uploadPhotoToServer();
       const postRef = doc(db, 'posts', uniquePostId);
 
       await setDoc(postRef, {
         photo,
         titlePost: state.titlePost ? state.titlePost : 'Незабутня подія',
-        location,
+        location: state.location,
         createdAt: Timestamp.fromDate(new Date()),
         updatedAt: Timestamp.fromDate(new Date()),
         owner: {
@@ -328,6 +335,7 @@ export const CreatePosts = ({ navigation }) => {
       });
     } catch (error) {
       console.log('uploadPostToServer ===>>', error);
+      Alert.alert('Sorry, upload post to server not successful', error.message);
     } finally {
       setState(INITIAL_POST);
       setIsDirtyForm(false);
@@ -428,7 +436,7 @@ export const CreatePosts = ({ navigation }) => {
             <View style={styles.locationWrp}>
               <TouchableOpacity
                 style={styles.buttonLocation}
-                onPress={getCustomLocation}
+                onPress={() => setModalVisible(true)}
                 disabled={!state.photoUri}
               >
                 <Feather
