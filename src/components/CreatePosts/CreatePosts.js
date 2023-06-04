@@ -9,6 +9,7 @@ import { db, myStorage } from '../../../firebase/config';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import {
+  Alert,
   View,
   Image,
   Text,
@@ -22,6 +23,7 @@ import {
 } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+// import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -44,8 +46,9 @@ export const CreatePosts = ({ navigation }) => {
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [permissionCam, requestPermissionCam] = Camera.useCameraPermissions();
+  const [status, requestPermission] = Location.useForegroundPermissions();
   const [state, setState] = useState(INITIAL_POST);
-  const [errorMsg, setErrorMsg] = useState(null);
+  // const [errorMsg, setErrorMsg] = useState(null);
   const userId = useSelector(selectStateUserId);
   const avatar = useSelector(selectStateAvatar);
   const login = useSelector(selectStateLogin);
@@ -75,15 +78,24 @@ export const CreatePosts = ({ navigation }) => {
 
   useEffect(() => {
     (async () => {
+      // camera
       try {
-        await Camera.requestCameraPermissionsAsync();
+        const { status } = await Camera.requestCameraPermissionsAsync();
 
-        // location
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        console.log('Permission to access location - status', status);
         if (status !== 'granted') {
-          console.log('Permission to access location was denied');
-          setErrorMsg('Permission to access location was denied');
+          Alert.alert('Sorry, we need permissions to camera');
+          return;
+        }
+      } catch (error) {
+        console.log('permission camera === >> ', error.message);
+      }
+
+      // location
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+
+        if (status !== 'granted') {
+          Alert.alert('Sorry, we need permissions to location');
           return;
         }
 
@@ -100,18 +112,22 @@ export const CreatePosts = ({ navigation }) => {
           ...prev,
           location: { latitude, longitude, postAddress },
         }));
+      } catch (error) {
+        console.log('permission location === >> ', error.message);
+      }
 
-        // gallery
+      // gallery
+      try {
         if (Platform.OS !== 'web') {
           const { status } =
             await ImagePicker.requestMediaLibraryPermissionsAsync();
 
           if (status !== 'granted') {
-            alert('Sorry, we need camera roll permissions to make this work!');
+            Alert.alert('Sorry, we need permissions to library');
           }
         }
       } catch (error) {
-        console.log('permission: camera, media lib, location: ', error.message);
+        console.log('permission library === >> ', error.message);
       }
     })();
   }, []);
@@ -280,18 +296,18 @@ export const CreatePosts = ({ navigation }) => {
       const file = await response.blob();
 
       const imageRef = ref(myStorage, `postImages/${uniquePostId}`);
-      console.log('imageRef =====>> ', imageRef.name);
-      console.log('file =====>> ', file);
 
       const q = await uploadBytes(imageRef, file);
-      console.log('uploadBytes .metadata =====>> ', q.metadata);
-      console.log('uploadBytes .ref =====>> ', q.ref);
 
       const link = await getDownloadURL(imageRef);
 
       return link;
     } catch (error) {
       console.log('uploadPhotoToServer =====>> ', error);
+      Alert.alert(
+        'Sorry, upload photo to server not successful',
+        error.message
+      );
     }
   };
 
@@ -303,8 +319,6 @@ export const CreatePosts = ({ navigation }) => {
 
     try {
       const photo = await uploadPhotoToServer();
-      console.log('link =====>> ', photo);
-
       const postRef = doc(db, 'posts', uniquePostId);
 
       await setDoc(postRef, {
@@ -321,6 +335,7 @@ export const CreatePosts = ({ navigation }) => {
       });
     } catch (error) {
       console.log('uploadPostToServer ===>>', error);
+      Alert.alert('Sorry, upload post to server not successful', error.message);
     } finally {
       setState(INITIAL_POST);
       setIsDirtyForm(false);
