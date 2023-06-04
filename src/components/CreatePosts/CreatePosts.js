@@ -44,9 +44,8 @@ export const CreatePosts = ({ navigation }) => {
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [permissionCam, requestPermissionCam] = Camera.useCameraPermissions();
-  const [permissionLoc, requestPermissionLoc] =
-    Location.useForegroundPermissions();
   const [state, setState] = useState(INITIAL_POST);
+  const [errorMsg, setErrorMsg] = useState(null);
   const userId = useSelector(selectStateUserId);
   const avatar = useSelector(selectStateAvatar);
   const login = useSelector(selectStateLogin);
@@ -78,8 +77,31 @@ export const CreatePosts = ({ navigation }) => {
     (async () => {
       try {
         await Camera.requestCameraPermissionsAsync();
-        await requestPermissionLoc();
 
+        // location
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        console.log('Permission to access location - status', status);
+        if (status !== 'granted') {
+          console.log('Permission to access location was denied');
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
+
+        const {
+          coords: { latitude, longitude },
+        } = await Location.getCurrentPositionAsync({});
+
+        const [postAddress] = await Location.reverseGeocodeAsync({
+          latitude,
+          longitude,
+        });
+
+        setState(prev => ({
+          ...prev,
+          location: { latitude, longitude, postAddress },
+        }));
+
+        // gallery
         if (Platform.OS !== 'web') {
           const { status } =
             await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -174,23 +196,6 @@ export const CreatePosts = ({ navigation }) => {
     );
   };
 
-  const getLocation = async () => {
-    if (!permissionLoc.granted) {
-      requestPermissionLoc();
-    }
-
-    const {
-      coords: { latitude, longitude },
-    } = await Location.getCurrentPositionAsync({});
-
-    const [postAddress] = await Location.reverseGeocodeAsync({
-      latitude,
-      longitude,
-    });
-
-    return { latitude, longitude, postAddress };
-  };
-
   const takePhoto = async () => {
     if (cameraRef) {
       try {
@@ -230,18 +235,6 @@ export const CreatePosts = ({ navigation }) => {
     } catch (error) {
       console.log('pickImage ====>> ', error.message);
     }
-  };
-
-  const getCustomLocation = async () => {
-    if (!state.location.time) {
-      const location = await getLocation();
-      setState(prev => ({
-        ...prev,
-        location,
-      }));
-    }
-
-    setModalVisible(true);
   };
 
   const draggableMarker = async ({ latitude, longitude }) => {
@@ -287,8 +280,12 @@ export const CreatePosts = ({ navigation }) => {
       const file = await response.blob();
 
       const imageRef = ref(myStorage, `postImages/${uniquePostId}`);
+      console.log('imageRef =====>> ', imageRef.name);
+      console.log('file =====>> ', file);
 
-      await uploadBytes(imageRef, file);
+      const q = await uploadBytes(imageRef, file);
+      console.log('uploadBytes .metadata =====>> ', q.metadata);
+      console.log('uploadBytes .ref =====>> ', q.ref);
 
       const link = await getDownloadURL(imageRef);
 
@@ -305,19 +302,15 @@ export const CreatePosts = ({ navigation }) => {
     const uniquePostId = Date.now().toString();
 
     try {
-      let location = state.location;
-
-      if (location.latitude === '') {
-        location = await getLocation();
-      }
-
       const photo = await uploadPhotoToServer();
+      console.log('link =====>> ', photo);
+
       const postRef = doc(db, 'posts', uniquePostId);
 
       await setDoc(postRef, {
         photo,
         titlePost: state.titlePost ? state.titlePost : 'Незабутня подія',
-        location,
+        location: state.location,
         createdAt: Timestamp.fromDate(new Date()),
         updatedAt: Timestamp.fromDate(new Date()),
         owner: {
@@ -428,7 +421,7 @@ export const CreatePosts = ({ navigation }) => {
             <View style={styles.locationWrp}>
               <TouchableOpacity
                 style={styles.buttonLocation}
-                onPress={getCustomLocation}
+                onPress={() => setModalVisible(true)}
                 disabled={!state.photoUri}
               >
                 <Feather
