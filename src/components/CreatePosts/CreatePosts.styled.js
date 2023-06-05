@@ -92,7 +92,8 @@ export const styles = StyleSheet.create({
     backgroundColor: '#F6F6F6',
   },
   activeButtonForm: {
-    backgroundColor: '#FF6C00',
+    // backgroundColor: '#FF6C00',
+    backgroundColor: 'green',
   },
   changedButtonForm: {
     width: wp('50%'),

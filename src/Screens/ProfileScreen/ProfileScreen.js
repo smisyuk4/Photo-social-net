@@ -15,6 +15,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
+  Alert,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Feather } from '@expo/vector-icons';
@@ -23,7 +24,7 @@ import image from '../../images/photoBg.jpeg';
 import { db } from '../../../firebase/config';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { ProfileList } from '../../components/ProfileList/ProfileList';
-import { askIfQuit } from '../../helpers/askIfQuit';
+import { askIfQuit, ImageManipulator } from '../../helpers';
 import { LoaderScreen } from '../LoaderScreen';
 import { styles } from './ProfileScreen.styles';
 
@@ -53,15 +54,26 @@ export const ProfileScreen = ({ navigation, route }) => {
 
   const pickImage = async () => {
     try {
-      const result = await ImagePicker.launchImageLibraryAsync({
+      const { assets, canceled } = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
       });
 
-      if (!result.canceled) {
-        return result.assets[0].uri;
+      if (!canceled) {
+        const [{ uri }] = assets;
+
+        const newUri = await ImageManipulator(
+          uri,
+          [
+            {
+              resize: { height: 240, width: 240 },
+            },
+          ],
+          0.5
+        );
+        return newUri;
       }
     } catch (error) {
       console.log(error.message);
@@ -81,7 +93,11 @@ export const ProfileScreen = ({ navigation, route }) => {
 
       return await getDownloadURL(imageRef);
     } catch (error) {
-      console.log('uploadPhotoToServer', error.message);
+      console.log('uploadPhotoToServer =====>> ', error);
+      Alert.alert(
+        'Вибачте, але фото не зберіглось на сервері',
+        error.message
+      );
     }
   };
 
@@ -91,7 +107,16 @@ export const ProfileScreen = ({ navigation, route }) => {
     const avatarUri = await pickImage();
     const avatarURL = await uploadPhotoToServer(avatarUri);
 
-    dispatch(authUpdateUser({ avatarURL }));
+    dispatch(authUpdateUser({ avatarURL })).then(data => {
+      if (data === undefined || !data.uid) {
+        setIsShowLoader(false);
+        Alert.alert('Реєстрацію не виконано!', `Помилка: ${data}`);
+        return;
+      }
+
+      Alert.alert('Вітаємо! Аватар змінено');
+    });
+
     setIsShowLoader(false);
   };
 
@@ -130,7 +155,7 @@ export const ProfileScreen = ({ navigation, route }) => {
           <Text style={styles.login}>{login}</Text>
           <Text style={styles.count}>Всього публікацій: {posts.length}</Text>
 
-          <ProfileList posts={posts} navigation={navigation} route={route}/>
+          <ProfileList posts={posts} navigation={navigation} route={route} />
         </View>
       </View>
     </ImageBackground>

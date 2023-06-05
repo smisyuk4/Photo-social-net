@@ -4,7 +4,7 @@ import { AntDesign, Feather } from '@expo/vector-icons';
 import { PostsScreen } from '../PostsScreen';
 import { CreatePostsScreen } from '../CreatePostsScreen';
 import { ProfileScreen } from '../ProfileScreen';
-import { checkIsDirtyForm } from '../../helpers/checkIsDirtyForm';
+import { checkIsDirtyForm } from '../../helpers';
 import { styles } from './Home.styles';
 
 const Tabs = createBottomTabNavigator();

@@ -21,14 +21,15 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import { Camera, CameraType } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
-// import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location';
 import { MaterialIcons, Feather, AntDesign } from '@expo/vector-icons';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LoaderScreen } from '../../Screens/LoaderScreen';
 import { ModalWrp } from '../ModalWrp';
+import { ImageManipulator } from '../../helpers';
 import { styles } from './CreatePosts.styled';
 
 const INITIAL_POST = {
@@ -46,12 +47,11 @@ export const CreatePosts = ({ navigation }) => {
   const cameraRef = useRef();
   const [type, setType] = useState(CameraType.back);
   const [permissionCam, requestPermissionCam] = Camera.useCameraPermissions();
-  const [status, requestPermission] = Location.useForegroundPermissions();
   const [state, setState] = useState(INITIAL_POST);
-  // const [errorMsg, setErrorMsg] = useState(null);
   const userId = useSelector(selectStateUserId);
   const avatar = useSelector(selectStateAvatar);
   const login = useSelector(selectStateLogin);
+  const isFocused = useIsFocused();
   const [isShowLoader, setIsShowLoader] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isActiveInput, setIsActiveInput] = useState({
@@ -63,12 +63,12 @@ export const CreatePosts = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener('blur', () => {
       setState(INITIAL_POST);
       setIsDirtyForm(false);
     });
     return unsubscribe;
-  }, [navigation]);
+  }, []);
 
   useEffect(() => {
     navigation.setParams({
@@ -77,6 +77,10 @@ export const CreatePosts = ({ navigation }) => {
   }, [isDirtyForm]);
 
   useEffect(() => {
+    if (!isFocused){
+      return
+    }
+
     (async () => {
       // camera
       try {
@@ -130,7 +134,7 @@ export const CreatePosts = ({ navigation }) => {
         console.log('permission library === >> ', error.message);
       }
     })();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     if (state.photoUri && !isShowKeyboard) {
@@ -190,6 +194,10 @@ export const CreatePosts = ({ navigation }) => {
     }
   }, [state, isShowKeyboard]);
 
+  if (isShowLoader) {
+    return <LoaderScreen />;
+  }
+
   if (!permissionCam) {
     return <LoaderScreen />;
   }
@@ -217,9 +225,19 @@ export const CreatePosts = ({ navigation }) => {
       try {
         const { uri } = await cameraRef.current.takePictureAsync();
 
+        const newUri = await ImageManipulator(
+          uri,
+          [
+            {
+              resize: { height: 480, width: 680 },
+            },
+          ],
+          0.5
+        );
+
         setState(prev => ({
           ...prev,
-          photoUri: uri,
+          photoUri: newUri,
         }));
 
         setIsDirtyForm(true);
@@ -238,12 +256,22 @@ export const CreatePosts = ({ navigation }) => {
         quality: 1,
       });
 
-      const [{ uri }] = assets;
-
       if (!canceled) {
+        const [{ uri }] = assets;
+
+        const newUri = await ImageManipulator(
+          uri,
+          [
+            {
+              resize: { height: 480, width: 680 },
+            },
+          ],
+          0.5
+        );
+
         setState(prev => ({
           ...prev,
-          photoUri: uri,
+          photoUri: newUri,
         }));
 
         setIsDirtyForm(true);
@@ -305,7 +333,7 @@ export const CreatePosts = ({ navigation }) => {
     } catch (error) {
       console.log('uploadPhotoToServer =====>> ', error);
       Alert.alert(
-        'Sorry, upload photo to server not successful',
+        'Вибачте, але фото не зберіглось на сервері',
         error.message
       );
     }
@@ -335,7 +363,7 @@ export const CreatePosts = ({ navigation }) => {
       });
     } catch (error) {
       console.log('uploadPostToServer ===>>', error);
-      Alert.alert('Sorry, upload post to server not successful', error.message);
+      Alert.alert('Вибачте, але публікація не зберіглась на сервері', error.message);
     } finally {
       setState(INITIAL_POST);
       setIsDirtyForm(false);
@@ -343,10 +371,6 @@ export const CreatePosts = ({ navigation }) => {
       navigation.navigate('PostsScreen', { screen: 'Posts' });
     }
   };
-
-  if (isShowLoader) {
-    return <LoaderScreen />;
-  }
 
   return (
     <TouchableWithoutFeedback onPress={() => hideKeyboard()}>

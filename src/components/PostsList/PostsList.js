@@ -5,11 +5,9 @@ import { db } from '../../../firebase/config';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { View, Text, FlatList, Image } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-// import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-// import {LinearGradient} from 'expo-linear-gradient';
 import { LoaderScreen } from '../../Screens/LoaderScreen';
 import { Post } from '../Post';
-import { askIfQuit } from '../../helpers/askIfQuit';
+import { askIfQuit } from '../../helpers';
 import { styles } from './PostsList.styles';
 
 export const PostsList = ({ navigation, route }) => {
@@ -49,17 +47,6 @@ export const PostsList = ({ navigation, route }) => {
 
   if (isShowLoader) {
     return <LoaderScreen />;
-    // return (
-    //   <SkeletonPlaceholder borderRadius={4}>
-    //     <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
-    //       <SkeletonPlaceholder.Item width={60} height={60} borderRadius={50} />
-    //       <SkeletonPlaceholder.Item marginLeft={20}>
-    //         <SkeletonPlaceholder.Item width={120} height={20} />
-    //         <SkeletonPlaceholder.Item marginTop={6} width={80} height={20} />
-    //       </SkeletonPlaceholder.Item>
-    //     </SkeletonPlaceholder.Item>
-    //   </SkeletonPlaceholder>
-    // );
   }
 
   if (posts.length === 0) {

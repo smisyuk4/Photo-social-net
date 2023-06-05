@@ -17,6 +17,7 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LoaderScreen } from '../../Screens/LoaderScreen';
+import { ImageManipulator } from '../../helpers';
 import { styles } from './RegisterForm.styles';
 
 const INITIAL_STATE = {
@@ -62,15 +63,27 @@ export const RegisterForm = ({
 
   const pickImage = async () => {
     try {
-      const result = await ImagePicker.launchImageLibraryAsync({
+      const { assets, canceled } = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
       });
 
-      if (!result.canceled) {
-        setState(prev => ({ ...prev, avatarUri: result.assets[0].uri }));
+      if (!canceled) {
+        const [{ uri }] = assets;
+
+        const newUri = await ImageManipulator(
+          uri,
+          [
+            {
+              resize: { height: 240, width: 240 },
+            },
+          ],
+          0.5
+        );
+
+        setState(prev => ({ ...prev, avatarUri: newUri }));
       }
     } catch (error) {
       console.log(error.message);
@@ -93,7 +106,11 @@ export const RegisterForm = ({
 
       return link;
     } catch (error) {
-      console.log('uploadPhotoToServer', error.message);
+      console.log('uploadPhotoToServer =====>> ', error);
+      Alert.alert(
+        'Вибачте, але фото не зберіглось на сервері',
+        error.message
+      );
     }
   };
 

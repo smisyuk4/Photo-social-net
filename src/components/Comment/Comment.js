@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { selectStateLogin } from '../../../redux/selectors';
 import { View, Text, Image } from 'react-native';
-import { dateConverter } from '../../helpers/dateConverter';
+import { dateConverter } from '../../helpers';
 import { styles } from './Comment.styles';
 
 export const Comment = ({
