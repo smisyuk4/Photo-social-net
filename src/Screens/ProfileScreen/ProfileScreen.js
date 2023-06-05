@@ -30,7 +30,8 @@ import { styles } from './ProfileScreen.styles';
 
 export const ProfileScreen = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
-  const [isShowLoader, setIsShowLoader] = useState(false);
+  const [isShowLoaderAvatar, setIsShowLoaderAvatar] = useState(false);
+  const [isShowLoaderPosts, setIsShowLoaderPosts] = useState(false);
   const dispatch = useDispatch();
   const userId = useSelector(selectStateUserId);
   const login = useSelector(selectStateLogin);
@@ -38,15 +39,20 @@ export const ProfileScreen = ({ navigation, route }) => {
   const comment = useSelector(selectorStateComment);
 
   useEffect(() => {
+    setIsShowLoaderPosts(true);
     const dbRef = collection(db, 'posts');
     const myQuery = query(dbRef, where('owner.userId', '==', userId));
 
     onSnapshot(
       myQuery,
       querySnapshot => {
-        setPosts(
-          querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-        );
+        const posts = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        const reversPosts = posts.reverse();
+        setPosts(reversPosts);
+        setIsShowLoaderPosts(false);
       },
       () => {}
     );
@@ -94,22 +100,19 @@ export const ProfileScreen = ({ navigation, route }) => {
       return await getDownloadURL(imageRef);
     } catch (error) {
       console.log('uploadPhotoToServer =====>> ', error);
-      Alert.alert(
-        'Вибачте, але фото не зберіглось на сервері',
-        error.message
-      );
+      Alert.alert('Вибачте, але фото не зберіглось на сервері', error.message);
     }
   };
 
   const changeAvatar = async () => {
-    setIsShowLoader(true);
+    setIsShowLoaderAvatar(true);
 
     const avatarUri = await pickImage();
     const avatarURL = await uploadPhotoToServer(avatarUri);
 
     dispatch(authUpdateUser({ avatarURL })).then(data => {
       if (data === undefined || !data.uid) {
-        setIsShowLoader(false);
+        setIsShowLoaderAvatar(false);
         Alert.alert('Реєстрацію не виконано!', `Помилка: ${data}`);
         return;
       }
@@ -117,7 +120,7 @@ export const ProfileScreen = ({ navigation, route }) => {
       Alert.alert('Вітаємо! Аватар змінено');
     });
 
-    setIsShowLoader(false);
+    setIsShowLoaderAvatar(false);
   };
 
   return (
@@ -126,7 +129,7 @@ export const ProfileScreen = ({ navigation, route }) => {
         <View style={styles.myPostsContainer}>
           <View style={styles.avatarContainer}>
             <View style={styles.avatarWrp}>
-              {isShowLoader ? (
+              {isShowLoaderAvatar ? (
                 <LoaderScreen />
               ) : (
                 <Image source={{ uri: avatar }} style={styles.avatarImg} />
@@ -155,7 +158,11 @@ export const ProfileScreen = ({ navigation, route }) => {
           <Text style={styles.login}>{login}</Text>
           <Text style={styles.count}>Всього публікацій: {posts.length}</Text>
 
-          <ProfileList posts={posts} navigation={navigation} route={route} />
+          {isShowLoaderPosts ? (
+            <LoaderScreen />
+          ) : (
+            <ProfileList posts={posts} navigation={navigation} route={route} />
+          )}
         </View>
       </View>
     </ImageBackground>
