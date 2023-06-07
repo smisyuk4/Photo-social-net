@@ -28,8 +28,12 @@ export const Post = ({ post, navigation, route }) => {
       return location.title;
     }
 
-    if (location.postAddress && location.postAddress) {
-      return `${location.postAddress?.city}, ${location.postAddress?.street}`;
+    if (location.postAddress.city && !location.postAddress.street) {
+      return `${location.postAddress.city}`;
+    }
+
+    if (location.postAddress.city && location.postAddress.street) {
+      return `${location.postAddress.city}, ${location.postAddress.street}`;
     }
 
     return 'Гарне місце';

@@ -110,16 +110,10 @@ export const ProfileScreen = ({ navigation, route }) => {
     const avatarUri = await pickImage();
     const avatarURL = await uploadPhotoToServer(avatarUri);
 
-    dispatch(authUpdateUser({ avatarURL })).then(data => {
-      if (data === undefined || !data.uid) {
-        setIsShowLoaderAvatar(false);
-        Alert.alert('Реєстрацію не виконано!', `Помилка: ${data}`);
-        return;
-      }
-
+    if (avatarURL) {
+      dispatch(authUpdateUser({ avatarURL }));
       Alert.alert('Вітаємо! Аватар змінено');
-    });
-
+    }
     setIsShowLoaderAvatar(false);
   };
 

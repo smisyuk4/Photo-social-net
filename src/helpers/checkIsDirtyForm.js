@@ -6,7 +6,6 @@ export const checkIsDirtyForm = (navigation, { params }) => {
         {
           text: 'Відмінити',
           onPress: () => console.log('Cancel Pressed'),
-          // style: 'cancel',
         },
         { text: 'Добре', onPress: () => navigation.goBack() },
       ]);

@@ -12,7 +12,6 @@ export const Comment = ({
   },
 }) => {
   const myLogin = useSelector(selectStateLogin);
-
   return (
     <View
       style={

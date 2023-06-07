@@ -49,7 +49,7 @@ export const CommentsScreen = ({ navigation, route }) => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
   };
-
+  
   return (
     <KeyboardAvoidingView
       style={styles.keyboardWrp}
